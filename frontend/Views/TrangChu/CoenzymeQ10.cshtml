@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "CoenzymeQ10";
+    Layout = "~/Views/SanPham/CoenzymeQ10.cshtml";
+}
+@{
+    Layout = null;
+    var productName = "Viên uống Coenzyme Q10 Orihiro";
+    var brand = "Orihiro";
+    var price = 540000;
+    var originalPrice = 600000;
+    var rating = 5.0;
+    var reviews = 4;
+    var description = "Coenzyme Q10 Orihiro hỗ trợ hạn chế oxy hóa, làm chậm quá trình lão hóa da và tăng cường sức khỏe tim mạch.";
+    var ingredients = "Coenzyme Q10, Vitamin E, Vitamin C, Vitamin B1, B2, B6, Niacin, Kẽm, Chiết xuất tiêu đen, Beta-carotene";
+    var usage = "Uống 3 viên mỗi ngày sau bữa ăn.";
+    var origin = "Nhật Bản";
+    var packaging = "Lọ thủy tinh 90 viên dùng trong 30 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/CoQ10.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Prospan";
+    Layout = "~/Views/SanPhamNoiBat/Prospan-thuoc-ho.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Siro ho Prospan";
+    var brand = "Engelhard Arzneimittel";
+    var price = 98000;
+    var originalPrice = 120000;
+    var rating = 4.9;
+    var reviews = 128;
+    var description = "Prospan là siro ho thảo dược giúp giảm ho, long đờm và làm dịu cổ họng, phù hợp cho cả trẻ em và người lớn.";
+    var ingredients = "Chiết xuất lá thường xuân (Hedera helix), không chứa đường, cồn hay phẩm màu.";
+    var usage = "Trẻ em từ 2 tuổi: 2.5ml x 3 lần/ngày. Người lớn: 5ml x 3 lần/ngày.";
+    var origin = "Đức";
+    var packaging = "Chai 100ml";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Prospan.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+
+

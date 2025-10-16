@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Biotin";
+    Layout = "~/Views/SanPham/Biotin.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống Biotin 5mg Mediplantex";
+    var brand = "Mediplantex";
+    var price = 28000;
+    var originalPrice = 35000;
+    var rating = 4.8;
+    var reviews = 112;
+    var description = "Biotin 5mg Mediplantex giúp bổ sung vitamin B7 cần thiết cho cơ thể, hỗ trợ điều trị rụng tóc, viêm da, viêm lưỡi teo, đau cơ và mệt mỏi.";
+    var ingredients = "Biotin 5mg, Lactose monohydrat, Microcrystalline cellulose, Tinh bột sắn, PVP K30, Magnesi stearat, Talc, Aerosil 200";
+    var usage = "Uống 1 viên mỗi ngày hoặc theo chỉ định của bác sĩ.";
+    var origin = "Việt Nam";
+    var packaging = "Hộp 2 vỉ x 10 viên dùng trong 20 ngày";
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Biotin.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>

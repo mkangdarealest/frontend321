@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Nhà thuốc Long Chou</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.btn-buy').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    alert('Sản phẩm đã được thêm vào giỏ!');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

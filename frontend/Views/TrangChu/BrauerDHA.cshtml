@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "BrauerDHA";
+    Layout = "~/Views/SanPham/BrauerDHA.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Brauer Baby & Kids Ultra Pure DHA";
+    var brand = "Brauer";
+    var price = 486000;
+    var originalPrice = 500000;
+    var rating = 4.9;
+    var reviews = 100;
+    var description = "Thực phẩm bảo vệ sức khỏe, bổ sung DHA và EPA (Omega-3) từ dầu cá cô đặc. Hỗ trợ phát triển não bộ, thị lực và hệ thần kinh khỏe mạnh cho trẻ.";
+    var ingredients = "Omega-3 triglycerides từ dầu cá cô đặc 319mg (tương đương Docosahexaenoic acid - DHA 150mg và Eicosapentaenoic acid - EPA 32mg). Tá dược: Vỏ viên nang gelatin, không chứa đường, cồn, màu/mùi/vị nhân tạo, không trứng, sữa, gluten, hoặc các loại hạt.";
+    var usage = "Dùng cho trẻ từ 7 tháng tuổi trở lên. **Trẻ 7 tháng - 3 tuổi:** 1 viên/ngày. **Trẻ từ 4 tuổi trở lên:** 2 viên/ngày. **Cách dùng:** Xoắn/cắt đuôi viên nang, thêm vào thức ăn, đồ uống hoặc cho bé uống bằng thìa. Viên nang nên **nhai**, không nên nuốt nguyên viên.";
+    var origin = "Úc (Australia)";
+    var packaging = "Hộp 1 lọ 60 viên nang mềm hình con cá, vị chanh nhẹ.";
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/BrauerDHA.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

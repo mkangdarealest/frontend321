@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "NMNPremium21600";
+    Layout = "~/Views/SanPham/NMNPremium21600.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống NMN Premium 21600";
+    var brand = "Jpanwell / GENSEI Co., Ltd.";
+    var price = 5785000;
+    var originalPrice = 8900000;
+    var rating = 5.0;
+    var reviews = 53;
+    var description = "Thực phẩm bảo vệ sức khỏe, hỗ trợ kích hoạt gen trường thọ Sirtuin. Giúp ngăn ngừa lão hóa, tăng cường sức khỏe, nâng cao hệ miễn dịch và cải thiện sức khỏe làn da, tăng độ đàn hồi, làm mờ nếp nhăn.";
+    var ingredients = "NMN (Nicotinamide Mononucleotide) (độ tinh khiết 99%), L-Arginine, Vitamin C, Chiết xuất nhau thai heo, Chiết xuất mầm sen, Chiết xuất Resveratrol, Chiết xuất Nhân sâm Hàn Quốc, Fucoidan, Coenzyme Q10, Tổ yến, Astaxanthin, Ceramide, Đông trùng hạ thảo, các Vitamin nhóm B và các tá dược khác.";
+    var usage = "Uống 2 viên mỗi ngày, uống với nước nguội hoặc nước ấm.";
+    var origin = "Nhật Bản";
+    var packaging = "Hộp 1 lọ 60 viên nang cứng.";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/NMNPremium21600.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

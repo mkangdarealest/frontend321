@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Ginkgo";
+    Layout = "~/Views/SanPham/Ginkgo.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống Ginkgo Biloba Nature's Bounty";
+    var brand = "Nature's Bounty";
+    var price = 228000;
+    var originalPrice = 260000;
+    var rating = 4.9;
+    var reviews = 311;
+    var description = "Ginkgo Biloba Nature's Bounty hỗ trợ tăng cường tuần hoàn máu não, cải thiện trí nhớ, giảm chóng mặt, đau đầu và ù tai.";
+    var ingredients = "Chiết xuất Ginkgo Biloba 60mg";
+    var usage = "Uống 1 viên mỗi ngày sau bữa ăn hoặc theo chỉ dẫn của chuyên gia y tế.";
+    var origin = "Hoa Kỳ";
+    var packaging = "Hộp 60 viên dùng trong 2 tháng";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Ginkgo.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

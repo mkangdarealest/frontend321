@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "JexMax";
+    Layout = "~/Views/SanPham/JexMax.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống Jex Max (Jex Thế Hệ Mới)";
+    var brand = "Ecogreen / St. Paul Brands";
+    var price = 350000; 
+    var originalPrice = 360000;
+    var rating = 4.8; 
+    var reviews = 90;
+    var description = "Thực phẩm bảo vệ sức khỏe, hỗ trợ giảm đau nhức xương khớp do thoái hóa khớp, viêm khớp. Giúp bảo vệ và tái tạo sụn khớp, bảo vệ màng hoạt dịch, tăng độ bền và dẻo dai cho khớp, làm chậm quá trình thoái hóa khớp.";
+    var ingredients = "Peptan (Hydrolyzed Collagen Peptide) 200mg, Undenatured Type II Collagen, White Willow Bark Extract (Chiết xuất vỏ cây liễu trắng), Chondroitin Sulfate, Turmeric Extract (Chiết xuất nghệ), và các tá dược khác.";
+    var usage = "Uống 2 lần mỗi ngày (sáng, tối), mỗi lần 1 viên, sau bữa ăn. Có thể uống 3 viên/ngày trong trường hợp bệnh nặng hoặc theo chỉ dẫn của bác sĩ.";
+    var origin = "Mỹ";
+    var packaging = "Hộp 30 viên nang.";
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="~/hinh/JexMax.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

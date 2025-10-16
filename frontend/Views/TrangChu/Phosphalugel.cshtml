@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Phosphalugel";
+    Layout = "~/Views/SanPham/Phosphalugel.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Thuốc dạ dày chữ P - Phosphalugel";
+    var brand = "Sanofi";
+    var price = 115000;
+    var originalPrice = 130000;
+    var rating = 4.7;
+    var reviews = 29;
+    var description = "Phosphalugel giúp giảm độ axit trong dạ dày, hỗ trợ điều trị viêm loét dạ dày – tá tràng và trào ngược dạ dày – thực quản.";
+    var ingredients = "Colloidal Aluminium Phosphate";
+    var usage = "Uống 1–2 gói/lần, 2–3 lần mỗi ngày sau bữa ăn hoặc khi có triệu chứng.";
+    var origin = "Pháp";
+    var packaging = "Hộp 26 gói x 20g dùng trong khoảng 8–13 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Phosphalugel.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>

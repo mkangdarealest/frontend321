@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Thuoc";
+    Layout = "~/Views/Header/Thuoc.cshtml";
+}
+
+@Html.Partial("_Header")
+<section class="lc-products container">
+    <h2>Thuốc không kê đơn</h2>
+    <div class="lc-product-list_all">
+        <div class="lc-product-card">
+            <a href="https://localhost:44333/TrangChu/Amoxicillin" class="product-link">
+                <div class="lc-product-image-container">
+                    <img src="~/hinh/Amoxicillin-500mg.png" alt="Kháng sinh Amoxicillin 500mg" />
+                </div>
+            </a>
+            <h3>Kháng sinh Amoxicillin 500mg</h3>
+            <p class="price">35.000đ</p>
+            <button class="btn-buy">Chọn mua</button>
+        </div>
+        <div class="lc-product-card">
+            <a href="https://localhost:44333/TrangChu/Phosphalugel" class="product-link">
+                <div class="lc-product-image-container">
+                    <img src="~/hinh/Phosphalugel.jpg" alt="Gói dạ dày Phosphalugel" />
+                </div>
+            </a>
+            <h3>Gói dạ dày Phosphalugel</h3>
+            <p class="price">150.000đ</p>
+            <button class="btn-buy">Chọn mua</button>
+        </div>
+        <div class="lc-product-card">
+            <a href="https://localhost:44333/TrangChu/Paracetamol" class="product-link">
+                <div class="lc-product-image-container">
+                    <img src="~/hinh/Paracetamol.jpg" alt="Paracetamol 500mg" />
+                </div>
+            </a>
+            <h3>Paracetamol 500mg</h3>
+            <p class="price">15.000đ</p>
+            <button class="btn-buy">Chọn mua</button>
+        </div>
+    </div>
+</section>
+@Html.Partial("_Footer")
+
+

@@ -1,0 +1,80 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+/*    align-items: center;*/
+    height: 100vh;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.register-box {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #005baa;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button_2 {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #005baa;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    button_2:hover {
+        background-color: #004080;
+    }
+
+.form-footer {
+    text-align: center;
+    margin-top: 15px;
+}
+
+    .form-footer a {
+        color: #005baa;
+        text-decoration: none;
+    }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }

@@ -1,0 +1,192 @@
+﻿    //document.addEventListener("DOMContentLoaded", function () {
+    //    //Discount codes
+    //    const discountCodes = {
+    //    "GIAM10": 10,
+    //"GIAM20": 20,
+    //"FREESHIP": 5,
+    //"LONGCHAU30": 30,
+    //"TRIETCUTIE": 100
+    //    };
+
+    ////
+    //const locations = {
+    //    "Hồ Chí Minh": ["Quận 1", "Quận 3", "Quận 5", "Quận 7", "Quận Bình Thạnh"],
+    //"Hà Nội": ["Quận Hoàn Kiếm", "Quận Đống Đa", "Quận Hai Bà Trưng", "Quận Cầu Giấy"],
+    //"Đà Nẵng": ["Quận Hải Châu", "Quận Thanh Khê", "Quận Sơn Trà"]
+    //    };
+
+    ////cart rendering function
+    //function renderCart(discount = 0) {
+    //    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //let cartItemsDiv = document.querySelector('.cart-items');
+    //let summaryLine = document.querySelector('.summary-line span');
+    //let finalTotal = document.getElementById('final-total');
+    //let checkoutBtn = document.querySelector('.checkout-btn');
+    //let billingFormDiv = document.getElementById('billing-form-area');
+    //let total = 0;
+
+    ////Empty cart state
+    //if (cart.length === 0) {
+    //    cartItemsDiv.innerHTML = `
+    //            <div class="empty-state">
+    //                <i class="fas fa-shopping-basket"></i>
+    //                <h2>Giỏ hàng chưa có sản phẩm nào.</h2>
+    //                <p>Cùng khám phá hàng ngàn sản phẩm chăm sóc sức khỏe, thuốc và thực phẩm chức năng tại Nhà thuốc FPT Long Châu nhé!</p>
+    //                <a href="/TrangChu/LongChauClone" class="cta-shopping">BẮT ĐẦU MUA SẮM</a>
+    //            </div>
+    //        `;
+    //summaryLine.innerText = "Tạm tính (0 sản phẩm)";
+    //finalTotal.innerText = "0₫";
+    //if (checkoutBtn) checkoutBtn.disabled = true;
+    //if (billingFormDiv) billingFormDiv.innerHTML = "";
+    //return;
+    //        }
+
+    ////Build cart HTML and calculate total
+    //let html = '';
+    //        cart.forEach((item, idx) => {
+    //    let priceNum = parseInt(item.price.replace(/\D/g, ''));
+    //total += priceNum * item.quantity;
+    //html += `
+    //<div class="cart-product" data-index="${idx}">
+    //    <img src="${item.image}" alt="${item.name}" class="cart-product-img">
+    //        <span class="cart-product-name">${item.name}</span>
+    //        <span class="cart-product-price">${item.price} x
+    //            <button class="decrease-btn">-</button>
+    //            <span class="quantity">${item.quantity}</span>
+    //            <button class="increase-btn">+</button>
+    //        </span>
+    //        <button class="remove-btn">Xóa</button>
+    //</div>
+    //`;
+    //        });
+    ////list discount code typed
+    //let discountAmountSpan = document.getElementById('discount-amount');
+    //if (discountAmountSpan) {
+    //    let discountValue = total * discount / 100;
+    //discountAmountSpan.innerText = `- ${discountValue.toLocaleString('vi-VN')}₫`;
+    //        }
+    ////Apply discount
+    //let discountedTotal = total - (total * discount / 100);
+    //cartItemsDiv.innerHTML = html;
+    //// update prod count , org total
+    //summaryLine.innerHTML = `
+    //<span>Tạm tính (${cart.reduce((sum, item) => sum + item.quantity, 0)} sản phẩm)</span>
+    //<span>${total.toLocaleString('vi-VN')}₫</span>
+    //`;
+    ////update final total after discount
+    //finalTotal.innerText = discountedTotal.toLocaleString('vi-VN') + "₫";
+
+    //checkoutBtn.disabled = false;
+
+    //        //Cart item interaction buttons
+    //        cartItemsDiv.querySelectorAll('.increase-btn').forEach(btn => {
+    //    btn.addEventListener('click', function () {
+    //        let idx = btn.closest('.cart-product').dataset.index;
+    //        cart[idx].quantity += 1;
+    //        localStorage.setItem('cart', JSON.stringify(cart));
+    //        renderCart(discount);
+    //    });
+    //        });
+
+    //        cartItemsDiv.querySelectorAll('.decrease-btn').forEach(btn => {
+    //    btn.addEventListener('click', function () {
+    //        let idx = btn.closest('.cart-product').dataset.index;
+    //        if (cart[idx].quantity > 1) {
+    //            cart[idx].quantity -= 1;
+    //            localStorage.setItem('cart', JSON.stringify(cart));
+    //            renderCart(discount);
+    //        }
+    //    });
+    //        });
+
+    //        cartItemsDiv.querySelectorAll('.remove-btn').forEach(btn => {
+    //    btn.addEventListener('click', function () {
+    //        let idx = btn.closest('.cart-product').dataset.index;
+    //        cart.splice(idx, 1);
+    //        localStorage.setItem('cart', JSON.stringify(cart));
+    //        renderCart(discount);
+    //    });
+    //        });
+
+    ////Billing form rendering
+    //if (billingFormDiv) {
+    //    billingFormDiv.innerHTML = `
+    //            <form id="billing-form" class="billing-form">
+    //                <h3>Thông tin nhận hàng</h3>
+    //                <label>Họ và tên:</label>
+    //                <input type="text" id="billing-name" required placeholder="Nhập họ và tên">
+    //                <label>Số điện thoại:</label>
+    //                <input type="text" id="billing-phone" required placeholder="Nhập số điện thoại">
+    //                <label>Tỉnh/Thành phố:</label>
+    //                <select id="province-select" required>
+    //                    <option value="">Chọn tỉnh/thành phố</option>
+    //                    ${Object.keys(locations).map(p => `<option value="${p}">${p}</option>`).join('')}
+    //                </select>
+    //                <label>Quận/Huyện:</label>
+    //                <select id="district-select" required disabled>
+    //                    <option value="">Chọn quận/huyện</option>
+    //                </select>
+    //                <label>Địa chỉ cụ thể:</label>
+    //                <input type="text" id="billing-address" required placeholder="Số nhà, tên đường...">
+    //                <label>Phương thức thanh toán:</label>
+    //                <div class="payment-methods">
+    //                    <label><input type="radio" name="payment" value="COD" checked> Thanh toán khi nhận hàng (COD)</label>
+    //                    <label><input type="radio" name="payment" value="Momo"> Momo</label>
+    //                    <label><input type="radio" name="payment" value="ZaloPay"> ZaloPay</label>
+    //                    <label><input type="radio" name="payment" value="VNPay"> VNPay</label>
+    //                </div>
+    //            </form>
+    //        `;
+
+    ////Dynamic district selection
+    //const provinceSelect = document.getElementById('province-select');
+    //const districtSelect = document.getElementById('district-select');
+    //provinceSelect.addEventListener('change', function () {
+    //                const districts = locations[this.value] || [];
+    //districtSelect.innerHTML = `<option value="">Chọn quận/huyện</option>` +
+    //                    districts.map(d => `<option value="${d}">${d}</option>`).join('');
+    //districtSelect.disabled = districts.length === 0;
+    //            });
+    //        }
+    //    }
+
+    ////Discount code handler
+    //document.querySelector('.apply-btn').addEventListener('click', function () {
+    //    let code = document.querySelector('.coupon input').value.trim().toUpperCase();
+    //let discount = discountCodes[code] || 0;
+
+    //        if (discount > 0) {
+    //    alert(`Áp dụng mã giảm giá thành công! Giảm ${discount}%`);
+    //        } else {
+    //    alert("Mã giảm giá không hợp lệ.");
+    //        }
+
+    //renderCart(discount);
+    //    });
+
+    ////Checkout button handler
+    //document.querySelector('.checkout-btn').addEventListener('click', function () {
+    //        if (this.disabled) return;
+    //const name = document.getElementById('billing-name')?.value || "";
+    //const phone = document.getElementById('billing-phone')?.value || "";
+    //const province = document.getElementById('province-select')?.value || "";
+    //const district = document.getElementById('district-select')?.value || "";
+    //const address = document.getElementById('billing-address')?.value || "";
+    //const payment = document.querySelector('input[name="payment"]:checked')?.value || "";
+
+    //if (!name || !phone || !province || !district || !address || !payment) {
+    //    alert("Vui lòng nhập đầy đủ thông tin nhận hàng và chọn phương thức thanh toán.");
+    //return;
+    //        }
+
+    //alert("Đặt hàng thành công!\nThông tin nhận hàng:\n" +
+    //`Họ tên: ${name}\nSĐT: ${phone}\n${province}, ${district}, ${address}\nThanh toán: ${payment}`);
+    //localStorage.removeItem('cart');
+    //location.reload();
+    //    });
+
+    ////render
+    //renderCart();
+    //});
+

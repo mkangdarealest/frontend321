@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "CanxiDHC";
+    Layout = "~/Views/SanPham/CanxiDHC.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống DHC Calcium + CBP";
+    var brand = "DHC";
+    var price = 170000;
+    var originalPrice = 200000;
+    var rating = 4.8;
+    var reviews = 5000;
+    var description = "Thực phẩm bảo vệ sức khỏe, bổ sung Canxi và CBP (Concentrated Bovine-milk whey active Protein) cùng với Vitamin D3. Hỗ trợ hệ xương răng chắc khỏe, hỗ trợ phát triển chiều cao cho trẻ và giảm nguy cơ loãng xương ở người lớn tuổi.";
+    var ingredients = "Mỗi 4 viên có chứa:\n- **Bột vỏ trứng (tương đương Calci):** 1099,144mg (cung cấp 370mg Calci)\n- **Whey protein hoạt tính cô đặc từ sữa bò (CBP):** 12 mg\n- **Vitamin D3 (cholecalciferol):** 0,07 μg\n- Phụ liệu: Calci stearat, silicon dioxid, shellac, sáp carnauba, đường, bột ngô, v.v.";
+    var usage = "**Đối tượng sử dụng:** Người có nhu cầu bổ sung canxi: Người bị loãng xương, phụ nữ sau mãn kinh, trẻ em còi xương, trẻ em trong giai đoạn phát triển chiều cao.\n**Liều dùng:** Uống 4 viên/ngày. Có thể uống với nước hoặc nước ấm, hoặc nhai.";
+    var origin = "Nhật Bản";
+    var packaging = "Dạng viên nén, đóng gói trong túi zip (Gói 20, 30, 60 hoặc 90 ngày).";
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="~/hinh/CanxiDHC.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+
+

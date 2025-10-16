@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "MultiVitamin";
+    Layout = "~/Views/SanPham/MultiVitamin.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Siro Multi Vitamin Hatro";
+    var brand = "Hatro";
+    var price = 150000;
+    var originalPrice = 165000;
+    var rating = 5.0;
+    var reviews = 99;
+    var description = "Multi Vitamin Hatro hỗ trợ tăng cường sức khỏe, nâng cao sức đề kháng và bổ sung vitamin thiết yếu cho cơ thể.";
+    var ingredients = "Vitamin A, B1, B2, B3, B5, B6, B12, C, D3, E, K2 MK7, Kẽm gluconat, Canxi gluconat";
+    var usage = "Uống 5ml mỗi ngày, dùng trực tiếp hoặc pha loãng với nước.";
+    var origin = "Việt Nam";
+    var packaging = "Hộp 1 lọ siro 120ml dùng trong khoảng 24 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/MultiVitamin.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

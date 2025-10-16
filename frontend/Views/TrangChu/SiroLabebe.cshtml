@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "SiroLabebe";
+    Layout = "~/Views/SanPham/SiroLabebe.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Bổ Phế Lábebé (Siro)";
+    var brand = "Lábebé";
+    var price = 75000;
+    var originalPrice = 80000;
+    var rating = 4.8;
+    var reviews = 120;
+    var description = "Siro hỗ trợ bổ phế, giảm các triệu chứng ho (ho khan, ho có đờm), giảm đờm, giảm đau họng và khản tiếng do viêm họng, viêm phế quản.";
+    var ingredients = "**Siro Bổ Phế Lábebé (Chai 120ml) có chứa:**\n- Cao khô lá thường xuân\n- Tinh dầu gừng\n- Tinh dầu húng chanh\n- Tinh dầu tràm\n- Phụ liệu: đường, nước tinh khiết, natri benzoat.\n\n*(Lưu ý: Có sản phẩm khác cùng thương hiệu là 'Dầu Húng Chanh Lábebé' dùng cho trẻ sơ sinh 1 tháng tuổi, thành phần khác biệt.)*";
+    var usage = "**Đối tượng sử dụng:** Trẻ em từ 1 tuổi trở lên và người lớn bị ho, ho có đờm, đau họng, khản tiếng do viêm họng, viêm phế quản.\n**Liều dùng (tham khảo):**\n- **Trẻ dưới 2 tuổi:** Tham khảo ý kiến bác sĩ/dược sĩ.\n- **Trẻ 2 - 10 tuổi:** 10 ml/lần x 1 lần/ngày.\n- **Trẻ từ 10 tuổi trở lên và người lớn:** 10 ml/lần x 2 lần/ngày.\n\n**Cách dùng:** Lắc kỹ trước khi uống. Có thể pha loãng với nước lọc hoặc uống trực tiếp.";
+    var origin = "Việt Nam (Sản xuất bởi CÔNG TY CỔ PHẦN DƯỢC PHẨM PHARVINA)";
+    var packaging = "Chai 120 ml.";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/SiroLabebe.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

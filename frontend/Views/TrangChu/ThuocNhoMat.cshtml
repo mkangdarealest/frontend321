@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "ThuocNhoMat";
+    Layout = "~/Views/SanPham/ThuocNhoMat.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Thuốc nhỏ mắt V.Rohto Vitamin";
+    var brand = "V.Rohto";
+    var price = 60000;
+    var originalPrice = 65000;
+    var rating = 4.9;
+    var reviews = 38;
+    var description = "V.Rohto Vitamin giúp cải thiện tình trạng giảm thị lực, mắt mờ do tiết dịch, giảm mệt mỏi mắt, thúc đẩy tái tạo tế bào và bổ sung nước mắt.";
+    var ingredients = "Vitamin E tự nhiên, Vitamin B6, Sodium Chondroitin Sulfate, Potassium L-Aspartate, Chlorpheniramine Maleate";
+    var usage = "Nhỏ 1–3 giọt vào mỗi mắt, 3–5 lần mỗi ngày.";
+    var origin = "Việt Nam (thương hiệu Nhật Bản)";
+    var packaging = "Chai 13ml dùng trong khoảng 30 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Rohto.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

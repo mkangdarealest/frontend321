@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Paracetamol";
+    Layout = "~/Views/SanPham/Paracetamol.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên nén Paracetamol 500mg";
+    var brand = "Thành Nam";
+    var price = 35000;
+    var originalPrice = 40000;
+    var rating = 4.9;
+    var reviews = 858;
+    var description = "Paracetamol 500mg là thuốc giảm đau, hạ sốt không kê đơn phổ biến, dùng trong các trường hợp đau đầu, đau răng, đau bụng kinh và cảm cúm.";
+    var ingredients = "Paracetamol (Acetaminophen)";
+    var usage = "Uống 1–2 viên/lần, cách mỗi 4–6 giờ nếu cần. Không quá 4g/ngày.";
+    var origin = "Việt Nam";
+    var packaging = "Hộp 10 vỉ x 10 viên dùng trong nhiều ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Paracetamol.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "MultiVitasLabWell";
+    Layout = "~/Views/SanPham/MultiVitasLabWell.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Multi Vitas Lab Well";
+    var brand = "Lab Well (Sản xuất: ARNET PHARMACEUTICAL CORP)";
+    var price = 295000;
+    var originalPrice = 300000;
+    var rating = 4.7;
+    var reviews = 50;
+    var description = "Thực phẩm bảo vệ sức khỏe, bổ sung tổ hợp 33 loại vitamin, khoáng chất và các dưỡng chất thiết yếu (như Nhân Sâm, Lycopene, Lutein) cho cơ thể. Giúp tăng cường sức khỏe, nâng cao sức đề kháng, hỗ trợ điều trị suy nhược cơ thể.";
+    var ingredients = "Canxi, Nhân Sâm, Vitamin A, B complex (B1, B2, Niacinamide, B6, Folate, B12, Biotin, Pantothenic acid), C, D, E, K, Iron, Magnesium oxide, Zinc, Selenium, Copper, Manganese, Chromium, Molybdenum, Chloride, Potassium Citrate, Inositol, Choline, Lycopene, Lutein, Vanadium, và các khoáng chất khác.";
+    var usage = "Người trưởng thành: Uống 1 viên mỗi ngày, cùng với bữa ăn, hoặc theo hướng dẫn của bác sĩ/dược sĩ. Có thể sử dụng thường xuyên hoặc dùng theo đợt 3-6 tháng.";
+    var origin = "Hoa Kỳ (USA)";
+    var packaging = "Hộp 1 lọ 60 viên nén.";
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/MultiVitasLabWell.jpg" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+

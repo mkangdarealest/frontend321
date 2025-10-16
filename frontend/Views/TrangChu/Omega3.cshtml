@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Omega3";
+    Layout = "~/Views/SanPhamNoiBat/Omega3.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống Omega-3 Orihiro";
+    var brand = "Orihiro";
+    var price = 265000;
+    var originalPrice = 310000;
+    var rating = 4.8;
+    var reviews = 102;
+    var description = "Omega-3 Orihiro giúp hỗ trợ tim mạch, cải thiện trí nhớ, giảm mỡ máu và tăng cường sức khỏe não bộ.";
+    var ingredients = "Dầu cá tinh khiết, EPA, DHA, Vitamin E";
+    var usage = "Uống 2 viên mỗi ngày sau bữa ăn.";
+    var origin = "Nhật Bản";
+    var packaging = "Túi 180 viên dùng trong 90 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Omega3.png" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+
+

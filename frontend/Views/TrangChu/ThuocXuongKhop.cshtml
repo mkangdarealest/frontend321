@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "ThuocXuongKhop";
+    Layout = "~/Views/SanPhamNoiBat/Thuoc-xuong-khop.cshtml";
+}
+
+@{
+    Layout = null;
+    var productName = "Viên uống Glucosamine Orihiro";
+    var brand = "Orihiro";
+    var price = 295000;
+    var originalPrice = 350000;
+    var rating = 4.7;
+    var reviews = 89;
+    var description = "Glucosamine Orihiro hỗ trợ tăng cường sức khỏe khớp, giảm đau nhức và cải thiện vận động, phù hợp cho người lớn tuổi hoặc người vận động nhiều.";
+    var ingredients = "Glucosamine 1500mg, Chondroitin, MSM, Collagen type II, Vitamin D, Calcium";
+    var usage = "Uống 10 viên mỗi ngày, chia làm 2 lần sau bữa ăn.";
+    var origin = "Nhật Bản";
+    var packaging = "Túi 900 viên dùng trong 90 ngày";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@productName</title>
+    <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="product-container">
+        <div class="product-image">
+            <img src="/hinh/Bone.png" alt="@productName" />
+        </div>
+        <div class="product-info">
+            <h1>@productName</h1>
+            <p class="brand">Thương hiệu: <strong>@brand</strong></p>
+            <div class="price">
+                <span class="current">@price.ToString("N0")₫</span>
+                <span class="original">@originalPrice.ToString("N0")₫</span>
+            </div>
+            <div class="rating">
+                ⭐ @rating / 5.0 - @reviews đánh giá
+            </div>
+            <p class="description">@description</p>
+
+            <table class="details">
+                <tr><td><strong>Thành phần:</strong></td><td>@ingredients</td></tr>
+                <tr><td><strong>Cách dùng:</strong></td><td>@usage</td></tr>
+                <tr><td><strong>Xuất xứ:</strong></td><td>@origin</td></tr>
+                <tr><td><strong>Quy cách:</strong></td><td>@packaging</td></tr>
+            </table>
+
+            <button class="buy-button">Mua ngay</button>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+</body>
+</html>
+
+

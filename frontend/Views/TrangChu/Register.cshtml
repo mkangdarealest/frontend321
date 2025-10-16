@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Resgister/Register1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>Đăng ký tài khoản - Nhà thuốc Long Châu</title>
+    <link rel="stylesheet" href="~/css/register.css" />
+</head>
+<body>
+    @Html.Partial("_Header")
+    <div class="register-container">
+        <div class="register-box">
+            <h2>Tạo tài khoản mới</h2>
+            <form method="post" action="https://localhost:44333/TrangChu/Login" id="registerForm">
+                <div class="form-group">
+                    <label for="fullname">Họ và tên</label>
+                    <input type="text" id="fullname" name="fullname" required />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" maxlength="20" required />
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" maxlength="20" required />
+                </div>
+                <button_2 type="submit">Đăng ký</button_2>
+                <div class="form-footer">
+                    <a href="https://localhost:44333/TrangChu/Login">Đã có tài khoản? Đăng nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function (e) {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Mật khẩu xác nhận không khớp.");
+                e.preventDefault();
+                return;
+            }
+
+            if (password.length > 20) {
+                alert("Mật khẩu không được vượt quá 20 ký tự.");
+                e.preventDefault();
+                return;
+            } alert("Đăng ký thành công! Chuyển đến trang đăng nhập...");
+            window.location.href = " ";
+        });
+    </script>
+</body>
+</html>
