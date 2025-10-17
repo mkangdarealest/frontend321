@@ -139,5 +139,17 @@ namespace frontend.Controllers
         {
             return View();
         }
+        public ActionResult GocSucKhoe()
+        {
+            return View();
+        }
+        public ActionResult TiemChung()
+        {
+             return View();
+        }
+        public ActionResult HeThongNhaThuoc()
+        {
+            return View();
+        }
     }
 }

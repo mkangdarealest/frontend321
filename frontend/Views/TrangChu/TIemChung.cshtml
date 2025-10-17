@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewData["Title"] = "Tiêm Ngừa";
+}
+<link rel="stylesheet" href="~/css/TiemChung.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnames" rel="stylesheet">
+<div class="vaccine-container">
+
+    <h1 class="section-title">
+        Mùa này cần <span>tiêm gì?</span>
+    </h1>
+
+    <nav class="vaccine-nav">
+        <a href="#" class="nav-tab active">Sốt Xuất Huyết</a>
+        <a href="#" class="nav-tab">Viêm Não Mô Cầu ACYW</a>
+        <a href="#" class="nav-tab">Viêm Não Mô Cầu Bexsero</a>
+        <a href="#" class="nav-tab">Cúm</a>
+        <a href="#" class="nav-tab">HPV</a>
+    </nav>
+
+    <main class="vaccine-content-wrapper">
+
+        <section class="info-column">
+            <div class="info-icon">🌧️</div>
+            <h2 class="info-title">Bảo vệ bản thân khỏi sốt xuất huyết Dengue thế nào?</h2>
+            <p class="info-description">
+                Sốt xuất huyết Dengue là bệnh truyền nhiễm cấp tính lây truyền qua vật đột của muỗi vằn Aedes aegypti, thường gây sốt cao, đau đầu, đau cơ, buồn nôn, phát ban. Nếu không được kiểm soát, bệnh có thể dẫn đến:
+            </p>
+            <ul class="info-list">
+                <li><span class="icon">➡️</span> Xuất huyết nội tạng nguy hiểm</li>
+                <li><span class="icon">➡️</span> Sốc do thoát huyết tương</li>
+                <li><span class="icon">➡️</span> Suy tạng, thậm chí tử vong</li>
+                <li><span class="icon">✅</span> <strong>Vắc xin Qdenga</strong> tạo ra miễn dịch chủ động đối với cả bốn tuýp huyết thanh của virus Dengue (DENV-1, DENV-2, DENV-3 và DENV-4) được chỉ định tiêm cho trẻ em từ 4 tuổi trở lên và người lớn khoẻ mạnh.</li>
+            </ul>
+        </section>
+
+        <aside class="product-column">
+            <div class="product-card">
+                <div class="product-origin">🇩🇪 Đức</div>
+                <div class="product-image">
+                    <img src="https://i.imgur.com/wP0c5kC.png" alt="Vắc xin Qdenga">
+                </div>
+                <h3 class="product-name">Vắc xin Qdenga</h3>
+                <p class="product-description">Phòng Sốt xuất huyết</p>
+                <p class="product-price">1.390.000đ <span class="price-unit">/ 1 liều</span></p>
+                <a href="#" class="product-button">Đặt hẹn</a>
+            </div>
+        </aside>
+    </main>
+</div>

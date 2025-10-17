@@ -1,0 +1,123 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewData["Title"] = "Giới thiệu Long Châu";
+}
+<link href="~/css/HeThongNhaThuoc.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnames" rel="stylesheet">
+<div class="page-container">
+    <div class="intro-section">
+
+        <p class="intro-text">
+            Long Châu là hệ thống nhà thuốc bán lẻ & phân phối trải khắp 34 tỉnh thành luôn luôn mở rộng để phục vụ
+            Khách hàng trên toàn quốc, cung cấp dịch vụ bán hàng và phục vụ hàng đầu:
+        </p>
+
+        <div class="features-grid">
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/8QjZJ7P.png" alt="Icon nhà thuốc">
+                </div>
+                <div class="feature-content">
+                    <h4>Nhà thuốc chính hãng</h4>
+                    <p>Sở hữu danh mục thuốc chính hãng vừa đa dạng, phong phú lại vừa chuyên sâu.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/8Ea9qXy.png" alt="Icon đơn thuốc">
+                </div>
+                <div class="feature-content">
+                    <h4>Chuyên thuốc theo toa</h4>
+                    <p>Long Châu có đầy đủ các loại thuốc để có thể đáp ứng đầy đủ nhu cầu của người dùng.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/GjN7Y5G.png" alt="Icon dược sĩ">
+                </div>
+                <div class="feature-content">
+                    <h4>Dược sĩ tư vấn tại chỗ</h4>
+                    <p>Với kinh nghiệm và chuyên môn cao với 4 tiêu chí: đúng thuốc, đúng liều, đúng cách và đúng giá.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/uW6P8c3.png" alt="Icon giá tốt">
+                </div>
+                <div class="feature-content">
+                    <h4>Mua lẻ với giá sỉ</h4>
+                    <p>Sản phẩm đúng chất lượng với giá thấp hơn so với thị trường chung, tương đương với giá bán sỉ.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/jB1H7Fj.png" alt="Icon giao hàng">
+                </div>
+                <div class="feature-content">
+                    <h4>Giao hàng tận nơi</h4>
+                    <p>Giao hàng cực nhanh trong khu vực Tp.HCM và chuyển hàng đến tận nhà tại các tỉnh thành khác.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <img src="https://i.imgur.com/KxT5g9z.png" alt="Icon đổi trả">
+                </div>
+                <div class="feature-content">
+                    <h4>Đổi trả nguyên giá</h4>
+                    <p>Chỉ cần đọc SĐT hoặc giữ lại hóa đơn, bạn sẽ được đổi trả / hoàn tiền đã mua trong vòng 30 ngày.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="gallery-title">Hình ảnh nhận dạng hệ thống nhà thuốc Long Châu:</h3>
+        <div class="store-gallery">
+            <div class="gallery-image">
+                <img src="https://i.imgur.com/6Xy1q3o.png" alt="Hình ảnh nhà thuốc Long Châu 1">
+            </div>
+            <div class="gallery-image">
+                <img src="https://i.imgur.com/qO5wQ3n.png" alt="Hình ảnh nhà thuốc Long Châu 2">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="store-list-section">
+        <h2 class="store-list-title">Hệ thống cửa hàng</h2>
+        
+        <div class="store-filters">
+            <select name="city">
+                <option value="">Chọn Tỉnh/Thành phố</option>
+                <option value="hcm">TP. Hồ Chí Minh</option>
+                <option value="hanoi">Hà Nội</option>
+                <option value="danang">Đà Nẵng</option>
+            </select>
+            <select name="district">
+                <option value="">Chọn Quận/Huyện</option>
+            </select>
+            <input type="text" placeholder="Tìm theo tên đường...">
+            <button type="submit">Tìm kiếm</button>
+        </div>
+
+        <ul class="store-list">
+            <li class="store-item">
+                <strong>Long Châu 1:</strong> 123 Nguyễn Văn Cừ, P. Nguyễn Cư Trinh, Quận 1, TP. HCM
+            </li>
+            <li class="store-item">
+                <strong>Long Châu 2:</strong> 456 Hai Bà Trưng, P. Tân Định, Quận 1, TP. HCM
+            </li>
+            <li class="store-item">
+                <strong>Long Châu 3:</strong> 789 Lê Văn Sỹ, P. 14, Quận 3, TP. HCM
+            </li>
+        </ul>
+    </div>
+
+</div>
+

@@ -1,0 +1,188 @@
+﻿body {
+    background-color: #f7f9fc; /* Màu nền xám rất nhạt */
+    color: #333;
+    line-height: 1.6;
+}
+
+.vaccine-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.section-title span {
+    color: #f39c12; 
+}
+
+.vaccine-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    background-color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-tab:hover {
+    background-color: #f1f1f1;
+}
+
+.nav-tab.active {
+    background-color: #34a19c;
+    color: #ffffff;
+    border-color: #34a19c;
+    font-weight: 700;
+}
+
+.vaccine-content-wrapper {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+}
+.info-column {
+    flex: 2; 
+    background-color: #34a19c; 
+    color: #ffffff;
+    padding: 30px;
+}
+
+.info-icon {
+    font-size: 30px;
+}
+
+.info-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.info-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-list li {
+    font-size: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.info-list .icon {
+    margin-right: 10px;
+    font-size: 16px;
+    line-height: 1.6; 
+}
+.product-column {
+    flex: 1; 
+    background-color: #ffffff;
+}
+
+.product-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+}
+
+.product-origin {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.product-image {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.product-image img {
+    max-width: 80%;
+    height: auto;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.product-description {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin: 4px 0 0 0;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #d9534f; 
+    margin-top: auto; 
+    margin-bottom: 15px;
+}
+
+.product-price .price-unit {
+    font-size: 15px;
+    font-weight: 400;
+    color: #666;
+}
+
+.product-button {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    background-color: #f4f8ff; 
+    color: #0056b3; 
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.product-button:hover {
+    background-color: #e9effc;
+}
+
+@media (max-width: 900px) {
+    .vaccine-content-wrapper {
+        flex-direction: column; 
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .nav-tab {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+}

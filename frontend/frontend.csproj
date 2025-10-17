@@ -144,22 +144,25 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="css\GioHang.css" />
+    <Content Include="css\HeThongNhaThuoc.css" />
     <Content Include="css\Login.css" />
     <Content Include="css\LongChauClone.css" />
     <Content Include="css\register.css" />
     <Content Include="css\SanPham\detailed_product.css" />
-    <Content Include="css\TrangChu_2.css" />
+    <Content Include="css\GocSucKhoe.css" />
+    <Content Include="css\TiemChung.css" />
     <Content Include="css\Vitamin_Khoangchat.css" />
+    <Content Include="App_Data\LC_DATABASE.mdf" />
     <Content Include="favicon.ico" />
     <Content Include="favicon_1.ico" />
     <Content Include="Global.asax" />
-    <Content Include="css\TrangChu.css" />
     <Content Include="hinh\Amoxicillin-500mg.png" />
     <Content Include="hinh\BrauerDHA.jpg" />
     <Content Include="hinh\CanxiDHC.jpg" />
     <Content Include="hinh\Ginkgo.jpg" />
     <Content Include="hinh\CoQ10.jpg" />
     <Content Include="hinh\gradient_hero.png" />
+    <Content Include="hinh\header_desktop.png" />
     <Content Include="hinh\hero_banner.jpg" />
     <Content Include="hinh\JexMax.jpg" />
     <Content Include="hinh\Magnesium.jpg" />
@@ -278,9 +281,11 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Header\Thuoc.cshtml" />
     <Content Include="Views\TrangChu\Thuoc.cshtml" />
+    <Content Include="Views\TrangChu\GocSucKhoe.cshtml" />
+    <Content Include="Views\TrangChu\TIemChung.cshtml" />
+    <Content Include="Views\TrangChu\HeThongNhaThuoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

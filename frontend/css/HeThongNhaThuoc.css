@@ -1,0 +1,171 @@
+﻿body {
+}
+/* ---------------------------------
+   CÀI ĐẶT CHUNG
+--------------------------------- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f7f9fc; /* Màu nền xám xanh nhạt */
+    color: #333;
+    line-height: 1.6;
+}
+
+.page-container {
+    width: 90%;
+    max-width: 960px; /* Giới hạn độ rộng nội dung */
+    margin: 30px auto;
+}
+
+/* ---------------------------------
+   PHẦN GIỚI THIỆU (KHỐI TRẮNG)
+--------------------------------- */
+.intro-section {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.intro-text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* ---------------------------------
+   LƯỚI TÍNH NĂNG
+--------------------------------- */
+.features-grid {
+    display: grid;
+    /* Tạo 2 cột bằng nhau */
+    grid-template-columns: repeat(2, 1fr);
+    /* Khoảng cách giữa các hàng và cột */
+    gap: 30px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start; /* Căn lề trên cùng */
+    gap: 15px; /* Khoảng cách giữa icon và chữ */
+}
+
+.feature-icon img {
+    width: 40px; /* Kích thước cố định cho icon */
+    height: 40px;
+    object-fit: contain;
+}
+
+.feature-content h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.feature-content p {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+}
+
+/* ---------------------------------
+   THƯ VIỆN ẢNH
+--------------------------------- */
+.gallery-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.store-gallery {
+    display: flex;
+    gap: 20px;
+}
+
+.gallery-image {
+    flex: 1; /* Hai ảnh chia đều không gian */
+}
+
+.gallery-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------------------------------
+   DANH SÁCH CỬA HÀNG (PHẦN THÊM)
+--------------------------------- */
+.store-list-section {
+    margin-top: 40px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.store-list-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+.store-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.store-filters select,
+.store-filters input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 15px;
+    flex: 1;
+}
+
+.store-filters button {
+    padding: 10px 20px;
+    background-color: #0056b3; /* Màu xanh dương */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.store-list {
+    list-style: none;
+    padding: 0;
+}
+
+.store-item {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 16px;
+}
+
+.store-item:last-child {
+    border-bottom: none;
+}
+
+/* ---------------------------------
+   RESPONSIVE (CHO DI ĐỘNG)
+--------------------------------- */
+@media (max-width: 768px) {
+    .features-grid {
+        /* Chuyển thành 1 cột */
+        grid-template-columns: 1fr;
+    }
+
+    .store-gallery {
+        flex-direction: column; /* Xếp ảnh chồng lên nhau */
+    }
+
+    .store-filters {
+        flex-direction: column;
+    }
+}
