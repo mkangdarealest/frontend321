@@ -1,24 +1,17 @@
-﻿body {
-}
-/* ---------------------------------
-   CÀI ĐẶT CHUNG
---------------------------------- */
+﻿
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f7f9fc; /* Màu nền xám xanh nhạt */
+    background-color: #f7f9fc; 
     color: #333;
     line-height: 1.6;
 }
 
 .page-container {
     width: 90%;
-    max-width: 960px; /* Giới hạn độ rộng nội dung */
+    max-width: 960px; 
     margin: 30px auto;
 }
 
-/* ---------------------------------
-   PHẦN GIỚI THIỆU (KHỐI TRẮNG)
---------------------------------- */
 .intro-section {
     background-color: #ffffff;
     padding: 30px;
@@ -33,25 +26,21 @@ body {
     margin-bottom: 30px;
 }
 
-/* ---------------------------------
-   LƯỚI TÍNH NĂNG
---------------------------------- */
+
 .features-grid {
     display: grid;
-    /* Tạo 2 cột bằng nhau */
     grid-template-columns: repeat(2, 1fr);
-    /* Khoảng cách giữa các hàng và cột */
     gap: 30px;
 }
 
 .feature-item {
     display: flex;
-    align-items: flex-start; /* Căn lề trên cùng */
-    gap: 15px; /* Khoảng cách giữa icon và chữ */
+    align-items: flex-start; 
+    gap: 15px; 
 }
 
 .feature-icon img {
-    width: 40px; /* Kích thước cố định cho icon */
+    width: 40px;
     height: 40px;
     object-fit: contain;
 }
@@ -68,10 +57,6 @@ body {
     color: #555;
     margin: 0;
 }
-
-/* ---------------------------------
-   THƯ VIỆN ẢNH
---------------------------------- */
 .gallery-title {
     font-size: 18px;
     font-weight: 700;
@@ -85,7 +70,7 @@ body {
 }
 
 .gallery-image {
-    flex: 1; /* Hai ảnh chia đều không gian */
+    flex: 1; 
 }
 
 .gallery-image img {
@@ -93,10 +78,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
-/* ---------------------------------
-   DANH SÁCH CỬA HÀNG (PHẦN THÊM)
---------------------------------- */
 .store-list-section {
     margin-top: 40px;
     background-color: #ffffff;
@@ -129,7 +110,7 @@ body {
 
 .store-filters button {
     padding: 10px 20px;
-    background-color: #0056b3; /* Màu xanh dương */
+    background-color: #0056b3;
     color: white;
     border: none;
     border-radius: 5px;
@@ -151,18 +132,13 @@ body {
 .store-item:last-child {
     border-bottom: none;
 }
-
-/* ---------------------------------
-   RESPONSIVE (CHO DI ĐỘNG)
---------------------------------- */
 @media (max-width: 768px) {
     .features-grid {
-        /* Chuyển thành 1 cột */
         grid-template-columns: 1fr;
     }
 
     .store-gallery {
-        flex-direction: column; /* Xếp ảnh chồng lên nhau */
+        flex-direction: column; 
     }
 
     .store-filters {

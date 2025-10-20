@@ -115,7 +115,7 @@ ul {
 }
 
 .article-thumbnail img {
-    width: 100px; 
+    max-width: 135px; 
     height: 75px;
     object-fit: cover; 
     border-radius: 5px;

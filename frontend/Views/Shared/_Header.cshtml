@@ -9,16 +9,33 @@
             </a>
         </div>
         <div class="lc-search">
-            <input type="text" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
-            <button><span>🔍</span></button>
+            @{
+    var currentQuery = "";
+    try
+    {
+        var httpReq = ViewContext?.HttpContext?.Request;
+        if (httpReq?.QueryString != null)
+        {
+            currentQuery = httpReq.QueryString["q"] ?? "";
+        }
+    }
+    catch
+    {
+        currentQuery = "";
+    }
+            }
+            <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
+                <input type="text" name="q" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." value="@currentQuery" />
+                <button type="submit"><span>🔍</span></button>
+            </form>
         </div>
         <div class="lc-user">
-            <a href="https://localhost:44333/TrangChu/Login" class="lc-login">Đăng nhập</a>
+            <a href="/TrangChu/Login" class="lc-login">Đăng nhập</a>
             <span>|</span>
-            <a href="https://localhost:44333/TrangChu/Register" class="lc-register">Đăng ký</a>
+            <a href="/TrangChu/Register" class="lc-register">Đăng ký</a>
         </div>
         <div class="lc-cart">
-            <a href="https://localhost:44333/TrangChu/GioHang" id="cart-icon">
+            <a href="/TrangChu/GioHang" id="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 Giỏ hàng
                 <span>(
@@ -29,8 +46,8 @@
     </div>
     <nav class="lc-nav">
         <ul>
-            <li><a href="https://localhost:44333/TrangChu/LongChauClone">Trang chủ</a></li>
-            <li><a href="https://localhost:44333/TrangChu/Thuoc">Thuốc</a></li>
+            <li><a href="/TrangChu/LongChauClone">Trang chủ</a></li>
+            <li><a href="/TrangChu/Thuoc">Thuốc</a></li>
 
             <li class="dropdown">
                 <a href="#">Thiết bị y tế</a>
@@ -51,22 +68,22 @@
 
                             <div class="category-grid">
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/dung_cu_ve_sinh_mui_level_3_b9c09af6cf.png" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
                                 </a>
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Kim các loại</span>
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/kim_cac_loai_level_3_a5f2b837b1.png" alt="Icon"> <span>Kim các loại</span>
                                 </a>
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Máy massage</span>
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
                                 </a>
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Túi chườm</span>
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
                                 </a>
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
                                 </a>
                                 <a href="#" class="category-card">
-                                    <img src="https://via.placeholder.com/40" alt="Icon"> <span>Xem thêm</span>
+                                    <img src="https://nhathuoclongchau.com.vn/estore-images/icon-service/show-more-dot-icon.svg" alt="Icon"> <span>Xem thêm</span>
                                 </a>
                             </div>
 
@@ -76,31 +93,31 @@
                                 <div class="product-grid">
                                     <div class="product-item">
                                         <a href="#">
-                                            <img src="https://via.placeholder.com/150" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
+                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/00032497_dau_goi_tri_gau_nazorel_shampoo_ketoconazol_50ml_6253_6161_large_ef80a935c2.jpg" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
                                             <p class="product-price">98.000đ <small>/ Hộp</small></p>
                                         </a>
                                     </div>
                                     <div class="product-item">
                                         <a href="#">
-                                            <img src="https://via.placeholder.com/150" alt="Product"> <p class="product-name">Xịt thơm miệng Aro Mouth 10ml Hgsg...</p>
+                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09713_db68a280be.jpg" alt="Product"> <p class="product-name">Xịt thơm miệng Aro Mouth 10ml Hgsg...</p>
                                             <p class="product-price">60.000đ <small>/ Hộp</small></p>
                                         </a>
                                     </div>
                                     <div class="product-item">
                                         <a href="#">
-                                            <img src="https://via.placeholder.com/150" alt="Product"> <p class="product-name">Xịt mũi Otosan Nasal Spray Baby 20ml...</p>
+                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_04572_d319c1a099.jpg" alt="Product"> <p class="product-name">Xịt mũi Otosan Nasal Spray Baby 20ml...</p>
                                             <p class="product-price">295.000đ <small>/ Hộp</small></p>
                                         </a>
                                     </div>
                                     <div class="product-item">
                                         <a href="#">
-                                            <img src="https://via.placeholder.com/150" alt="Product"> <p class="product-name">Xịt mũi muối biển Nano Sea Plus 75ml...</p>
+                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_01815_0076bc598d.jpg" alt="Product"> <p class="product-name">Xịt mũi muối biển Nano Sea Plus 75ml...</p>
                                             <p class="product-price">30.000đ <small>/ Hộp</small></p>
                                         </a>
                                     </div>
                                     <div class="product-item">
                                         <a href="#">
-                                            <img src="https://via.placeholder.com/150" alt="Product"> <p class="product-name">Gel Voltogel Mass giảm đau cơ, đau vai...</p>
+                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09972_e1ad800300.jpg" alt="Product"> <p class="product-name">Gel Voltogel Mass giảm đau cơ, đau vai...</p>
                                             <p class="product-price">110.000đ <small>/ Hộp</small></p>
                                         </a>
                                     </div>
@@ -112,9 +129,9 @@
                 </div>
             </li>
             <li><a href="/TrangChu/TiemChung">Tiêm Chủng</a></li>
-            <li><a href="#">Bệnh lý</a></li>
+            <li><a href="/TrangChu/BenhLy">Bệnh lý</a></li>
             <li><a href="/TrangChu/GocSucKhoe">Góc sức khỏe</a></li>
-            <li><a href="#">Hệ thống nhà thuốc</a></li>
+            <li><a href="/TrangChu/HeThongNhaThuoc">Hệ thống nhà thuốc</a></li>
         </ul>
     </nav>
 </header>

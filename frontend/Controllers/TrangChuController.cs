@@ -4,13 +4,6 @@ namespace frontend.Controllers
 {
     public class TrangChuController : Controller
     {
-        // GET: TrangChu
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // Add this action for the LongChauClone page
         public ActionResult LongChauClone()
         {
             return View();
@@ -148,6 +141,10 @@ namespace frontend.Controllers
              return View();
         }
         public ActionResult HeThongNhaThuoc()
+        {
+            return View();
+        }
+        public ActionResult BenhLy()
         {
             return View();
         }

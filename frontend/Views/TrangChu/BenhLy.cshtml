@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/BenhLy.css" rel="stylesheet" type="text/css" />
+@{
+    ViewData["Title"] = "Cảm Cúm Thông Thường";
+}
+
+<div class="hero-banner" style="background-image: url('/hinh/cold.png');">
+    </div>
+
+<div class="main-content-wrapper">
+    <div class="article-card">
+        
+        <nav class="breadcrumbs">
+            <a href="/">Trang chủ</a> &gt; 
+            <a href="/benh-thuong-gap">Bệnh thường gặp</a> &gt; 
+            <span>Tai - Mũi - Họng</span>
+        </nav>
+
+        <h1 class="article-title">Cảm cúm thông thường: Nguyên nhân, triệu chứng và cách điều trị</h1>
+        <div class="article-date">
+            Cập nhật ngày: @DateTime.Now.ToString("dd/MM/yyyy")
+        </div>
+
+        <div class="article-body">
+            
+            <nav class="article-toc">
+                <ul>
+                    <li><a href="#tim-hieu-chung">Tìm hiểu chung</a></li>
+                    <li><a href="#trieu-chung" class="active">Triệu chứng</a></li>
+                    <li><a href="#nguyen-nhan">Nguyên nhân</a></li>
+                    <li><a href="#nguy-co">Nguy cơ</a></li>
+                    <li><a href="#chan-doan-dieu-tri">Phương pháp chẩn đoán & điều trị</a></li>
+                    <li><a href="#phong-ngua">Chế độ sinh hoạt & phòng ngừa</a></li>
+                </ul>
+            </nav>
+
+            <main class="article-content">
+
+                <div class="author-box">
+                    <img src="/hinh/doctor_le.png" alt="Bác sĩ Hoàng Thị Lệ" class="author-avatar"> <div class="author-info">
+                        <span class="author-title">Bác sĩ</span>
+                        <span class="author-name">Hoàng Thị Lệ</span>
+                        <div class="verified-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                            Đã kiểm duyệt nội dung
+                        </div>
+                        <p class="author-bio">
+                            Với hơn 8 năm kinh nghiệm, bác sĩ Lệ đã có 3 năm làm việc trong lĩnh vực Nội khoa và 5 năm chuyên về liên chứng, tạo ra sự đóng góp quan trọng vào việc nâng cao chất lượng chăm sóc sức khỏe cộng đồng.
+                        </p>
+                        <a href="#" class="author-link">Xem thêm thông tin &gt;</a>
+                    </div>
+                </div>
+
+                <div class="article-text">
+                    <blockquote class="intro-quote">
+                        Cảm cúm thông thường (cảm lạnh) là một bệnh nhiễm virus phổ biến ở đường hô hấp trên. Mặc dù thường nhẹ, các triệu chứng của nó có thể gây khó chịu và ảnh hưởng đến sinh hoạt hàng ngày.
+                    </blockquote>
+                    
+                    <h3 id="tim-hieu-chung">Tìm hiểu chung</h3>
+                    <p>Cảm cúm thông thường là tình trạng viêm do virus gây ra ở niêm mạc mũi và họng. Hơn 200 loại virus có thể gây ra cảm lạnh, nhưng Rhinovirus là thủ phạm phổ biến nhất. Bệnh rất dễ lây lan và thường tự khỏi trong vòng 7-10 ngày mà không cần điều trị đặc hiệu.</p>
+
+                    <h3 id="trieu-chung">Triệu chứng</h3>
+                    <p>Các triệu chứng của cảm cúm thông thường thường xuất hiện từ 1 đến 3 ngày sau khi tiếp xúc với virus. Chúng bao gồm:</p>
+                    <ul>
+                        <li><strong>Sổ mũi hoặc nghẹt mũi:</strong> Đây là triệu chứng phổ biến nhất, ban đầu dịch mũi có thể trong và loãng, sau đó đặc lại và có màu vàng hoặc xanh.</li>
+                        <li><strong>Đau họng, ngứa họng:</strong> Cảm giác khô, rát ở cổ họng.</li>
+                        <li><strong>Ho:</strong> Thường là ho khan ban đầu, sau đó có thể có đờm.</li>
+                        <li><strong>Hắt hơi:</strong> Phản ứng của cơ thể để tống virus ra ngoài.</li>
+                        <li><strong>Mệt mỏi:</strong> Cảm giác uể oải, thiếu năng lượng.</li>
+                        <li><strong>Đau nhức cơ thể:</strong> Có thể cảm thấy đau mỏi nhẹ ở các cơ.</li>
+                        <li><strong>Sốt nhẹ:</strong> Thường dưới 38.5°C, phổ biến hơn ở trẻ em.</li>
+                    </ul>
+                    <p>Cần phân biệt cảm cúm thông thường với cúm mùa (Influenza), cúm mùa thường có triệu chứng nặng hơn nhiều, bao gồm sốt cao đột ngột, đau đầu dữ dội, và mệt mỏi nghiêm trọng.</p>
+
+                    <h3 id="nguyen-nhan">Nguyên nhân</h3>
+                    <p>Nguyên nhân chính là do virus, chủ yếu là <strong>Rhinovirus</strong>. Các chủng virus khác bao gồm Coronavirus (không phải loại gây COVID-19), RSV và Adenovirus. Virus lây lan qua các giọt bắn nhỏ trong không khí khi người bệnh ho, hắt hơi hoặc nói chuyện. Bạn cũng có thể bị nhiễm bệnh khi chạm tay vào bề mặt bị nhiễm virus rồi đưa tay lên mắt, mũi hoặc miệng.</p>
+                    
+                    <h3 id="nguy-co">Nguy cơ</h3>
+                    <p>Một số yếu tố có thể làm tăng nguy cơ mắc cảm cúm thông thường:</p>
+                    <ul>
+                        <li><strong>Tuổi tác:</strong> Trẻ em, đặc biệt là trẻ dưới 6 tuổi, có nguy cơ cao nhất.</li>
+                        <li><strong>Hệ miễn dịch yếu:</strong> Người có hệ miễn dịch suy giảm hoặc mắc bệnh mãn tính.</li>
+                        <li><strong>Mùa:</strong> Bệnh phổ biến hơn vào mùa thu và mùa đông.</li>
+                        <li><strong>Môi trường:</strong> Ở những nơi đông người như trường học, văn phòng, phương tiện công cộng.</li>
+                        <li><strong>Hút thuốc:</strong> Hút thuốc lá làm suy yếu hệ miễn dịch đường hô hấp.</li>
+                    </ul>
+                    
+                    <h3 id="chan-doan-dieu-tri">Phương pháp chẩn đoán & điều trị</h3>
+                    <p><strong>Chẩn đoán:</strong> Bác sĩ thường chẩn đoán cảm cúm thông thường dựa trên các triệu chứng lâm sàng. Không cần xét nghiệm đặc biệt.</p>
+                    <p><strong>Điều trị:</strong> Không có thuốc chữa khỏi cảm cúm thông thường. Việc điều trị tập trung vào giảm nhẹ triệu chứng:</p>
+                    <ul>
+                        <li><strong>Nghỉ ngơi:</strong> Giúp cơ thể tập trung năng lượng để chống lại virus.</li>
+                        <li><strong>Uống nhiều nước:</strong> Uống nước lọc, nước trái cây, trà ấm để làm loãng chất nhầy và ngăn ngừa mất nước.</li>
+                        <li><strong>Thuốc không kê đơn (OTC):</strong>
+                            <ul>
+                                <li>Thuốc giảm đau, hạ sốt (Paracetamol, Ibuprofen).</li>
+                                <li>Thuốc thông mũi (dạng xịt hoặc uống).</li>
+                                <li>Thuốc kháng Histamin (có thể giúp giảm sổ mũi, hắt hơi).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Súc họng:</strong> Súc họng bằng nước muối ấm có thể làm dịu cơn đau họng.</li>
+                    </ul>
+                    <p><strong>Lưu ý:</strong> Kháng sinh không có tác dụng với virus, do đó không được dùng để điều trị cảm cúm thông thường.</p>
+
+                    <h3 id="phong-ngua">Chế độ sinh hoạt & phòng ngừa</h3>
+                    <p>Để phòng ngừa cảm cúm và giảm lây lan:</p>
+                    <ul>
+                        <li><strong>Rửa tay thường xuyên:</strong> Rửa tay bằng xà phòng và nước trong ít nhất 20 giây.</li>
+                        <li><strong>Sử dụng dung dịch sát khuẩn tay:</strong> Khi không có xà phòng và nước.</li>
+                        <li><strong>Tránh chạm tay vào mặt:</strong> Đặc biệt là mắt, mũi và miệng.</li>
+                        <li><strong>Che miệng khi ho, hắt hơi:</strong> Dùng khăn giấy hoặc khuỷu tay.</li>
+                        <li><strong>Vệ sinh bề mặt:</strong> Thường xuyên lau chùi các bề mặt hay chạm vào như tay nắm cửa, điện thoại.</li>
+                        <li><strong>Nâng cao sức đề kháng:</strong> Ăn uống đủ chất, tập thể dục đều đặn và ngủ đủ giấc.</li>
+                    </ul>
+                </div>
+
+            </main>
+        </div>
+    </div>
+</div>
+
+<button class="fab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+    </svg>
+</button>

@@ -44,25 +44,24 @@
         </div>
     </div>
     @Html.Partial("_Footer")
-
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", function (e) {
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-
-            if (password !== confirmPassword) {
-                alert("Mật khẩu xác nhận không khớp.");
-                e.preventDefault();
-                return;
-            }
-
-            if (password.length > 20) {
-                alert("Mật khẩu không được vượt quá 20 ký tự.");
-                e.preventDefault();
-                return;
-            } alert("Đăng ký thành công! Chuyển đến trang đăng nhập...");
-            window.location.href = " ";
-        });
-    </script>
 </body>
 </html>
+<script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("Mật khẩu xác nhận không khớp.");
+            e.preventDefault();
+            return;
+        }
+
+        if (password.length > 20) {
+            alert("Mật khẩu không được vượt quá 20 ký tự.");
+            e.preventDefault();
+            return;
+        } alert("Đăng ký thành công! Chuyển đến trang đăng nhập...");
+        window.location.href = " ";
+    });
+</script>

@@ -1,16 +1,13 @@
 ﻿body {
-    background: linear-gradient(to right, #00bcd4, #2196f3);
+    background: #fff;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
 }
 
 .login-container {
-    width: 100%;
-    max-width: 400px;
     padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .login-box {

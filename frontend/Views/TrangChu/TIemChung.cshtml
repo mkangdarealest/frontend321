@@ -8,47 +8,295 @@
 }
 <link rel="stylesheet" href="~/css/TiemChung.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnames" rel="stylesheet">
-<div class="vaccine-container">
 
-    <h1 class="section-title">
-        Mùa này cần <span>tiêm gì?</span>
-    </h1>
+@{
+    var categories = new List<VaccineCategory>
+    {
+        new VaccineCategory
+        {
+            Id = "sot-xuat-huyet",
+            TabName = "Sốt Xuất Huyết",
+            Icon = "🌦️",
+            Title = "Bảo vệ bản thân khỏi sốt xuất huyết Dengue thế nào?",
+            Description = "Sốt xuất huyết Dengue là bệnh truyền nhiễm cấp tính lây truyền qua vết đốt của muỗi vằn Aedes aegypti, thường gây sốt cao, đau đầu, đau cơ, buồn nôn, phát ban. Nếu không được kiểm soát, bệnh có thể dẫn đến:",
+            InfoPoints = new List<InfoPoint> {
+                new InfoPoint { Icon = "🩸", Text = "Xuất huyết nội tạng nguy hiểm" },
+                new InfoPoint { Icon = "⚡", Text = "Sốc do thoát huyết tương" },
+                new InfoPoint { Icon = "🔲", Text = "Suy tạng, thậm chí tử vong" } 
+            },
+            Recommendation = "Vắc xin Qdenga tạo ra miễn dịch chủ động với cả bốn tuýp huyết thanh của virus Dengue (DEN-1, DEN-2, DEN-3 và DEN-4) được chỉ định tiêm cho trẻ em từ 4 tuổi trở lên và người lớn khỏe mạnh.",
+            Products = new List<VaccineProduct>
+            {
+                new VaccineProduct {
+                    Name = "Vắc xin Qdenga",
+                    Description = "Phòng Sốt xuất huyết",
+                    Price = "1.390.000đ",
+                    CountryCode = "de", 
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_00718_b4a73be4c9.jpg", 
+                    Discount = null
+                }
+            }
+        },
+        new VaccineCategory
+        {
+            Id = "viem-nao-acwy",
+            TabName = "Viêm Não Mô Cầu ACYW",
+            Icon = "🌧️",
+            Title = "Viêm màng não do não mô cầu ACYW nguy hiểm thế nào?",
+            Description = "Vắc xin viêm màng não mô cầu ACYW giúp phòng bệnh não mô cầu xâm lấn gây ra bởi Neisseria meningitidis các nhóm huyết thanh A, C, W-135 và Y. Nếu không phòng ngừa, bệnh có thể gây ra:",
+            InfoPoints = new List<InfoPoint> {
+                new InfoPoint { Icon = "🧠", Text = "Viêm màng não, tổn thương não" },
+                new InfoPoint { Icon = "🩸", Text = "Nhiễm trùng máu, xuất huyết" },
+                new InfoPoint { Icon = "⚡", Text = "Sốc, nguy kịch tính mạng" },
+                new InfoPoint { Icon = "😢", Text = "Đặc biệt nguy hiểm ở trẻ nhỏ" }
+            },
+            Recommendation = "Vắc xin não mô cầu ACYW giúp phòng ngừa hiệu quả, bảo vệ sức khỏe và giảm nguy cơ biến chứng nặng.",
+            Products = new List<VaccineProduct>
+            {
+                new VaccineProduct {
+                    Name = "Vắc xin Menactra",
+                    Description = "Phòng bệnh Não mô cầu ACYW",
+                    Price = "1.360.000đ",
+                    CountryCode = "us",
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_04601_d5683cad0b.jpg",
+                    Discount = null
+                },
+                new VaccineProduct {
+                    Name = "Vắc xin MenQuadfi",
+                    Description = "Phòng bệnh Não mô cầu ACYW",
+                    Price = "1.800.000đ",
+                    CountryCode = "us", 
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_02306_b7f6ae1a8d.jpg", 
+                    Discount = null
+                }
+            }
+        },
+        new VaccineCategory
+        {
+            Id = "viem-nao-bexsero",
+            TabName = "Viêm Não Mô Cầu Bexsero",
+            Icon = "🌦️",
+            Title = "Làm sao để bảo vệ bản thân khỏi viêm màng não do não mô cầu B?",
+            Description = "Viêm màng não do não mô cầu B là bệnh nhiễm trùng nguy hiểm do vi khuẩn Neisseria meningitidis nhóm B gây ra, thường khởi phát đột ngột với sốt cao, đau đầu, cứng cổ. Nếu không phòng ngừa, bệnh có thể gây ra:",
+            InfoPoints = new List<InfoPoint> {
+                new InfoPoint { Icon = "🧠", Text = "Tổn thương não, viêm màng não nặng" },
+                new InfoPoint { Icon = "🩸", Text = "Nhiễm trùng máu, xuất huyết" },
+                new InfoPoint { Icon = "⚡", Text = "Sốc, tử vong nhanh chóng" },
+                new InfoPoint { Icon = "😢", Text = "Đặc biệt nguy hiểm ở trẻ nhỏ" }
+            },
+            Recommendation = "Vắc xin Bexsero giúp chủ động phòng ngừa bệnh não mô cầu xâm lấn do vi khuẩn Neisseria meningitidis nhóm B gây ra cho trẻ từ 02 tháng tuổi đến người lớn 50 tuổi.",
+            Products = new List<VaccineProduct>
+            {
+                new VaccineProduct {
+                    Name = "Vắc xin Bexsero",
+                    Description = "Phòng bệnh Não mô cầu B",
+                    Price = "1.700.000đ",
+                    CountryCode = "it", 
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_00691_b28e2e8070.jpg", 
+                    Discount = "-3%"
+                }
+            }
+        },
+        new VaccineCategory
+        {
+            Id = "cum",
+            TabName = "Cúm",
+            Icon = "🌦️",
+            Title = "Tiêm phòng cúm có thật sự quan trọng?",
+            Description = "Cúm là bệnh đường hô hấp cấp tính do virus cúm gây ra, lây lan nhanh và dễ bùng phát thành dịch. Nếu không phòng ngừa, cúm có thể gây ra:",
+            InfoPoints = new List<InfoPoint> {
+                new InfoPoint { Icon = "🔲", Text = "Viêm phổi, suy hô hấp" },
+                new InfoPoint { Icon = "🧠", Text = "Viêm não, co giật" },
+                new InfoPoint { Icon = "⚡", Text = "Biến chứng nặng ở người có bệnh nền" },
+                new InfoPoint { Icon = "😢", Text = "Nguy hiểm cho trẻ nhỏ và thai phụ" }
+            },
+            Recommendation = "Vắc xin cúm được khuyến cáo tiêm phòng ngừa cho trẻ từ 6 tháng tuổi và người lớn, đặc biệt là vào thời điểm giao mùa hoặc khi thời tiết thay đổi bất thường.",
+            Products = new List<VaccineProduct>
+            {
+                new VaccineProduct {
+                    Name = "Vắc xin Influvac Tetra",
+                    Description = "Phòng Cúm",
+                    Price = "333.000đ",
+                    CountryCode = "nl", 
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_04534_816a67205c.jpg", 
+                    Discount = null
+                },
+                new VaccineProduct {
+                    Name = "Vắc xin Vaxigrip Tetra",
+                    Description = "Phòng Cúm",
+                    Price = "333.000đ",
+                    CountryCode = "fr", 
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_08800_5250a19a35.jpg", 
+                    Discount = null
+                },       
+            }
+        },
+        new VaccineCategory
+        {
+            Id = "hpv",
+            TabName = "HPV",
+            Icon = "🌦️",
+            Title = "Phòng ngừa ung thư do HPV thế nào cho hiệu quả?",
+            Description = "HPV (Human Papillomavirus) là nguyên nhân chính gây ung thư cổ tử cung và các bệnh lý khác như mụn cóc sinh dục, ung thư hậu môn, dương vật, hầu họng... Bệnh thường diễn tiến âm thầm và khó phát hiện sớm.",
+            InfoPoints = new List<InfoPoint> {
+                new InfoPoint { Icon = "🩹", Text = "Tiêm vắc xin phòng bệnh là biện pháp phòng ngừa hiệu quả các bệnh liên quan đến HPV, đặc biệt là ung thư cổ tử cung." },
+                new InfoPoint { Icon = "💉", Text = "Gardasil 4: Bảo vệ 4 chủng (6, 11, 16, 18), khuyến cáo cho nữ từ 9 đến 26 tuổi." },
+                new InfoPoint { Icon = "💉", Text = "Gardasil 9: Bảo vệ 9 chủng (6, 11, 16, 18, 31, 33, 45, 52, 58), khuyến cáo cho cả nam và nữ từ 9 đến 45 tuổi." }
+            },
+            Recommendation = null, 
+            Products = new List<VaccineProduct>
+            {
+                new VaccineProduct {
+                    Name = "Vắc xin Gardasil 9 0.5ml",
+                    Description = "Phòng bệnh ung thư do HPV 9 chủng",
+                    Price = "2.965.000đ",
+                    CountryCode = "us", // Hoa Kỳ
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_04465_6b6839f0ed.jpg", 
+                    Discount = "-0%"
+                },
+                new VaccineProduct {
+                    Name = "Vắc xin Gardasil 4 0.5ml",
+                    Description = "Phòng bệnh ung thư do HPV 4 chủng",
+                    Price = "1.780.000đ",
+                    CountryCode = "us", // Hoa Kỳ
+                    ImageUrl = "https://cdn.tiemchunglongchau.com.vn/unsafe/2560x0/filters:quality(90)/DSC_04594_dc3f1032fa.jpg", 
+                    Discount = null
+                }
+            }
+        }
+    };
+    
+   
+    categories.First(c => c.Id == "sot-xuat-huyet").IsActive = true; 
+}
 
-    <nav class="vaccine-nav">
-        <a href="#" class="nav-tab active">Sốt Xuất Huyết</a>
-        <a href="#" class="nav-tab">Viêm Não Mô Cầu ACYW</a>
-        <a href="#" class="nav-tab">Viêm Não Mô Cầu Bexsero</a>
-        <a href="#" class="nav-tab">Cúm</a>
-        <a href="#" class="nav-tab">HPV</a>
-    </nav>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mùa này cần tiêm gì?</title>
+    <link rel="stylesheet" href="~/css/styles.css"> <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <main class="vaccine-content-wrapper">
+    <div class="vaccine-container">
+        <h1>Mùa này cần <span class="highlight">tiêm gì?</span> 💉</h1>
 
-        <section class="info-column">
-            <div class="info-icon">🌧️</div>
-            <h2 class="info-title">Bảo vệ bản thân khỏi sốt xuất huyết Dengue thế nào?</h2>
-            <p class="info-description">
-                Sốt xuất huyết Dengue là bệnh truyền nhiễm cấp tính lây truyền qua vật đột của muỗi vằn Aedes aegypti, thường gây sốt cao, đau đầu, đau cơ, buồn nôn, phát ban. Nếu không được kiểm soát, bệnh có thể dẫn đến:
-            </p>
-            <ul class="info-list">
-                <li><span class="icon">➡️</span> Xuất huyết nội tạng nguy hiểm</li>
-                <li><span class="icon">➡️</span> Sốc do thoát huyết tương</li>
-                <li><span class="icon">➡️</span> Suy tạng, thậm chí tử vong</li>
-                <li><span class="icon">✅</span> <strong>Vắc xin Qdenga</strong> tạo ra miễn dịch chủ động đối với cả bốn tuýp huyết thanh của virus Dengue (DENV-1, DENV-2, DENV-3 và DENV-4) được chỉ định tiêm cho trẻ em từ 4 tuổi trở lên và người lớn khoẻ mạnh.</li>
-            </ul>
-        </section>
+        <nav class="tab-nav">
+            @foreach (var category in categories)
+            {
+                <a href="#" class="tab-link @(category.IsActive ? "active" : "")" data-tab="@category.Id">
+                    @category.TabName
+                </a>
+            }
+        </nav>
 
-        <aside class="product-column">
-            <div class="product-card">
-                <div class="product-origin">🇩🇪 Đức</div>
-                <div class="product-image">
-                    <img src="https://i.imgur.com/wP0c5kC.png" alt="Vắc xin Qdenga">
+        <div class="tab-content">
+            @foreach (var category in categories)
+            {
+                <div class="tab-pane @(category.IsActive ? "active" : "")" id="@category.Id">
+                    <div class="info-panel">
+                        <div class="info-icon">@category.Icon</div>
+                        <h2 class="info-title">@category.Title</h2>
+                        <p class="info-description">@category.Description</p>
+                        
+                        <ul class="info-list">
+                            @foreach (var point in category.InfoPoints)
+                            {
+                                <li>
+                                    <span class="info-list-icon">@point.Icon</span>
+                                    <span>@point.Text</span>
+                                </li>
+                            }
+                        </ul>
+
+                        @if (!string.IsNullOrEmpty(category.Recommendation))
+                        {
+                            <p class="info-recommendation">
+                                <span class="info-list-icon">✍️</span>
+                                <span>@category.Recommendation</span>
+                            </p>
+                        }
+                    </div>
+
+                    <div class="product-panel">
+                        <div class="product-container" style="--product-count: @category.Products.Count">
+                            @foreach (var product in category.Products)
+                            {
+                                <div class="product-card">
+                                    @if (product.Discount != null)
+                                    {
+                                        <span class="product-discount">@product.Discount</span>
+                                    }
+                                    <img class="product-flag" src="https://flagcdn.com/w40/@(product.CountryCode).png" alt="Cờ @product.CountryCode">
+                                    
+                                    <img class="product-image" src="@product.ImageUrl" alt="@product.Name">
+                                    
+                                    <h3 class="product-name">@product.Name</h3>
+                                    <p class="product-desc">@product.Description</p>
+                                    <p class="product-price">
+                                        @product.Price <span>/ Liều</span>
+                                    </p>
+                                    <button class="btn-book">Đặt hẹn</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-                <h3 class="product-name">Vắc xin Qdenga</h3>
-                <p class="product-description">Phòng Sốt xuất huyết</p>
-                <p class="product-price">1.390.000đ <span class="price-unit">/ 1 liều</span></p>
-                <a href="#" class="product-button">Đặt hẹn</a>
-            </div>
-        </aside>
-    </main>
-</div>
+            }
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+@functions {
+    public class VaccineCategory
+    {
+        public string Id { get; set; }
+        public string TabName { get; set; }
+        public bool IsActive { get; set; } = false;
+        public string Icon { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public List<InfoPoint> InfoPoints { get; set; } = new List<InfoPoint>();
+        public string Recommendation { get; set; }
+        public List<VaccineProduct> Products { get; set; } = new List<VaccineProduct>();
+    }
+
+    public class InfoPoint
+    {
+        public string Icon { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class VaccineProduct
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public string CountryCode { get; set; } 
+        public string ImageUrl { get; set; } = "https://via.placeholder.com/200x200.png?text=Vaccine"; 
+        public string Discount { get; set; } 
+    }
+}
