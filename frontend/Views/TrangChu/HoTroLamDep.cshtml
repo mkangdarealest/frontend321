@@ -1,10 +1,15 @@
 ﻿
 @{
     ViewBag.Title = "HoTroLamDep";
-    Layout = "~/Views/DanhMucNoiBat/HoTroLamDep.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("_Header")
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 90px auto;
+    }
+</style>
 <section class="lc-products container">
     <h2>Hỗ Trợ Làm Đẹp</h2>
     <div class="lc-product-list_all">
@@ -40,5 +45,4 @@
         </div>
     </div>
 </section>
-@Html.Partial("_Footer")
 
