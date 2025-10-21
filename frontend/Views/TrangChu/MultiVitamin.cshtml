@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "MultiVitamin";
-    Layout = "~/Views/SanPham/MultiVitamin.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Siro Multi Vitamin Hatro";
     var brand = "Hatro";
     var price = 150000;
@@ -27,7 +26,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/MultiVitamin.jpg" alt="@productName" />
@@ -54,7 +52,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "Biotin";
-    Layout = "~/Views/SanPham/Biotin.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Viên uống Biotin 5mg Mediplantex";
     var brand = "Mediplantex";
     var price = 28000;
@@ -28,7 +27,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/Biotin.jpg" alt="@productName" />
@@ -55,6 +53,5 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>

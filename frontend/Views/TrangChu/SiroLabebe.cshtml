@@ -1,10 +1,9 @@
 ﻿@{
     ViewBag.Title = "SiroLabebe";
-    Layout = "~/Views/SanPham/SiroLabebe.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Bổ Phế Lábebé (Siro)";
     var brand = "Lábebé";
     var price = 75000;
@@ -26,7 +25,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/SiroLabebe.jpg" alt="@productName" />
@@ -53,7 +51,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

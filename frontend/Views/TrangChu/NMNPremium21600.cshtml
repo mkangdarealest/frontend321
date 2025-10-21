@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "NMNPremium21600";
-    Layout = "~/Views/SanPham/NMNPremium21600.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Viên uống NMN Premium 21600";
     var brand = "Jpanwell / GENSEI Co., Ltd.";
     var price = 5785000;
@@ -27,7 +26,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/NMNPremium21600.jpg" alt="@productName" />
@@ -54,7 +52,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

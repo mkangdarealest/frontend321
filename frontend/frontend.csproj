@@ -200,6 +200,7 @@
     <Content Include="css\register.css" />
     <Content Include="css\SanPham\detailed_product.css" />
     <Content Include="css\GocSucKhoe.css" />
+    <Content Include="css\Thuoc.css" />
     <Content Include="css\TiemChung.css" />
     <Content Include="css\Vitamin_Khoangchat.css" />
     <Content Include="favicon.ico" />

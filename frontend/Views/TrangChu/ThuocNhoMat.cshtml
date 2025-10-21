@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "ThuocNhoMat";
-    Layout = "~/Views/SanPham/ThuocNhoMat.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Thuốc nhỏ mắt V.Rohto Vitamin";
     var brand = "V.Rohto";
     var price = 60000;
@@ -27,7 +26,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/Rohto.jpg" alt="@productName" />
@@ -54,7 +52,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

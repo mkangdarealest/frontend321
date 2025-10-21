@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "CanxiDHC";
-    Layout = "~/Views/SanPham/CanxiDHC.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Viên uống DHC Calcium + CBP";
     var brand = "DHC";
     var price = 170000;
@@ -28,7 +27,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="~/hinh/CanxiDHC.jpg" alt="@productName" />
@@ -55,7 +53,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

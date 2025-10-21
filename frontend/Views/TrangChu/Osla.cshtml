@@ -1,17 +1,16 @@
 ﻿
 @{
     ViewBag.Title = "Osla";
-    Layout = "~/Views/SanPham/Osla.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Thuốc nhỏ mắt Osla";
-    var brand = "Merap Group"; 
-    var price = 24000; 
-    var originalPrice = 30000; 
-    var rating = 4.5; 
-    var reviews = 50; 
+    var brand = "Merap Group";
+    var price = 24000;
+    var originalPrice = 30000;
+    var rating = 4.5;
+    var reviews = 50;
     var description = "Dung dịch nhỏ mắt đẳng trương, ổn định và vô khuẩn. Hỗ trợ giảm các triệu chứng mỏi mắt, ngứa mắt, khô rát mắt, cay mắt, xốn (cộm) mắt, đỏ mắt, mờ mắt. Giúp loại bỏ bụi bẩn, làm sạch ghèn rỉ mắt và phòng ngừa các bệnh đau mắt.";
     var ingredients = "Natri clorid 0,033g, Borneol, Benzalkonium clorid, Acid boric, Natri borat, Nước cất vừa đủ 15ml.";
     var usage = "Người lớn và trẻ em: Nhỏ 2 - 4 giọt mỗi mắt/lần x 4 - 6 lần/ngày. Có thể nhỏ nhiều lần hơn nếu cần. Sử dụng trong vòng 30 ngày sau khi đã mở nắp lần đầu.";
@@ -28,7 +27,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="~/hinh/Osla.jpg" alt="@productName" />
@@ -55,7 +53,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

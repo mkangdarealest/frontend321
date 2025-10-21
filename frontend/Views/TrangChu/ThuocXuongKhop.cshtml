@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "ThuocXuongKhop";
-    Layout = "~/Views/SanPhamNoiBat/Thuoc-xuong-khop.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Viên uống Glucosamine Orihiro";
     var brand = "Orihiro";
     var price = 295000;
@@ -27,7 +26,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/Bone.png" alt="@productName" />
@@ -54,7 +52,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 

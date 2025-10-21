@@ -1,11 +1,10 @@
 ﻿
 @{
     ViewBag.Title = "Paracetamol";
-    Layout = "~/Views/SanPham/Paracetamol.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{
-    Layout = null;
     var productName = "Viên nén Paracetamol 500mg";
     var brand = "Thành Nam";
     var price = 35000;
@@ -27,7 +26,6 @@
     <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 </head>
 <body>
-    @Html.Partial("_Header")
     <div class="product-container">
         <div class="product-image">
             <img src="/hinh/Paracetamol.jpg" alt="@productName" />
@@ -54,7 +52,6 @@
             <button class="buy-button">Mua ngay</button>
         </div>
     </div>
-    @Html.Partial("_Footer")
 </body>
 </html>
 
