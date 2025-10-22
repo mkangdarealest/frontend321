@@ -3,6 +3,11 @@
 <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
 <header id="lc-header">
     <div class="lc-header-top container">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div class="lc-logo">
             <a href="@Url.Action("LongChauClone", "TrangChu")">
                 <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/smalls/logo_default_web_78584a5cc6.png" alt="Long Châu" />
@@ -10,19 +15,19 @@
         </div>
         <div class="lc-search">
             @{
-    var currentQuery = "";
-    try
-    {
-        var httpReq = ViewContext?.HttpContext?.Request;
-        if (httpReq?.QueryString != null)
-        {
-            currentQuery = httpReq.QueryString["q"] ?? "";
-        }
-    }
-    catch
-    {
-        currentQuery = "";
-    }
+                var currentQuery = "";
+                try
+                {
+                    var httpReq = ViewContext?.HttpContext?.Request;
+                    if (httpReq?.QueryString != null)
+                    {
+                        currentQuery = httpReq.QueryString["q"] ?? "";
+                    }
+                }
+                catch
+                {
+                    currentQuery = "";
+                }
             }
             <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
                 <input type="text" name="q" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." value="@currentQuery" />
@@ -38,9 +43,11 @@
             <a href="/TrangChu/GioHang" id="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 Giỏ hàng
-                <span>(
-                <span id="cart-count">0</span>
-                )</span>
+                <span>
+                    (
+                    <span id="cart-count">0</span>
+                    )
+                </span>
             </a>
         </div>
     </div>
@@ -135,3 +142,85 @@
         </ul>
     </nav>
 </header>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+@* THAY THẾ KHỐI MENU MOBILE CŨ BẰNG KHỐI NÀY *@
+<div class="mobile-menu-drawer" id="mobileMenuDrawer">
+
+    <div class="mobile-menu-header">
+        <p>Đăng nhập để hưởng những đặc quyền dành riêng cho thành viên.</p>
+        <div class="mobile-menu-auth">
+            @* Lấy link từ .lc-user của bạn *@
+            <a href="/TrangChu/Login" class="btn btn-login">Đăng nhập</a>
+            <a href="/TrangChu/Register" class="btn btn-register">Đăng ký</a>
+        </div>
+        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Đóng menu">&times;</button>
+    </div>
+
+    <nav class="mobile-menu-nav">
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/thuoc">Thuốc</a></li>
+
+            <li class="mobile-menu-dropdown">
+                @* Chúng ta dùng thẻ <a> làm nút bấm, không trỏ đi đâu cả (href="#")
+                    Class "mobile-menu-toggle-sub" dùng để JavaScript nhận diện
+                *@
+                <a class="mobile-menu-toggle-sub">
+                    Thiết bị y tế
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <ul class="mobile-submenu">
+                    <li><a href="#">Dụng cụ theo dõi</a></li>
+                    <li><a href="#">Dụng cụ sơ cứu</a></li>
+                    <li><a href="#">Khẩu trang</a></li>
+                    @* Bạn có thể thêm các link khác từ "category-grid" vào đây nếu muốn *@
+                </ul>
+            </li>
+            <li><a href="/tiem-chung">Tiêm chủng</a></li>
+            <li><a href="/benh-ly">Bệnh lý</a></li>
+            <li><a href="/goc-suc-khoe">Góc sức khỏe</a></li>
+            <li><a href="/he-thong-nha-thuoc">Hệ thống nhà thuốc</a></li>
+        </ul>
+    </nav>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('mobileMenuToggle');
+    const closeBtn = document.getElementById('mobileMenuClose');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const drawer = document.getElementById('mobileMenuDrawer');
+    const body = document.body;
+
+    // --- JavaScript để MỞ/ĐÓNG MENU CHÍNH ---
+    function openMenu() {
+        if (drawer) drawer.classList.add('is-open');
+        if (overlay) overlay.classList.add('is-open');
+        body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        if (drawer) drawer.classList.remove('is-open');
+        if (overlay) overlay.classList.remove('is-open');
+        body.style.overflow = '';
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    if (overlay) overlay.addEventListener('click', closeMenu);
+
+
+    // --- JAVASCRIPT MỚI ĐỂ MỞ/ĐÓNG SUB-MENU ---
+    const subMenuToggles = document.querySelectorAll('.mobile-menu-toggle-sub');
+
+    subMenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault(); // Ngăn link "#" nhảy trang
+            const parentLi = this.closest('.mobile-menu-dropdown');
+            if (parentLi) {
+                parentLi.classList.toggle('is-open');
+            }
+        });
+    });
+});
+</script>

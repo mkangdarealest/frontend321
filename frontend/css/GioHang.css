@@ -1,4 +1,6 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
+﻿/* NGUỒN CODE GỐC CỦA BẠN */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
+
 :root {
     --longchau-blue: #007bff;
     --cta-green: #00b33c;
@@ -12,24 +14,28 @@ body {
     font-style: normal;
     background-color: var(--light-grey);
     margin: 0;
+    /* Thêm thuộc tính để cuộn mượt hơn */
+    overflow-x: hidden;
 }
 
 .container_1 {
+    /* Các thuộc tính này sẽ được GHI ĐÈ ở media query bên dưới */
     margin-left: -195px;
     margin-right: -130px;
     margin-top: 80px;
     margin-bottom: 80px;
     width: 1550px;
-    /* margin: 80px auto; */
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     padding: 32px 24px;
+    /* Thêm transition để thay đổi kích thước mượt mà */
+    transition: all 0.3s ease;
 }
 
 h1 {
     font-size: 2rem;
     color: #2a7be4;
-    margin-top:-10px;
+    margin-top: -10px;
     margin-bottom: 24px;
     text-align: center;
 }
@@ -37,12 +43,12 @@ h1 {
 .cart-layout {
     display: flex;
     gap: 32px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Thuộc tính này RẤT TỐT, giữ nguyên nó */
 }
 
 .cart-items {
     flex: 2;
-    min-width: 320px;
+    min-width: 320px; /* Tốt, giúp tự động xuống dòng */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -92,10 +98,9 @@ h1 {
     margin-top: 30px;
 }
 
-/* CỘT TÓM TẮT (Disabled) */
 .cart-summary {
     flex: 1;
-    min-width: 260px;
+    min-width: 260px; /* Tốt, giúp tự động xuống dòng */
     background: #f7f9fa;
     border-radius: 8px;
     padding: 24px 18px;
@@ -220,11 +225,11 @@ h1 {
     transition: background 0.2s;
 }
 
-.increase-btn:hover,
-.decrease-btn:hover {
-    background: #2a7be4;
-    color: #fff;
-}
+    .increase-btn:hover,
+    .decrease-btn:hover {
+        background: #2a7be4;
+        color: #fff;
+    }
 
 .remove-btn {
     background: #e43f3f;
@@ -238,9 +243,10 @@ h1 {
     transition: background 0.2s;
 }
 
-.remove-btn:hover {
-    background: #b71c1c;
-}
+    .remove-btn:hover {
+        background: #b71c1c;
+    }
+
 .billing-form {
     background: #f7f9fa;
     border-radius: 8px;
@@ -273,6 +279,7 @@ h1 {
         font-optical-sizing: auto;
         font-weight: 300;
         font-style: normal;
+        box-sizing: border-box;
     }
 
 .payment-methods label {
@@ -283,4 +290,126 @@ h1 {
 
 .payment-methods input[type="radio"] {
     margin-right: 8px;
+}
+
+@media (max-width: 1600px) {
+    .container_1 {
+        width: 95%; 
+        max-width: 1200px; 
+        margin-left: auto; 
+        margin-right: auto; 
+    }
+}
+@media (max-width: 992px) {
+    .container_1 {
+        width: 98%;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+    .cart-product {
+        flex-wrap: wrap; 
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    .cart-product-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .cart-product-name {
+        flex-basis: calc(100% - 65px);
+        font-size: 1rem;
+    }
+
+    .cart-product-price {
+        flex-grow: 1; 
+        flex-basis: 50%; 
+        justify-content: flex-start; 
+    }
+
+    .remove-btn {
+        flex-grow: 1;
+        flex-basis: 30%; 
+        margin-left: 0;
+        text-align: center;
+    }
+}
+@media (max-width: 768px) {
+    .container_1 {
+        width: 100%;
+        margin: 20px 0 0 0;
+        padding: 10px;
+        box-sizing: border-box; 
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .cart-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .cart-items,
+    .cart-summary,
+    .billing-form {
+        flex: 1 1 100%;
+        min-width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cart-items {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-product {
+        justify-content: center; 
+        gap: 8px;
+    }
+
+    .cart-product-img {
+        margin: 0 auto;
+    }
+
+    .cart-product-name {
+        flex-basis: 100%; 
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .cart-product-price {
+        flex-basis: 100%; 
+        justify-content: center; 
+        margin-top: 5px;
+    }
+
+    .remove-btn {
+        flex-basis: 80%; 
+        margin-top: 5px;
+    }
+
+    .empty-state h2 {
+        font-size: 1.2rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+
+    .cta-shopping {
+        padding: 8px 18px;
+        font-size: 0.9rem;
+    }
 }

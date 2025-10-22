@@ -39,7 +39,7 @@
         <a href="https://localhost:44333/TrangChu/SucKhoeTimMach" style="text-decoration: none" ;>
             <div class="lc-category-item">
                 <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/80x80/https://cms-prod.s3-sgn09.fptcloud.com/smalls/Suc_khoe_tim_mach_e413362a48.png" alt="Sức Khỏe Tim Mặt" style="width: 30px; height: 30px;" />
-                <p>Sức Khỏe Tim Mặt</p>
+                <p>Sức Khỏe Tim Mạch</p>
             </div>
         </a>
         <a href="https://localhost:44333/TrangChu/HoTroLamDep" style="text-decoration: none" ;>
@@ -295,3 +295,35 @@
                 </div>
             </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('mobileMenuToggle');
+        const closeBtn = document.getElementById('mobileMenuClose');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const drawer = document.getElementById('mobileMenuDrawer');
+        const body = document.body;
+
+        function openMenu() {
+            drawer.classList.add('is-open');
+            overlay.classList.add('is-open');
+            body.style.overflow = 'hidden'; // Ngăn cuộn trang nền
+        }
+
+        function closeMenu() {
+            drawer.classList.remove('is-open');
+            overlay.classList.remove('is-open');
+            body.style.overflow = '';
+        }
+
+        // Gán sự kiện click
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', openMenu);
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeMenu);
+        }
+        if (overlay) {
+            overlay.addEventListener('click', closeMenu);
+        }
+    });
+</script>
