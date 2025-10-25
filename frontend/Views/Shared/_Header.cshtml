@@ -143,14 +143,11 @@
     </nav>
 </header>
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
-
-@* THAY THẾ KHỐI MENU MOBILE CŨ BẰNG KHỐI NÀY *@
 <div class="mobile-menu-drawer" id="mobileMenuDrawer">
 
     <div class="mobile-menu-header">
         <p>Đăng nhập để hưởng những đặc quyền dành riêng cho thành viên.</p>
         <div class="mobile-menu-auth">
-            @* Lấy link từ .lc-user của bạn *@
             <a href="/TrangChu/Login" class="btn btn-login">Đăng nhập</a>
             <a href="/TrangChu/Register" class="btn btn-register">Đăng ký</a>
         </div>
@@ -163,9 +160,6 @@
             <li><a href="/thuoc">Thuốc</a></li>
 
             <li class="mobile-menu-dropdown">
-                @* Chúng ta dùng thẻ <a> làm nút bấm, không trỏ đi đâu cả (href="#")
-                    Class "mobile-menu-toggle-sub" dùng để JavaScript nhận diện
-                *@
                 <a class="mobile-menu-toggle-sub">
                     Thiết bị y tế
                     <i class="fas fa-chevron-down"></i>
@@ -174,7 +168,6 @@
                     <li><a href="#">Dụng cụ theo dõi</a></li>
                     <li><a href="#">Dụng cụ sơ cứu</a></li>
                     <li><a href="#">Khẩu trang</a></li>
-                    @* Bạn có thể thêm các link khác từ "category-grid" vào đây nếu muốn *@
                 </ul>
             </li>
             <li><a href="/tiem-chung">Tiêm chủng</a></li>
@@ -191,8 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('mobileMenuOverlay');
     const drawer = document.getElementById('mobileMenuDrawer');
     const body = document.body;
-
-    // --- JavaScript để MỞ/ĐÓNG MENU CHÍNH ---
     function openMenu() {
         if (drawer) drawer.classList.add('is-open');
         if (overlay) overlay.classList.add('is-open');
@@ -209,13 +200,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     if (overlay) overlay.addEventListener('click', closeMenu);
 
-
-    // --- JAVASCRIPT MỚI ĐỂ MỞ/ĐÓNG SUB-MENU ---
     const subMenuToggles = document.querySelectorAll('.mobile-menu-toggle-sub');
 
     subMenuToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {
-            e.preventDefault(); // Ngăn link "#" nhảy trang
+            e.preventDefault();
             const parentLi = this.closest('.mobile-menu-dropdown');
             if (parentLi) {
                 parentLi.classList.toggle('is-open');

@@ -13,7 +13,6 @@
 
     function addToCart(product) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        //check if product already in cart
         let found = cart.find(item => item.name === product.name);
         if (found) {
             found.quantity += 1;
@@ -41,7 +40,5 @@
             }
         });
     });
-
-    //update cart count on page load
     updateCartCount();
 });
