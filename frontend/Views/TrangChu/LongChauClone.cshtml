@@ -288,7 +288,7 @@
                         <div class="lc-product-image-container">
                             <img src="~/hinh/CanxiDHC.jpg" alt="Viên uống bổ sung Canxi DHC (60 viên)" />
                         </div>
-                    </a>
+                    </a> 
                     <h3>Canxi DHC (60 viên)</h3>
                     <p class="price">145.000đ</p>
                     <button class="btn-buy">Chọn mua</button>
@@ -306,7 +306,7 @@
         function openMenu() {
             drawer.classList.add('is-open');
             overlay.classList.add('is-open');
-            body.style.overflow = 'hidden'; // Ngăn cuộn trang nền
+            body.style.overflow = 'hidden'; 
         }
 
         function closeMenu() {
@@ -314,8 +314,6 @@
             overlay.classList.remove('is-open');
             body.style.overflow = '';
         }
-
-        // Gán sự kiện click
         if (toggleBtn) {
             toggleBtn.addEventListener('click', openMenu);
         }

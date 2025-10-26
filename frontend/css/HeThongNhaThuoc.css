@@ -1,4 +1,15 @@
-﻿
+﻿/*map-fit-to-phone*/
+.map-container {
+    aspect-ratio: 3 / 2; /* (900 / 600) */
+    width: 100%;
+}
+
+    .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+/*end*/
 body {
 /*    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
     background-color: #f7f9fc; 

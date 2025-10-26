@@ -148,5 +148,17 @@ namespace frontend.Controllers
         {
             return View();
         }
+        public ActionResult KhauTrang()
+        {
+            return View();
+        }
+        public ActionResult SoCuu()
+        {
+            return View();
+        }
+        public ActionResult TheoDoi()
+        {
+            return View();
+        }
     }
 }

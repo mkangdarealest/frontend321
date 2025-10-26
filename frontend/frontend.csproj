@@ -345,6 +345,9 @@
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\TrangChu\KhauTrang.cshtml" />
+    <Content Include="Views\TrangChu\SoCuu.cshtml" />
+    <Content Include="Views\TrangChu\TheoDoi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

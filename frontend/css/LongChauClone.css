@@ -1,5 +1,4 @@
-﻿/*@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap&subset=vietnamese');*/
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
+﻿@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
 
 .background-image {
     position: absolute;
@@ -178,12 +177,12 @@ html, body {
 .mega-menu {
     display: none;
     position: absolute;
-    left: 50%;
+    left: 180%;
     transform: translateX(-50%);
     top: 100%;
     background: #fff;
-    min-width: 1000px;
-    max-width: 1000px;
+    min-width: 1500px;
+    max-width: 1500px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 8px 8px;
     overflow: hidden;
@@ -203,13 +202,14 @@ html, body {
 }
 
 .mega-menu-sidebar {
-    flex-basis: 200px;
+    max-width:200px;
+    flex-basis: 300px;
     border-right: 1px solid #eee;
     padding-right: 20px;
 }
 
     .mega-menu-sidebar h3 {
-        margin-right: 30px;
+/*        margin-right: 30px;*/
         font-size: 16px;
         color: #00529b;
         margin-bottom: 15px;
@@ -242,6 +242,19 @@ html, body {
 .mega-menu-main {
     flex-grow: 1;
 }
+
+/* =====================================================
+         CSS ADDED FOR MEGA-MENU TAB FUNCTIONALITY
+        ===================================================== */
+.mega-menu-panel {
+    display: none; /* Hide all content panels */
+}
+
+    .mega-menu-panel.active {
+        display: block; /* Show only the active one */
+    }
+/* =================================================== */
+
 
 .category-grid {
     display: grid;
@@ -462,7 +475,7 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 18px;
-    padding: 0 10px; 
+    padding: 0 10px;
 }
 
 .lc-category-item {
@@ -518,7 +531,7 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 18px;
-    padding: 0 10px; 
+    padding: 0 10px;
 }
 
 .lc-product-card {
@@ -529,7 +542,7 @@ html, body {
     padding: 12px 10px 8px 10px;
     min-width: 170px;
     max-width: 200px;
-    flex: 1 1 150px; 
+    flex: 1 1 150px;
     transition: box-shadow 0.2s, transform 0.2s;
     cursor: pointer;
     display: flex;
@@ -542,7 +555,7 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 18px;
-    padding: 0 100px; 
+    padding: 0 100px;
 }
 
 .lc-product-card img {
@@ -558,7 +571,7 @@ html, body {
     font-weight: 500;
     margin: 0 0 6px 0;
     color: #222;
-    height: 3.2em; 
+    height: 3.2em;
     overflow: hidden;
 }
 
@@ -724,14 +737,15 @@ html, body {
         margin: 5px 0;
         color: #b3d1ff;
     }
+
 .mobile-menu-toggle {
-    display: none; 
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
     margin: 0;
-    z-index: 101; 
+    z-index: 101;
 }
 
     .mobile-menu-toggle span {
@@ -766,7 +780,7 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 320px; 
+    width: 320px;
     max-width: 85%;
     height: 100%;
     background-color: #fff;
@@ -782,7 +796,7 @@ html, body {
     }
 
 .mobile-menu-header {
-    background-color: #00529b; 
+    background-color: #00529b;
     padding: 20px 15px;
     color: #fff;
     position: relative;
@@ -862,11 +876,12 @@ html, body {
         .mobile-menu-nav li a:hover {
             background-color: #f9f9f9;
         }
+
 @media (max-width: 992px) {
 
     #lc-header {
         max-height: none;
-        position: static; 
+        position: static;
     }
 
     .lc-header-top.container {
@@ -877,12 +892,12 @@ html, body {
     }
 
     .mobile-menu-toggle {
-        display: block; 
+        display: block;
         order: 1;
     }
 
     .lc-logo {
-        order: 2; 
+        order: 2;
         margin: 0 auto;
         flex-grow: 1;
         text-align: center;
@@ -893,21 +908,22 @@ html, body {
     }
 
     .lc-user {
-        display: none; 
+        display: none;
     }
 
     .lc-search {
-        order: 4; 
-        flex-basis: 100%; 
+        order: 4;
+        flex-basis: 100%;
         margin: 10px 0 0 0;
         max-width: none;
     }
 
     .lc-nav {
-        display: none; 
+        display: none;
     }
+
     .lc-banner {
-        margin-top: 0; 
+        margin-top: 0;
     }
 
     .lc-banner-slider,
@@ -915,14 +931,16 @@ html, body {
         height: 300px;
         max-height: 40vw;
     }
+
     .lc-product-list,
     .lc-product-list_all {
-        padding: 0 15px; 
+        padding: 0 15px;
     }
 
     .lc-category-list {
         padding: 0 15px;
     }
+
     .footer-grid {
         grid-template-columns: 1fr 1fr 1fr;
     }
@@ -930,8 +948,9 @@ html, body {
 
 @media (max-width: 768px) {
     .lc-logo img {
-        height: 40px; 
+        height: 40px;
     }
+
     .lc-banner-slider,
     .lc-banner-slider img {
         height: 200px;
@@ -942,6 +961,7 @@ html, body {
         width: 10px;
         height: 10px;
     }
+
     .lc-services {
         gap: 8px;
         padding: 10px 0;
@@ -952,27 +972,28 @@ html, body {
         min-width: 90px;
         flex: 1 1 90px;
     }
+
     .lc-category-list,
     .lc-product-list,
     .lc-product-list_all {
-        display: flex; 
-        flex-wrap: wrap; 
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
-        gap: 10px; 
-        padding: 0 10px; 
+        gap: 10px;
+        padding: 0 10px;
         flex-basis: calc(50% - 5px);
-        flex-grow: 1; 
-        flex-shrink: 1; 
+        flex-grow: 1;
+        flex-shrink: 1;
         box-sizing: border-box;
     }
-.lc-category-item,
-.lc-product-card {
-    flex-basis: calc(50% - 5px);
-    
-    flex-grow: 1;        
-    flex-shrink: 1;       
-    box-sizing: border-box; 
-}
+
+    .lc-category-item,
+    .lc-product-card {
+        flex-basis: calc(50% - 5px);
+        flex-grow: 1;
+        flex-shrink: 1;
+        box-sizing: border-box;
+    }
 
     .footer-grid {
         grid-template-columns: 1fr 1fr;
@@ -1000,19 +1021,21 @@ html, body {
     .mobile-menu-toggle {
         padding-left: 0;
     }
+
     .lc-banner-slider,
     .lc-banner-slider img {
         height: 160px;
         max-height: 45vw;
     }
+
     .lc-category-item img,
     .lc-product-card img {
-        height: 80px; 
+        height: 80px;
     }
 
     .lc-product-card h3 {
         font-size: 0.95em;
-        height: 3em; 
+        height: 3em;
     }
 
     .lc-product-card .price {
@@ -1023,6 +1046,7 @@ html, body {
         font-size: 0.9em;
         padding: 6px 14px;
     }
+
     .footer-grid {
         grid-template-columns: 1fr;
     }
@@ -1035,33 +1059,35 @@ html, body {
         text-align: left;
     }
 }
+
 .mobile-menu-nav .mobile-menu-toggle-sub {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     cursor: pointer;
 }
 
     .mobile-menu-nav .mobile-menu-toggle-sub .fa-chevron-down {
-        font-size: 0.8em; 
+        font-size: 0.8em;
         color: #888;
         transition: transform 0.3s ease;
-        padding: 0 10px; 
+        padding: 0 10px;
     }
 
 .mobile-menu-nav .mobile-submenu {
     list-style: none;
     padding: 0;
     margin: 0;
-    background-color: #f8f9fa; 
-    max-height: 0; 
+    background-color: #f8f9fa;
+    max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease-out;
 }
+
     .mobile-menu-nav .mobile-submenu li a {
-        padding-left: 40px; 
+        padding-left: 40px;
         font-size: 0.95rem;
         font-weight: 400;
         color: #333;
@@ -1071,15 +1097,18 @@ html, body {
     .mobile-menu-nav .mobile-submenu li:last-child a {
         border-bottom: none;
     }
+
 .mobile-menu-nav li.mobile-menu-dropdown.is-open .mobile-submenu {
-    max-height: 500px; 
+    max-height: 500px;
     border-top: 1px solid #f0f0f0;
 }
+
 .mobile-menu-nav li.mobile-menu-dropdown.is-open .mobile-menu-toggle-sub .fa-chevron-down {
     transform: rotate(180deg);
 }
+
 .mobile-menu-nav li.mobile-menu-dropdown.is-open > .mobile-menu-toggle-sub {
     background-color: #f1f1f1;
-    color: #00529b; 
+    color: #00529b;
     font-weight: 600;
 }

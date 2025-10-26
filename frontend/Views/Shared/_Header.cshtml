@@ -64,72 +64,149 @@
 
                         <div class="mega-menu-column mega-menu-sidebar">
                             <h3>Dụng cụ y tế</h3>
-                            <ul>
-                                <li class="active"><a href="#">Dụng cụ theo dõi</a></li>
-                                <li><a href="#">Dụng cụ sơ cứu</a></li>
-                                <li><a href="#">Khẩu trang</a></li>
+                            <ul id="mega-menu-nav">
+                                <li class="active" data-target="panel-theo-doi"><a href="#">Dụng cụ theo dõi</a></li>
+                                <li data-target="panel-so-cuu"><a href="#">Dụng cụ sơ cứu</a></li>
+                                <li data-target="panel-khau-trang"><a href="#">Khẩu trang</a></li>
                             </ul>
                         </div>
 
                         <div class="mega-menu-column mega-menu-main">
 
-                            <div class="category-grid">
-                                <a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/dung_cu_ve_sinh_mui_level_3_b9c09af6cf.png" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
-                                </a>
-                                <a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/kim_cac_loai_level_3_a5f2b837b1.png" alt="Icon"> <span>Kim các loại</span>
-                                </a>
-                                <a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
-                                </a>
-                                <a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
-                                </a>
-                                <a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
-                                </a>
-                                <a href="#" class="category-card">
-                                    <img src="https://nhathuoclongchau.com.vn/estore-images/icon-service/show-more-dot-icon.svg" alt="Icon"> <span>Xem thêm</span>
-                                </a>
-                            </div>
-
-                            <div class="best-sellers">
-                                <h3>Bán chạy nhất <a href="#" class="view-all">Xem tất cả ></a></h3>
-
-                                <div class="product-grid">
-                                    <div class="product-item">
-                                        <a href="#">
-                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/00032497_dau_goi_tri_gau_nazorel_shampoo_ketoconazol_50ml_6253_6161_large_ef80a935c2.jpg" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
-                                            <p class="product-price">98.000đ <small>/ Hộp</small></p>
-                                        </a>
-                                    </div>
-                                    <div class="product-item">
-                                        <a href="#">
-                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09713_db68a280be.jpg" alt="Product"> <p class="product-name">Xịt thơm miệng Aro Mouth 10ml Hgsg...</p>
-                                            <p class="product-price">60.000đ <small>/ Hộp</small></p>
-                                        </a>
-                                    </div>
-                                    <div class="product-item">
-                                        <a href="#">
-                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_04572_d319c1a099.jpg" alt="Product"> <p class="product-name">Xịt mũi Otosan Nasal Spray Baby 20ml...</p>
-                                            <p class="product-price">295.000đ <small>/ Hộp</small></p>
-                                        </a>
-                                    </div>
-                                    <div class="product-item">
-                                        <a href="#">
-                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_01815_0076bc598d.jpg" alt="Product"> <p class="product-name">Xịt mũi muối biển Nano Sea Plus 75ml...</p>
-                                            <p class="product-price">30.000đ <small>/ Hộp</small></p>
-                                        </a>
-                                    </div>
-                                    <div class="product-item">
-                                        <a href="#">
-                                            <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09972_e1ad800300.jpg" alt="Product"> <p class="product-name">Gel Voltogel Mass giảm đau cơ, đau vai...</p>
-                                            <p class="product-price">110.000đ <small>/ Hộp</small></p>
-                                        </a>
+                            <div id="panel-theo-doi" class="mega-menu-panel active">
+                                <div class="category-grid">
+                                    <a href="#" class="category-card">
+                                        <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/dung_cu_ve_sinh_mui_level_3_b9c09af6cf.png" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
+                                    </a>
+                                    <a href="#" class="category-card">
+                                        <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/kim_cac_loai_level_3_a5f2b837b1.png" alt="Icon"> <span>Kim các loại</span>
+                                    </a>
+                                    <a href="#" class="category-card">
+                                        <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
+                                    </a>
+                                    @*<a href="#" class="category-card">
+                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
+                            </a>*@
+                                    <a href="#" class="category-card">
+                                        <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
+                                    </a>
+                                    <a href="#" class="category-card">
+                                        <img src="https://nhathuoclongchau.com.vn/estore-images/icon-service/show-more-dot-icon.svg" alt="Icon"> <span>Xem thêm</span>
+                                    </a>
+                                </div>
+                                <div class="best-sellers">
+                                    <h3>Bán chạy nhất <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <div class="product-grid">
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/00032497_dau_goi_tri_gau_nazorel_shampoo_ketoconazol_50ml_6253_6161_large_ef80a935c2.jpg" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
+                                                <p class="product-price">98.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09713_db68a280be.jpg" alt="Product"> <p class="product-name">Xịt thơm miệng Aro Mouth 10ml Hgsg...</p>
+                                                <p class="product-price">60.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_04572_d319c1a099.jpg" alt="Product"> <p class="product-name">Xịt mũi Otosan Nasal Spray Baby 20ml...</p>
+                                                <p class="product-price">295.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_01815_0076bc598d.jpg" alt="Product"> <p class="product-name">Xịt mũi muối biển Nano Sea Plus 75ml...</p>
+                                                <p class="product-price">30.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/DSC_09972_e1ad800300.jpg" alt="Product"> <p class="product-name">Gel Voltogel Mass giảm đau cơ, đau vai...</p>
+                                                <p class="product-price">110.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="panel-so-cuu" class="mega-menu-panel">
+                                <div class="best-sellers">
+                                    <h3>Dụng cụ sơ cứu  <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <div class="product-grid">
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+1" alt="Product"> <p class="product-name">Băng y tế cá nhân Urgo...</p>
+                                                <p class="product-price">15.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+2" alt="Product"> <p class="product-name">Nước muối sinh lý Natri Clorid...</p>
+                                                <p class="product-price">5.000đ <small>/ Chai</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+3" alt="Product"> <p class="product-name">Gạc y tế tiệt trùng 4 lớp...</p>
+                                                <p class="product-price">25.000đ <small>/ Gói</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+4" alt="Product"> <p class="product-name">Dung dịch sát khuẩn Povidine...</p>
+                                                <p class="product-price">35.000đ <small>/ Chai</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+5" alt="Product"> <p class="product-name">Băng cuộn thun co giãn...</p>
+                                                <p class="product-price">45.000đ <small>/ Cuộn</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="panel-khau-trang" class="mega-menu-panel">
+                                <div class="best-sellers">
+                                    <h3>Khẩu trang <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <div class="product-grid">
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+1" alt="Product"> <p class="product-name">Khẩu trang y tế 4 lớp kháng khuẩn...</p>
+                                                <p class="product-price">35.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+2" alt="Product"> <p class="product-name">Khẩu trang N95 chống bụi mịn...</p>
+                                                <p class="product-price">150.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+3" alt="Product"> <p class="product-name">Khẩu trang vải kháng khuẩn...</p>
+                                                <p class="product-price">15.000đ <small>/ Cái</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+4" alt="Product"> <p class="product-name">Khẩu trang trẻ em 3D...</p>
+                                                <p class="product-price">40.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                        <div class="product-item">
+                                            <a href="#">
+                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+5" alt="Product"> <p class="product-name">Khẩu trang than hoạt tính...</p>
+                                                <p class="product-price">55.000đ <small>/ Hộp</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -156,8 +233,8 @@
 
     <nav class="mobile-menu-nav">
         <ul>
-            <li><a href="/">Trang chủ</a></li>
-            <li><a href="/thuoc">Thuốc</a></li>
+            <li><a href="/TrangChu/LongChauClone">Trang chủ</a></li>
+            <li><a href="/TrangChu/Thuoc">Thuốc</a></li>
 
             <li class="mobile-menu-dropdown">
                 <a class="mobile-menu-toggle-sub">
@@ -167,13 +244,13 @@
                 <ul class="mobile-submenu">
                     <li><a href="#">Dụng cụ theo dõi</a></li>
                     <li><a href="#">Dụng cụ sơ cứu</a></li>
-                    <li><a href="#">Khẩu trang</a></li>
+                    <li><a href="/TrangChu/KhauTrang">Khẩu trang</a></li>
                 </ul>
             </li>
-            <li><a href="/tiem-chung">Tiêm chủng</a></li>
-            <li><a href="/benh-ly">Bệnh lý</a></li>
-            <li><a href="/goc-suc-khoe">Góc sức khỏe</a></li>
-            <li><a href="/he-thong-nha-thuoc">Hệ thống nhà thuốc</a></li>
+            <li><a href="/TrangChu/TiemChung">Tiêm chủng</a></li>
+            <li><a href="/TrangChu/BenhLy">Bệnh lý</a></li>
+            <li><a href="/TrangChu/GocSucKhoe">Góc sức khỏe</a></li>
+            <li><a href="/TrangChu/HeThongNhaThuoc">Hệ thống nhà thuốc</a></li>
         </ul>
     </nav>
 </div>
@@ -212,4 +289,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('#mega-menu-nav li');
+
+            navItems.forEach(function(item) {
+                // Use 'mouseenter' for hover-in effect
+                item.addEventListener('mouseenter', function() {
+                    // 1. Remove 'active' from all sidebar items
+                    navItems.forEach(function(i) {
+                        i.classList.remove('active');
+                    });
+
+                    // 2. Add 'active' to the currently hovered item
+                    this.classList.add('active');
+
+                    // 3. Get the target panel's ID from data-target
+                    const targetId = this.getAttribute('data-target');
+
+                    // 4. Hide all content panels
+                    const panels = document.querySelectorAll('.mega-menu-panel');
+                    panels.forEach(function(panel) {
+                        panel.classList.remove('active');
+                    });
+
+                    // 5. Show the target content panel
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
 </script>
