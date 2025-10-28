@@ -1,4 +1,4 @@
-@* Views/Shared/_Header.cshtml *@
+﻿@* Views/Shared/_Header.cshtml *@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
 <header id="lc-header">
@@ -75,7 +75,7 @@
 
                             <div id="panel-theo-doi" class="mega-menu-panel active">
                                 <div class="category-grid">
-                                    <a href="/TrangChu/TheoDoi" class="category-card">
+                                    <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/dung_cu_ve_sinh_mui_level_3_b9c09af6cf.png" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
                                     </a>
                                     <a href="#" class="category-card">
@@ -83,11 +83,14 @@
                                     </a>
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
-                                    </a>                                  
+                                    </a>
+                                    @*<a href="#" class="category-card">
+                                            <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
+                                        </a>*@
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
                                     </a>
-                                    <a href="/TrangChu/TheoDoi" class="category-card">
+                                    <a href="#" class="category-card">
                                         <img src="https://nhathuoclongchau.com.vn/estore-images/icon-service/show-more-dot-icon.svg" alt="Icon"> <span>Xem thêm</span>
                                     </a>
                                 </div>
@@ -95,7 +98,7 @@
                                     <h3>Bán chạy nhất <a href="/TrangChu/TheoDoi" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="/TrangChu/TheoDoi">
+                                            <a href="#">
                                                 <img src="https://cms-prod.s3-sgn09.fptcloud.com/00032497_dau_goi_tri_gau_nazorel_shampoo_ketoconazol_50ml_6253_6161_large_ef80a935c2.jpg" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
                                                 <p class="product-price">98.000đ <small>/ Hộp</small></p>
                                             </a>
@@ -133,7 +136,7 @@
                                     <h3>Dụng cụ sơ cứu  <a href="/TrangChu/SoCuu" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="/TrangChu/SoCuu">
+                                            <a href="#">
                                                 <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00010367_bcn_urgo_durable_102m_5250_62b5_large_c16c5a052e.jpg" alt="Product"> <p class="product-name">Băng y tế cá nhân Urgo...</p>
                                                 <p class="product-price">15.000đ <small>/ Hộp</small></p>
                                             </a>
@@ -171,7 +174,7 @@
                                     <h3>Khẩu trang <a href="/TrangChu/KhauTrang" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="/TrangChu/KhauTrang">
+                                            <a href="#">
                                                 <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032687_khau_trang_y_te_cao_cap_vinh_tien_4d_3hmask_hop_20_cai_mau_trang_6390_618b_large_c0b2cac16f.jpg" alt="Product"> <p class="product-name">Khẩu trang y tế 4 lớp kháng khuẩn...</p>
                                                 <p class="product-price">35.000đ <small>/ Hộp</small></p>
                                             </a>
@@ -252,68 +255,68 @@
     </nav>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('mobileMenuToggle');
-    const closeBtn = document.getElementById('mobileMenuClose');
-    const overlay = document.getElementById('mobileMenuOverlay');
-    const drawer = document.getElementById('mobileMenuDrawer');
-    const body = document.body;
-    function openMenu() {
-        if (drawer) drawer.classList.add('is-open');
-        if (overlay) overlay.classList.add('is-open');
-        body.style.overflow = 'hidden';
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('mobileMenuToggle');
+        const closeBtn = document.getElementById('mobileMenuClose');
+        const overlay = document.getElementById('mobileMenuOverlay');
+        const drawer = document.getElementById('mobileMenuDrawer');
+        const body = document.body;
+        function openMenu() {
+            if (drawer) drawer.classList.add('is-open');
+            if (overlay) overlay.classList.add('is-open');
+            body.style.overflow = 'hidden';
+        }
 
-    function closeMenu() {
-        if (drawer) drawer.classList.remove('is-open');
-        if (overlay) overlay.classList.remove('is-open');
-        body.style.overflow = '';
-    }
+        function closeMenu() {
+            if (drawer) drawer.classList.remove('is-open');
+            if (overlay) overlay.classList.remove('is-open');
+            body.style.overflow = '';
+        }
 
-    if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
-    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-    if (overlay) overlay.addEventListener('click', closeMenu);
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
 
-    const subMenuToggles = document.querySelectorAll('.mobile-menu-toggle-sub');
+        const subMenuToggles = document.querySelectorAll('.mobile-menu-toggle-sub');
 
-    subMenuToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const parentLi = this.closest('.mobile-menu-dropdown');
-            if (parentLi) {
-                parentLi.classList.toggle('is-open');
-            }
-        });
-    });
-});
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-            const navItems = document.querySelectorAll('#mega-menu-nav li');
-
-            navItems.forEach(function(item) {
-                // Use 'mouseenter' for hover-in effect
-                item.addEventListener('mouseenter', function() {
-                    // 1. Remove 'active' from all sidebar items
-                    navItems.forEach(function(i) {
-                        i.classList.remove('active');
-                    });
-
-                    // 2. Add 'active' to the currently hovered item
-                    this.classList.add('active');
-
-                    // 3. Get the target panel's ID from data-target
-                    const targetId = this.getAttribute('data-target');
-
-                    // 4. Hide all content panels
-                    const panels = document.querySelectorAll('.mega-menu-panel');
-                    panels.forEach(function(panel) {
-                        panel.classList.remove('active');
-                    });
-
-                    // 5. Show the target content panel
-                    document.getElementById(targetId).classList.add('active');
-                });
+        subMenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                const parentLi = this.closest('.mobile-menu-dropdown');
+                if (parentLi) {
+                    parentLi.classList.toggle('is-open');
+                }
             });
         });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const navItems = document.querySelectorAll('#mega-menu-nav li');
+
+        navItems.forEach(function (item) {
+            // Use 'mouseenter' for hover-in effect
+            item.addEventListener('mouseenter', function () {
+                // 1. Remove 'active' from all sidebar items
+                navItems.forEach(function (i) {
+                    i.classList.remove('active');
+                });
+
+                // 2. Add 'active' to the currently hovered item
+                this.classList.add('active');
+
+                // 3. Get the target panel's ID from data-target
+                const targetId = this.getAttribute('data-target');
+
+                // 4. Hide all content panels
+                const panels = document.querySelectorAll('.mega-menu-panel');
+                panels.forEach(function (panel) {
+                    panel.classList.remove('active');
+                });
+
+                // 5. Show the target content panel
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    });
 </script>
