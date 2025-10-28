@@ -1,4 +1,4 @@
-﻿@* Views/Shared/_Header.cshtml *@
+@* Views/Shared/_Header.cshtml *@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
 <header id="lc-header">
@@ -65,9 +65,9 @@
                         <div class="mega-menu-column mega-menu-sidebar">
                             <h3>Dụng cụ y tế</h3>
                             <ul id="mega-menu-nav">
-                                <li class="active" data-target="panel-theo-doi"><a href="#">Dụng cụ theo dõi</a></li>
-                                <li data-target="panel-so-cuu"><a href="#">Dụng cụ sơ cứu</a></li>
-                                <li data-target="panel-khau-trang"><a href="#">Khẩu trang</a></li>
+                                <li class="active" data-target="panel-theo-doi"><a href="/TrangChu/TheoDoi">Dụng cụ theo dõi</a></li>
+                                <li data-target="panel-so-cuu"><a href="/TrangChu/SoCuu">Dụng cụ sơ cứu</a></li>
+                                <li data-target="panel-khau-trang"><a href="/TrangChu/KhauTrang">Khẩu trang</a></li>
                             </ul>
                         </div>
 
@@ -75,7 +75,7 @@
 
                             <div id="panel-theo-doi" class="mega-menu-panel active">
                                 <div class="category-grid">
-                                    <a href="#" class="category-card">
+                                    <a href="/TrangChu/TheoDoi" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/dung_cu_ve_sinh_mui_level_3_b9c09af6cf.png" alt="Icon"> <span>Dụng cụ vệ sinh mũi</span>
                                     </a>
                                     <a href="#" class="category-card">
@@ -83,22 +83,19 @@
                                     </a>
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
-                                    </a>
-                                    @*<a href="#" class="category-card">
-                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
-                            </a>*@
+                                    </a>                                  
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
                                     </a>
-                                    <a href="#" class="category-card">
+                                    <a href="/TrangChu/TheoDoi" class="category-card">
                                         <img src="https://nhathuoclongchau.com.vn/estore-images/icon-service/show-more-dot-icon.svg" alt="Icon"> <span>Xem thêm</span>
                                     </a>
                                 </div>
                                 <div class="best-sellers">
-                                    <h3>Bán chạy nhất <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <h3>Bán chạy nhất <a href="/TrangChu/TheoDoi" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="#">
+                                            <a href="/TrangChu/TheoDoi">
                                                 <img src="https://cms-prod.s3-sgn09.fptcloud.com/00032497_dau_goi_tri_gau_nazorel_shampoo_ketoconazol_50ml_6253_6161_large_ef80a935c2.jpg" alt="Product"> <p class="product-name">DẦU GỘI TRỊ GÀU NAZOREL SHAMPOO...</p>
                                                 <p class="product-price">98.000đ <small>/ Hộp</small></p>
                                             </a>
@@ -133,35 +130,35 @@
 
                             <div id="panel-so-cuu" class="mega-menu-panel">
                                 <div class="best-sellers">
-                                    <h3>Dụng cụ sơ cứu  <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <h3>Dụng cụ sơ cứu  <a href="/TrangChu/SoCuu" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+1" alt="Product"> <p class="product-name">Băng y tế cá nhân Urgo...</p>
+                                            <a href="/TrangChu/SoCuu">
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00010367_bcn_urgo_durable_102m_5250_62b5_large_c16c5a052e.jpg" alt="Product"> <p class="product-name">Băng y tế cá nhân Urgo...</p>
                                                 <p class="product-price">15.000đ <small>/ Hộp</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+2" alt="Product"> <p class="product-name">Nước muối sinh lý Natri Clorid...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00502891_natri_clorid_09_vinh_phuc_smiles_600ml_nuoc_muoi_1101_6396_large_73b821fd58.jpg" alt="Product"> <p class="product-name">Nước muối sinh lý Natri Clorid...</p>
                                                 <p class="product-price">5.000đ <small>/ Chai</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+3" alt="Product"> <p class="product-name">Gạc y tế tiệt trùng 4 lớp...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00010405_gac_bao_thach_nho_5cmx65cmx12_lop_7337_62be_large_e5c6d8a39c.jpg" alt="Product"> <p class="product-name">Gạc y tế tiệt trùng 4 lớp...</p>
                                                 <p class="product-price">25.000đ <small>/ Gói</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+4" alt="Product"> <p class="product-name">Dung dịch sát khuẩn Povidine...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/IMG_3385_ea2a1c1ab0.jpg" alt="Product"> <p class="product-name">Dung dịch sát khuẩn Povidine...</p>
                                                 <p class="product-price">35.000đ <small>/ Chai</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Sơ+Cứu+5" alt="Product"> <p class="product-name">Băng cuộn thun co giãn...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00007685_urgo_crepe_10x45_8421_5caa_large_15cf7799a5.JPG" alt="Product"> <p class="product-name">Băng cuộn thun co giãn...</p>
                                                 <p class="product-price">45.000đ <small>/ Cuộn</small></p>
                                             </a>
                                         </div>
@@ -171,35 +168,35 @@
 
                             <div id="panel-khau-trang" class="mega-menu-panel">
                                 <div class="best-sellers">
-                                    <h3>Khẩu trang <a href="#" class="view-all">Xem tất cả ></a></h3>
+                                    <h3>Khẩu trang <a href="/TrangChu/KhauTrang" class="view-all">Xem tất cả ></a></h3>
                                     <div class="product-grid">
                                         <div class="product-item">
-                                            <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+1" alt="Product"> <p class="product-name">Khẩu trang y tế 4 lớp kháng khuẩn...</p>
+                                            <a href="/TrangChu/KhauTrang">
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032687_khau_trang_y_te_cao_cap_vinh_tien_4d_3hmask_hop_20_cai_mau_trang_6390_618b_large_c0b2cac16f.jpg" alt="Product"> <p class="product-name">Khẩu trang y tế 4 lớp kháng khuẩn...</p>
                                                 <p class="product-price">35.000đ <small>/ Hộp</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+2" alt="Product"> <p class="product-name">Khẩu trang N95 chống bụi mịn...</p>
+                                                <img src="https://cms-prod.s3-sgn09.fptcloud.com/00029787_khau_trang_hamita_n95_hop_10_cai_5585_6058_large_11b17ae97f.JPG" alt="Product"> <p class="product-name">Khẩu trang N95 chống bụi mịn...</p>
                                                 <p class="product-price">150.000đ <small>/ Hộp</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+3" alt="Product"> <p class="product-name">Khẩu trang vải kháng khuẩn...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/636x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00013693_khau_trang_kissy_l_4688_6332_large_2b1eeb8a80.jpg" alt="Product"> <p class="product-name">Khẩu trang vải kháng khuẩn...</p>
                                                 <p class="product-price">15.000đ <small>/ Cái</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+4" alt="Product"> <p class="product-name">Khẩu trang trẻ em 3D...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/IMG_0158_f0aca2eb4f.jpg" alt="Product"> <p class="product-name">Khẩu trang trẻ em 3D...</p>
                                                 <p class="product-price">40.000đ <small>/ Hộp</small></p>
                                             </a>
                                         </div>
                                         <div class="product-item">
                                             <a href="#">
-                                                <img src="https://placeholder.com/100x100?text=SP+Khẩu+Trang+5" alt="Product"> <p class="product-name">Khẩu trang than hoạt tính...</p>
+                                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00029008_khau_trang_than_hoat_tinh_hamita_h80_hop_50_cai_6822_5fcd_large_c4f20a5741.JPG" alt="Product"> <p class="product-name">Khẩu trang than hoạt tính...</p>
                                                 <p class="product-price">55.000đ <small>/ Hộp</small></p>
                                             </a>
                                         </div>
@@ -242,8 +239,8 @@
                     <i class="fas fa-chevron-down"></i>
                 </a>
                 <ul class="mobile-submenu">
-                    <li><a href="#">Dụng cụ theo dõi</a></li>
-                    <li><a href="#">Dụng cụ sơ cứu</a></li>
+                    <li><a href="/TrangChu/TheoDoi">Dụng cụ theo dõi</a></li>
+                    <li><a href="/TrangChu/SoCuu">Dụng cụ sơ cứu</a></li>
                     <li><a href="/TrangChu/KhauTrang">Khẩu trang</a></li>
                 </ul>
             </li>
