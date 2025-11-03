@@ -9,7 +9,7 @@
     margin-bottom: 18px;
     margin-top: 80px;
     max-height: 529.3px;
-    margin-inline: -24.5%;
+    margin-inline: -10.8%;
     /* padding: 18px 0 10px 0; */
 }
 .container_1 {
@@ -737,7 +737,7 @@ html, body {
     }
 
 .mobile-menu-toggle {
-    display: none;
+    display:none;
     background: none;
     border: none;
     cursor: pointer;
@@ -881,6 +881,12 @@ html, body {
         max-height: none;
         position: static;
     }
+    .mobile-menu-toggle{
+        display:block;
+    }
+    .background-image {
+        top: 120px;
+    }
 
     .lc-header-top.container {
         flex-wrap: wrap;
@@ -888,10 +894,10 @@ html, body {
         gap: 10px;
         justify-content: space-between;
     }
-
-    .mobile-menu-toggle {
-        display: block;
-        order: 1;
+    .lc-categories_banner {
+        margin-inline: 0;
+        margin-top: 15px;
+        max-height:300px;
     }
 
     .lc-logo {
@@ -920,12 +926,18 @@ html, body {
         display: none;
     }
 
-    .lc-banner-slider,
     .lc-banner-slider img {
         height: 300px;
         max-height: 40vw;
     }
-
+    .lc-banner-slider {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .lc-banner-dots{
+        bottom: 470px;
+    }
     .lc-product-list,
     .lc-product-list_all {
         padding: 0 15px;
@@ -944,16 +956,32 @@ html, body {
     .lc-logo img {
         height: 40px;
     }
-
-    .lc-banner-slider,
+    .mobile-menu-toggle {
+        display: block;
+    }
+    .background-image {
+        top: 120px;
+    }
     .lc-banner-slider img {
         height: 200px;
         max-height: 50vw;
     }
-
+    .lc-banner-slider {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .lc-banner-dots {
+        bottom: 575px;
+    }
     .lc-banner-dots .dot {
         width: 10px;
         height: 10px;
+    }
+    .lc-categories_banner {
+        margin-inline: 0;
+        margin-top: 15px;
+        max-height: 200px;
     }
 
     .lc-services {
@@ -998,6 +1026,9 @@ html, body {
     .container {
         padding: 0 10px;
     }
+    .mobile-menu-toggle {
+        display: block;
+    }
 
     .lc-logo img {
         height: 36px;
@@ -1007,7 +1038,14 @@ html, body {
     .lc-search button {
         font-size: 0.9em;
     }
-
+    .lc-categories_banner {
+        margin-inline: 0;
+        margin-top: 15px;
+        max-height: 160px;
+    }
+    .background-image{
+        top:120px;
+    }
     .lc-header-top.container {
         padding: 10px 10px 15px 10px;
     }
@@ -1016,12 +1054,18 @@ html, body {
         padding-left: 0;
     }
 
-    .lc-banner-slider,
     .lc-banner-slider img {
         height: 160px;
         max-height: 45vw;
     }
-
+    .lc-banner-slider {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .lc-banner-dots {
+        bottom: 625px;
+    }
     .lc-category-item img,
     .lc-product-card img {
         height: 80px;
