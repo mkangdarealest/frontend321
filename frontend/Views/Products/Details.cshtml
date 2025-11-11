@@ -1,131 +1,155 @@
 ﻿@model frontend.Models.Product
 
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Admin: Product Details";
+
+    // --- Image Logic ---
+    var image = Model.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? Model.ProductImages.FirstOrDefault();
+    string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Placeholder
 }
 
-<h2>Details</h2>
+@* 1. ADD THIS CSS STYLE BLOCK AT THE TOP *@
+<style>
+    .admin-detail-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-top: 20px;
+        overflow: hidden; /* To contain the rounded corners */
+    }
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    .admin-detail-header {
+        padding: 15px 20px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        .admin-detail-header h2 {
+            margin: 0;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
+    .admin-detail-body {
+        padding: 20px;
+        display: flex;
+        gap: 20px;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
+    .admin-detail-image {
+        flex-shrink: 0;
+        width: 300px;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
+        .admin-detail-image img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
+    .admin-detail-info {
+        flex-grow: 1;
+        min-width: 0; /* Prevents flex items from overflowing */
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
+    /* Style for each field */
+    .admin-detail-field {
+        margin-bottom: 15px;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
+        .admin-detail-field strong {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 3px;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+        .admin-detail-field span {
+            font-size: 1.1rem;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+    /* THIS IS THE FIX FOR LONG TEXT */
+    .long-text-box {
+        max-height: 200px;
+        overflow-y: auto;
+        background: #fdfdfd;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        color: #333;
+        /* This preserves line breaks from your textbox */
+        white-space: pre-wrap;
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+    .admin-detail-actions {
+        padding: 15px 20px;
+        background-color: #f9f9f9;
+        border-top: 1px solid #ddd;
+    }
+</style>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+@* 2. THIS IS THE NEW HTML LAYOUT *@
+<div class="admin-detail-card">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OriginalPrice)
-        </dt>
+    <div class="admin-detail-header">
+        <h2>@Html.DisplayFor(model => model.Name)</h2>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.OriginalPrice)
-        </dd>
+    <div class="admin-detail-body">
+        <div class="admin-detail-image">
+            <img src="@Url.Content(imageUrl)" alt="@Model.Name" />
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
+        <div class="admin-detail-info">
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.Brand)</strong>
+                <span>@Html.DisplayFor(model => model.Brand)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.Price)</strong>
+                <span style="color: #007bff; font-weight: bold;">@Html.DisplayFor(model => model.Price)đ</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ReviewsCount)
-        </dt>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.Rating)</strong>
+                <span>@Html.DisplayFor(model => model.Rating) / 5.0 (@Html.DisplayFor(model => model.ReviewsCount) reviews)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.ReviewsCount)
-        </dd>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.ShortDescription)</strong>
+                <div class="long-text-box" style="max-height: 100px;">
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Ingredients)
-        </dt>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.Description)</strong>
+                <div class="long-text-box">
+                    @* Html.Raw() will render the HTML you saved from the rich text editor *@
+                    @Html.Raw(Model.Description)
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Ingredients)
-        </dd>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.Ingredients)</strong>
+                <div class="long-text-box">
+                    @Html.DisplayFor(model => model.Ingredients)
+                </div>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UsageInfo)
-        </dt>
+            <div class="admin-detail-field">
+                <strong>@Html.DisplayNameFor(model => model.UsageInfo)</strong>
+                <div class="long-text-box">
+                    @Html.DisplayFor(model => model.UsageInfo)
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.UsageInfo)
-        </dd>
+    <div class="admin-detail-actions">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Origin)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Origin)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Packaging)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Packaging)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

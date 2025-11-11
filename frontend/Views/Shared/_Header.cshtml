@@ -14,30 +14,27 @@
             </a>
         </div>
         <div class="lc-search">
-            @{
-                var currentQuery = "";
-                try
-                {
-                    var httpReq = ViewContext?.HttpContext?.Request;
-                    if (httpReq?.QueryString != null)
-                    {
-                        currentQuery = httpReq.QueryString["q"] ?? "";
-                    }
-                }
-                catch
-                {
-                    currentQuery = "";
-                }
-            }
             <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
-                <input type="text" name="q" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." value="@currentQuery" />
+                <input type="text" name="q" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
                 <button type="submit"><span>🔍</span></button>
             </form>
         </div>
         <div class="lc-user">
-            <a href="/TrangChu/Login" class="lc-login">Đăng nhập</a>
-            <span>|</span>
-            <a href="/TrangChu/Register" class="lc-register">Đăng ký</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="welcome-message">Chào, @User.Identity.Name!</span>
+
+                using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+                }
+            }
+            else
+            {
+                @Html.ActionLink("Đăng nhập", "Login", "TrangChu")
+                @Html.ActionLink("Đăng ký", "Register", "TrangChu")
+            }
         </div>
         <div class="lc-cart">
             <a href="/TrangChu/GioHang" id="cart-icon">

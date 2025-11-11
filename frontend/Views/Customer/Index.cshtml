@@ -1,29 +1,32 @@
 ﻿@model frontend.Models.Customer
 @{
-    ViewBag.Title = "Đăng ký tài khoản";
+    ViewBag.Title = "Thông tin tài khoản";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link href="~/css/register.css" rel="stylesheet" type="text/css" />
 
-<div class="register-container"style="padding-top: 65px; padding-bottom: 20px;">
+<div class="register-container">
     <h2>@ViewBag.Title</h2>
+    <p>Chỉnh sửa thông tin cá nhân của bạn.</p>
 
-    @using (Html.BeginForm("Register", "TrangChu", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { role = "form" }))
     {
         @Html.AntiForgeryToken()
 
         <div class="register-form">
             @Html.ValidationSummary("", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserName, "Tên đăng nhập *")
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            </div>
+            @* We add this to make sure we update the correct user *@
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.UserName)
+            @Html.HiddenFor(m => m.Password)
+            @Html.HiddenFor(m => m.CreatedAt)
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Password, "Mật khẩu *")
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.LabelFor(m => m.UserName, "Tên đăng nhập")
+                @* We make the username read-only so they can't change it *@
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly" })
             </div>
 
             <div class="form-group">
@@ -52,7 +55,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Tạo tài khoản" class="btn btn-primary" />
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
             </div>
         </div>
     }

@@ -1,4 +1,5 @@
-﻿﻿@{
+﻿@model IEnumerable<frontend.Models.Product>
+@{
     ViewBag.Title = "Long Châu Clone";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,11 +19,11 @@
             <img src="~/hinh/Banner_1.png" alt="Banner 1" class="active" />
             <img src="~/hinh/Banner_2.png" alt="Banner 2" />
             <img src="~/hinh/Banner_3.jpg" alt="Banner 3" />
-        </div>
-        <div class="lc-banner-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <div class="lc-banner-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
     </div>
 </section>
@@ -96,204 +97,40 @@
 
 <section class="lc-products container">
     <h2>Tất cả sản phẩm</h2>
-    <div class="lc-product-list_all">
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/VitaminC">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/VitaminC.jpg" alt="Vitamin C 500mg" />
-                </div>
-            </a>
-            <h3>Vitamin C 500mg</h3>
-            <p class="price">120.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/MultiVitamin">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/MultiVitamin.jpg" alt="Multi Vitamin" />
-                </div>
-            </a>
-            <h3>Multi Vitamin</h3>
-            <p class="price">250.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Magnesium">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Magnesium.jpg" alt="Magnesium Complex" />
-                </div>
-            </a>
-            <h3>Magnesium Complex</h3>
-            <p class="price">195.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Omega3">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Omega3.png" alt="Omega 3 1000mg" />
-                </div>
-            </a>
-            <h3>Omega 3 1000mg</h3>
-            <p class="price">210.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/CoenzymeQ10">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/CoQ10.jpg" alt="Coenzyme Q10" />
-                </div>
-            </a>
-            <h3>Coenzyme Q10</h3>
-            <p class="price">350.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Collagen">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Collagen.jpg" alt="Collagen Thủy Phân" />
-                </div>
-            </a>
-            <h3>Collagen Thủy Phân</h3>
-            <p class="price">500.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Biotin">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Biotin.jpg" alt="Biotin Max" />
-                </div>
-            </a>
-            <h3>Biotin Max</h3>
-            <p class="price">180.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Ginkgo">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Ginkgo.jpg" alt="Ginkgo Biloba" />
-                </div>
-            </a>
-            <h3>Ginkgo Biloba</h3>
-            <p class="price">280.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Paracetamol" class="product-link">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Paracetamol.jpg" alt="Paracetamol 500mg" />
-                </div>
-            </a>
-            <h3>Paracetamol 500mg</h3>
-            <p class="price">15.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/ThuocNhoMat" class="product-link">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Rohto.jpg" alt="Thuốc nhỏ mắt V.Rohto" />
-                </div>
-            </a>
-            <h3>Thuốc nhỏ mắt V.Rohto</h3>
-            <p class="price">55.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Phosphalugel" class="product-link">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Phosphalugel.jpg" alt="Gói dạ dày Phosphalugel" />
-                </div>
-            </a>
-            <h3>Gói dạ dày Phosphalugel</h3>
-            <p class="price">150.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Amoxicillin" class="product-link">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Amoxicillin-500mg.png" alt="Kháng sinh Amoxicillin 500mg" />
-                </div>
-            </a>
-            <h3>Kháng sinh Amoxicillin 500mg</h3>
-            <p class="price">35.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/NMNPremium21600">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/NMNPremium21600.jpg" alt="NMN Premium 21600 (60 viên)" />
-                </div>
-            </a>
-            <h3>NMN Premium 21600 (60 viên)</h3>
-            <p class="price">5.785.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+    <div class="lc-product-list">
+        @foreach (var product in Model)
+        {
+            var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary);
 
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/SiroLabebe">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/SiroLabebe.jpg" alt="Siro Bổ Phế Lábebé 120ml" />
-                </div>
-            </a>
-            <h3>Siro Bổ Phế Lábebé 120ml</h3>
-            <p class="price">60.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+            // If no image is marked "Primary", just get the first one in the list
+            if (image == null)
+            {
+                image = product.ProductImages.FirstOrDefault();
+            }
 
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/MultiVitasLabWell">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/MultiVitasLabWell.jpg" alt="Multi Vitas Lab Well (60 viên)" />
-                </div>
-            </a>
-            <h3>Multi Vitas Lab Well (60 viên)</h3>
-            <p class="price">272.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+            // If the product has an image, use its URL.
+            // Otherwise, use a placeholder.
+            string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+            @* --- END: Image logic --- *@
+            //slug product
+            <div class="lc-product-card">
+                <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
 
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/BrauerDHA">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/BrauerDHA.jpg" alt="Brauer Baby & Kids Ultra Pure DHA (60 viên)" />
-                </div>
-            </a>
-            <h3>Brauer Baby & Kids Ultra Pure DHA</h3>
-            <p class="price">388.800đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+                    <div class="lc-product-image-container">
+                        <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                    </div>
+                </a>
 
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/JexMax">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/JexMax.jpg" alt="Viên uống bổ xương khớp Jex Max (60 viên)" />
-                </div>
-            </a>
-            <h3>Jex Max (60 viên)</h3>
-            <p class="price">399.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+                <h3>@product.Name</h3>
 
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Osla">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/Osla.jpg" alt="Thuốc nhỏ mắt Osla (10ml)" />
-                </div>
-            </a>
-            <h3>Thuốc nhỏ mắt Osla (10ml)</h3>
-            <p class="price">25.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/CanxiDHC">
-                <div class="lc-product-image-container">
-                    <img src="~/hinh/CanxiDHC.jpg" alt="Viên uống bổ sung Canxi DHC (60 viên)" />
-                </div>
-            </a>
-            <h3>Canxi DHC (60 viên)</h3>
-            <p class="price">145.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
+                @* Added a check in case Price is null *@
+                <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Contact us")</p>
+                <button class="btn-buy">Chọn mua</button>
+            </div>
+        }
     </div>
+
+
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

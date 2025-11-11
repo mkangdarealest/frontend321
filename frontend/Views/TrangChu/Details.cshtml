@@ -1,0 +1,66 @@
+﻿@model frontend.Models.Product
+@{
+    // This is the "controller" part of your view.
+    // We prepare all the data here to keep the HTML clean.
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.Name;
+
+    // 1. Get the Image
+    var image = Model.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? Model.ProductImages.FirstOrDefault();
+    string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Set a default placeholder
+
+    // 2. Format Prices
+    string price = Model.Price.HasValue ? Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
+    string originalPrice = Model.OriginalPrice.HasValue ? Model.OriginalPrice.Value.ToString("N0") + "đ" : "";
+
+    // 3. Format Rating
+    string rating = Model.Rating.HasValue ? Model.Rating.Value.ToString("0.0") : "N/A";
+    int reviews = Model.ReviewsCount ?? 0;
+}
+
+@* Link to your CSS file *@
+<link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
+
+@*
+    This HTML structure is based on your provided code,
+    but now it's connected to your @Model from the database.
+*@
+<div class="product-container">
+    <div class="product-image">
+        <img src="@Url.Content(imageUrl)" alt="@Model.Name" />
+    </div>
+
+    <div class="product-info">
+        <h1>@Model.Name</h1>
+        <p class="brand">Thương hiệu: <strong>@Model.Brand</strong></p>
+
+        <div class="price">
+            <span class="current">@price</span>
+            @if (!string.IsNullOrEmpty(originalPrice))
+            {
+                <span class="original">@originalPrice</span>
+            }
+        </div>
+
+        <div class="rating">
+            ⭐ @rating / 5.0 - @reviews đánh giá
+        </div>
+
+        <div class="description">
+            @* Using Html.Raw() is the key.
+                This will render all the beautiful HTML (tables, lists, bold)
+                that you write in the Admin "Description" textbox.
+            *@
+            @Html.Raw(Model.Description)
+        </div>
+
+        <table class="details">
+            <tr><td><strong>Thành phần:</strong></td><td>@Model.Ingredients</td></tr>
+            <tr><td><strong>Cách dùng:</strong></td><td>@Model.UsageInfo</td></tr>
+            <tr><td><strong>Xuất xứ:</strong></td><td>@Model.Origin</td></tr>
+            <tr><td><strong>Quy cách:</strong></td><td>@Model.Packaging</td></tr>
+        </table>
+
+        <button class="buy-button">Mua ngay</button>
+    </div>
+</div>

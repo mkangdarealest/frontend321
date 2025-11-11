@@ -1,38 +1,43 @@
-﻿@model IEnumerable<frontend.Models.ProductSearchResult>
+﻿@model IEnumerable<frontend.Models.Product>
+
 @{
+    ViewBag.Title = "Kết quả tìm kiếm";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var q = (ViewBag.Query as string) ?? "";
-    ViewBag.Title = $"Search results for \"{q}\"";
 }
 
-<link href="~/css/LongChauClone.css" rel="stylesheet" />
-
-<section class="container" style="padding:20px 0;">
-    <h2>Kết quả tìm kiếm cho: "@q"</h2>
+<div class="container" style="padding-top: 65px; padding-bottom: 20px;">
+    <h2>Kết quả tìm kiếm cho "@ViewBag.CurrentQuery"</h2>
+    <hr />
 
     @if (!Model.Any())
     {
-        <p>Không tìm thấy sản phẩm.</p>
-        <p><a href="@Url.Action("LongChauClone", "TrangChu")">Trở lại trang chủ</a></p>
+        <p>Không tìm thấy sản phẩm nào phù hợp.</p>
     }
     else
     {
-        <div class="lc-product-list_all" style="padding:10px 0;">
-            @foreach (var item in Model)
+        @* We can re-use your existing CSS classes from LongChauClone.css *@
+        <div class="lc-product-list_all">
+
+            @foreach (var product in Model)
             {
-                <div class="lc-product-card" style="min-width:220px; max-width:240px;">
-                    <a href="@Url.Action("Details", "Products", new { id = item.Id })">
-                        <div class="lc-product-image-container" style="height:120px;">
-                            <img src="@(String.IsNullOrEmpty(item.ImageUrl) ? Url.Content("~/hinh/placeholder.png") : item.ImageUrl)" alt="@item.Name" style="width:100%; height:100%; object-fit:cover;" />
+                // --- Image Logic (same as your homepage) ---
+                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Placeholder
+
+                <div class="lc-product-card">
+
+                    @* This link points to the product's detail page *@
+                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
+                        <div class="lc-product-image-container">
+                            <img src="@Url.Content(imageUrl)" alt="@product.Name" />
                         </div>
                     </a>
-                    <h3>@item.Name</h3>
-                    <p class="price">@((item.Price.HasValue) ? item.Price.Value.ToString("N0") + "₫" : "-")</p>
-                    <p style="font-size:0.9em; color:#666;">@item.Brand</p>
-                    <p style="font-size:0.85em; color:#444; min-height:36px;">@item.ShortDescription</p>
-                    <a class="btn-buy" href="@Url.Action("Details", "Products", new { id = item.Id })" style="display:inline-block; margin-top:8px;">View</a>
+
+                    <h3>@product.Name</h3>
+                    <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
+                    <button class="btn-buy">Chọn mua</button>
                 </div>
             }
         </div>
     }
-</section>
+</div>

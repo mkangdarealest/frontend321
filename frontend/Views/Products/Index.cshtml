@@ -1,112 +1,147 @@
 ﻿@model IEnumerable<frontend.Models.Product>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Admin: Product List";
 }
 
-<h2>Thuốc</h2>
+@* 1. ADD THIS CSS STYLE BLOCK AT THE TOP *@
+<style>
+    /* Main container for the cards */
+    .product-admin-list {
+        display: flex;
+        flex-wrap: wrap; /* Allows cards to wrap to the next line */
+        gap: 20px; /* Space between cards */
+        margin-top: 20px;
+    }
+
+    /* Styles for each individual product card */
+    .product-admin-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 350px; /* Set a fixed width for each card */
+        background: #fff;
+        display: flex;
+        flex-direction: column; /* Stacks content vertically */
+    }
+
+    /* Image at the top of the card */
+    .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover; /* Ensures image covers the area, not stretched */
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background-color: #f9f9f9; /* Fallback color */
+    }
+
+    /* Container for the text content */
+    .card-content {
+        padding: 15px;
+        flex-grow: 1; /* Allows content to fill space */
+        display: flex;
+        flex-direction: column;
+    }
+
+        .card-content h3 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+
+    /* Price and Brand info */
+    .card-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+        .card-meta .price {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+    /* THIS IS THE FIX FOR LONG TEXT:
+      We set a max-height and make it scrollable.
+    */
+    .card-description {
+        font-size: 0.85rem;
+        color: #666;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        padding: 10px 0;
+        margin-bottom: 15px;
+        /* The magic! */
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    /* Container for the Edit/Details/Delete links */
+    .card-actions {
+        margin-top: auto; /* Pushes actions to the bottom */
+        padding-top: 10px;
+    }
+
+        .card-actions a {
+            margin-right: 10px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+            .card-actions a:hover {
+                background-color: #e0e0e0;
+            }
+
+            .card-actions a.delete-link {
+                color: #d9534f;
+            }
+
+                .card-actions a.delete-link:hover {
+                    background-color: #d9534f;
+                    color: #fff;
+                }
+</style>
+
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Thêm sản phẩm", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Slug)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Brand)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OriginalPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rating)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReviewsCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ingredients)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UsageInfo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Origin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Packaging)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Slug)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Brand)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShortDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OriginalPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rating)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReviewsCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ingredients)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UsageInfo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Origin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Packaging)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedAt)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+@* 2. THIS IS THE NEW CARD LAYOUT *@
+<div class="product-admin-list">
+    @foreach (var item in Model)
+    {
+        // --- Image Logic (same as your public site) ---
+        var image = item.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? item.ProductImages.FirstOrDefault();
+        string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Placeholder
 
-</table>
+        <div class="product-admin-card">
+
+            <img src="@Url.Content(imageUrl)" alt="@item.Name" class="card-image" />
+
+            <div class="card-content">
+                <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+
+                <div class="card-meta">
+                    <span>@Html.DisplayFor(modelItem => item.Brand)</span>
+                    <span class="price">@Html.DisplayFor(modelItem => item.Price)đ</span>
+                </div>
+
+                <div class="card-description">
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </div>
+
+                <div class="card-actions">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "delete-link" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

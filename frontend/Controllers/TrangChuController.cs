@@ -1,21 +1,156 @@
-﻿using System.Web.Mvc;
+﻿using frontend.Models;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace frontend.Controllers
 {
     public class TrangChuController : Controller
     {
+        //Database to View
+        LongChauDbEntities db = new LongChauDbEntities();
         public ActionResult LongChauClone()
         {
-            return View();
+            var products = db.Products.Include(p => p.ProductImages).ToList();
+            return View(products);
         }
+        // GET: TrangChu/ViewProduct/your-product-slug
+        public ActionResult ViewProduct(string slug)
+        {
+            if (string.IsNullOrEmpty(slug))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Find the product by its slug, AND include all its related data
+            Product product = db.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                .SingleOrDefault(p => p.Slug == slug);
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Go directly to the "Details" view and pass it the product
+            // The URL in the browser STAYS as .../ViewProduct/your-product-slug
+            return View("Details", product);
+        }
+        
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Customer model)
+        {
+            if (ModelState.IsValid)
+            {
+                // WARNING: This checks for plain text passwords.
+                // This is INSECURE and only for learning.
+                var user = db.Customers.FirstOrDefault(u => u.UserName == model.UserName && u.Password == model.Password);
+
+                if (user != null)
+                {
+                    // Set the authentication cookie
+                    FormsAuthentication.SetAuthCookie(user.UserName, false); // "false" = don't remember me
+
+                    // Send them back to the home page
+                    return RedirectToAction("LongChauClone", "TrangChu");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        // GET: TrangChu/Register (This just shows the register page)
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
+
+        // POST: TrangChu/Register (This handles the form submission)
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Customer model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if username already exists
+                var existingUser = db.Customers.FirstOrDefault(u => u.UserName == model.UserName);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Username", "Tên đăng nhập này đã tồn tại.");
+                    return View(model);
+                }
+
+                // Set the creation date
+                model.CreatedAt = DateTime.Now;
+
+                // Save the new customer
+                db.Customers.Add(model);
+                db.SaveChanges();
+
+                // Log the new user in automatically
+                FormsAuthentication.SetAuthCookie(model.UserName, false);
+
+                // Send them to the home page
+                return RedirectToAction("LongChauClone", "TrangChu");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        // POST: TrangChu/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout()
+        {
+            // Sign the user out
+            FormsAuthentication.SignOut();
+            // Send them back to the home page
+            return RedirectToAction("LongChauClone", "TrangChu");
+        }
+        //end
+        //detail
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+
+        //    // Eager-load Product, its Images, and its Reviews all in one query
+        //    Product product = db.Products
+        //        .Include(p => p.ProductImages)
+        //        .Include(p => p.Reviews) // Make sure to include Reviews
+        //        .SingleOrDefault(p => p.Id == id);
+
+        //    if (product == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    // Pass the single product (which now contains images and reviews) to the View
+        //    return View(product);
+        //}
+
+        //end
         public ActionResult GioHang()
         {
             return View();
