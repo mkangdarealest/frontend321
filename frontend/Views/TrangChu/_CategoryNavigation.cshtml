@@ -1,0 +1,23 @@
+﻿@model IEnumerable<frontend.Models.Category>
+@*dynamic category*@
+<section class="lc-categories container">
+    <h2>Danh mục nổi bật</h2>
+    <div class="lc-category-list">
+        @foreach (var category in Model)
+        {
+            <div class="lc-category-item">
+                <a href="@Url.Action("ProductsByCategory", "TrangChu", new { slug = category.Slug })" style="text-decoration: none;">
+                    @if (!string.IsNullOrEmpty(category.ImgUrl))
+                    {
+                        <img src="@Url.Content(category.ImgUrl)" alt="@category.Name" style="width: 30px; height: 30px;" />
+                    }
+                    else
+                    {
+                        <i class="fa fa-folder"></i>
+                    }
+                    <p>@category.Name</p>
+                </a>
+            </div>
+                }
+     </div>      
+</section>

@@ -1,7 +1,5 @@
 ﻿@model frontend.Models.Product
 @{
-    // This is the "controller" part of your view.
-    // We prepare all the data here to keep the HTML clean.
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = Model.Name;
 
@@ -21,10 +19,6 @@
 @* Link to your CSS file *@
 <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 
-@*
-    This HTML structure is based on your provided code,
-    but now it's connected to your @Model from the database.
-*@
 <div class="product-container">
     <div class="product-image">
         <img src="@Url.Content(imageUrl)" alt="@Model.Name" />
@@ -48,8 +42,8 @@
 
         <div class="description">
             @* Using Html.Raw() is the key.
-                This will render all the beautiful HTML (tables, lists, bold)
-                that you write in the Admin "Description" textbox.
+            This will render all the beautiful HTML (tables, lists, bold)
+            that you write in the Admin "Description" textbox.
             *@
             @Html.Raw(Model.Description)
         </div>
@@ -60,7 +54,18 @@
             <tr><td><strong>Xuất xứ:</strong></td><td>@Model.Origin</td></tr>
             <tr><td><strong>Quy cách:</strong></td><td>@Model.Packaging</td></tr>
         </table>
-
-        <button class="buy-button">Mua ngay</button>
+        <div class="product-stock" style="margin-top: 15px; font-size: 1.1rem;">
+            @if (Model.Quantity > 0)
+            {
+                <strong style="color: #28a745;">Còn hàng (Còn @Model.Quantity sản phẩm)</strong>
+            }
+            else
+            {
+                <strong style="color: #dc3545;">Tạm hết hàng</strong>
+            }
+        </div>
+        <button class="buy-button" @(Model.Quantity > 0 ? "" : "disabled")>
+            @(Model.Quantity > 0 ? "Mua ngay" : "Tạm hết hàng")
+        </button>
     </div>
 </div>

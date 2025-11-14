@@ -1,4 +1,5 @@
 using frontend.Models;
+using PagedList;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ namespace frontend.Controllers
         private LongChauDbEntities db = new LongChauDbEntities();
 
         // 2. Create the Index action that accepts "string q"
-        public ActionResult Index(string q)
+        public ActionResult Index(string q,int? page)
         {
             // Start by getting all products, including their images
             var products = db.Products.Include(p => p.ProductImages).AsQueryable();
@@ -28,9 +29,11 @@ namespace frontend.Controllers
 
             // This passes the search term to the results page
             ViewBag.CurrentQuery = q;
-
-            // Pass the final list of found products to the new view
-            return View(products.ToList());
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+            var orderedProducts = products.OrderBy(p => p.Name);
+            return View(orderedProducts.ToPagedList(pageNumber, pageSize));
+            //return View(products.ToList());
         }
     }
 }

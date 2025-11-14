@@ -1,4 +1,5 @@
-﻿@model IEnumerable<frontend.Models.Product>
+﻿@model PagedList.IPagedList<frontend.Models.Product>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Kết quả tìm kiếm";
@@ -38,6 +39,13 @@
                     <button class="btn-buy">Chọn mua</button>
                 </div>
             }
+        </div>
+        <br />
+        <div class="pager-container" style="text-align: center;">
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, q = ViewBag.CurrentQuery }))
         </div>
     }
 </div>

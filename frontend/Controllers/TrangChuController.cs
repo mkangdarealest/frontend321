@@ -1,4 +1,5 @@
 ﻿using frontend.Models;
+using PagedList;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace frontend.Controllers
 {
     public class TrangChuController : Controller
     {
+        [ChildActionOnly] // This means it can only be called from another view
+        public ActionResult CategoryNavigation()
+        {
+            var categories = db.Categories.ToList();
+            return PartialView("_CategoryNavigation", categories);
+        }
         //Database to View
         LongChauDbEntities db = new LongChauDbEntities();
         public ActionResult LongChauClone()
@@ -40,7 +47,33 @@ namespace frontend.Controllers
             // The URL in the browser STAYS as .../ViewProduct/your-product-slug
             return View("Details", product);
         }
-        
+        public ActionResult ProductsByCategory(string slug, int? page)
+        {
+            if (string.IsNullOrEmpty(slug))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // 1. Find the category by its slug
+            var category = db.Categories.FirstOrDefault(c => c.Slug == slug);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+
+            // 2. Pass the category name to the view
+            ViewBag.CategoryName = category.Name;
+
+            // 3. Get all products in this category
+            // We must use the .ToList() here to work with the PagedList
+            var products = category.Products.OrderBy(p => p.Name).ToList();
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+
+            // 5. Return the paged list to a new view
+            return View(products.ToPagedList(pageNumber, pageSize));
+        }
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -51,18 +84,28 @@ namespace frontend.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Customer model)
         {
-            if (ModelState.IsValid)
+            // We only need username and password to log in
+            if (ModelState.IsValidField("Username") && ModelState.IsValidField("Password"))
             {
-                // WARNING: This checks for plain text passwords.
-                // This is INSECURE and only for learning.
                 var user = db.Customers.FirstOrDefault(u => u.UserName == model.UserName && u.Password == model.Password);
 
                 if (user != null)
                 {
-                    // Set the authentication cookie
-                    FormsAuthentication.SetAuthCookie(user.UserName, false); // "false" = don't remember me
+                    // --- THIS IS THE NEW PART ---
+                    var ticket = new FormsAuthenticationTicket(
+                        1,                                  // version
+                        user.UserName,                      // user name
+                        DateTime.Now,                       // issue time
+                        DateTime.Now.AddMinutes(30),        // expiration
+                        false,                              // isPersistent
+                        "Customer"                          // <-- HARD-CODED ROLE
+                    );
 
-                    // Send them back to the home page
+                    string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+                    var authCookie = new System.Web.HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                    System.Web.HttpContext.Current.Response.Cookies.Add(authCookie);
+                    // --- END NEW PART ---
+
                     return RedirectToAction("LongChauClone", "TrangChu");
                 }
                 else
@@ -71,7 +114,6 @@ namespace frontend.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

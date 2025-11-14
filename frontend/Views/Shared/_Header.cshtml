@@ -22,12 +22,24 @@
         <div class="lc-user">
             @if (User.Identity.IsAuthenticated)
             {
-                <span class="welcome-message">Chào, @User.Identity.Name!</span>
-
+                <text>
+                    <span class="welcome-message">
+                        Chào bạn, @User.Identity.Name!
+                        @Html.ActionLink("Tài khoản", "Index", "Customer")
+                    </span>
+                </text>
                 using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
                     <a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+                }
+                if (User.IsInRole("Admin"))
+                {
+                    <div class="admin-nav" style="background: #f0f0f0; padding: 5px; margin-top: 5px;">
+                        <strong>Admin:</strong>
+                        @Html.ActionLink("Manage Products", "Index", "Products") |
+                        @Html.ActionLink("Manage Categories", "Index", "Categories")
+                    </div>
                 }
             }
             else

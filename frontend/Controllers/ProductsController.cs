@@ -9,31 +9,44 @@ using System.Web.Mvc;
 using System.Text;
 using System.Text.RegularExpressions;
 using frontend.Models;
+using PagedList;
 
 namespace frontend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private LongChauDbEntities db = new LongChauDbEntities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string searchString,int? page)
         {
-            var products = db.Products.Include(p => p.ProductImages).ToList();
-            return View(products);
+            var products = db.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Categories) 
+                .AsQueryable();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(p => p.Name.Contains(searchString)
+                                            || p.Brand.Contains(searchString));
+            }
+
+            // 4. Save the search query to show in the textbox
+            ViewBag.CurrentFilter = searchString;
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            var orderedProducts = products.OrderBy(p => p.Name);
+
+            return View(orderedProducts.ToPagedList(pageNumber, pageSize));
+            //return View(products.OrderBy(p => p.Name).ToList());
         }
         //fetch slug and put in address bar
         public static string GenerateSlug(string phrase)
         {
             string str = phrase.ToLowerInvariant();
-            // Remove invalid chars
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            // Convert multiple spaces into one space
             str = Regex.Replace(str, @"\s+", " ").Trim();
-            // Cutto max 45 chars
             str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
-            // Replace spaces with hyphens
             str = Regex.Replace(str, @"\s", "-");
             return str;
         }
@@ -46,8 +59,10 @@ namespace frontend.Controllers
             }
 
             // Add .Include() to get the images
-            Product product = db.Products.Include(p => p.ProductImages)
-                                         .SingleOrDefault(p => p.Id == id);
+            Product product = db.Products
+                    .Include(p => p.ProductImages) // Get images
+                    .Include(p => p.Categories)    // <-- ADD THIS to get categories
+                    .SingleOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -58,6 +73,7 @@ namespace frontend.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
+            ViewBag.AllCategories = db.Categories.ToList();
             return View();
         }
 
@@ -68,7 +84,7 @@ namespace frontend.Controllers
         [ValidateAntiForgeryToken]
         // 1. Notice the new parameter: 'IEnumerable<ProductImage> productImages'
         // 2. We removed 'ProductImages' from the [Bind] list.
-        public ActionResult Create([Bind(Include = "Id,Name,Brand,ShortDescription,Description,Price,OriginalPrice,Rating,ReviewsCount,Ingredients,UsageInfo,Origin,Packaging")] Product product, IEnumerable<ProductImage> productImages)
+        public ActionResult Create([Bind(Include = "Id,Name,Brand,ShortDescription,Description,Price,OriginalPrice,Rating,ReviewsCount,Ingredients,UsageInfo,Origin,Packaging,Quantity")] Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds)
         {
             try
             {
@@ -77,11 +93,24 @@ namespace frontend.Controllers
                     // Set auto-properties
                     product.CreatedAt = DateTime.Now;
                     product.Slug = GenerateSlug(product.Name);
+                    product.ProductImages = null;
 
                     // Add the main product to the database FIRST
                     db.Products.Add(product);
                     db.SaveChanges(); // <-- This save generates the new 'product.Id'
 
+                    if (selectedCategoryIds != null)
+                    {
+                        foreach (var catId in selectedCategoryIds)
+                        {
+                            var category = db.Categories.Find(catId);
+                            if (category != null)
+                            {
+                                product.Categories.Add(category);
+                            }
+                        }
+                        db.SaveChanges(); // Save the new category relationships
+                    }
                     // Now, link and save the images that were sent from the form
                     if (productImages != null)
                     {
@@ -126,11 +155,13 @@ namespace frontend.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = db.Products.Include(p => p.Categories)
+                                 .SingleOrDefault(p => p.Id == id);
             if (product == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.AllCategories = db.Categories.ToList();
             return View(product);
         }
 
@@ -140,15 +171,16 @@ namespace frontend.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 1. Notice the new parameter: 'IEnumerable<ProductImage> productImages'
-        public ActionResult Edit(Product product, IEnumerable<ProductImage> productImages) // This is the product from the form
+        public ActionResult Edit(Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds) // This is the product from the form
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // 1. Load the ORIGINAL product from the database, INCLUDING its old images
+                    // 1. Load the ORIGINAL product from DB, INCLUDING its old images AND categories
                     var productToUpdate = db.Products
                         .Include(p => p.ProductImages)
+                        .Include(p => p.Categories) // <-- Load existing categories
                         .SingleOrDefault(p => p.Id == product.Id);
 
                     if (productToUpdate == null)
@@ -156,10 +188,9 @@ namespace frontend.Controllers
                         return HttpNotFound();
                     }
 
-                    // 2. Manually update the text properties
+                    // 2. Manually update text properties
                     productToUpdate.Name = product.Name;
                     productToUpdate.Brand = product.Brand;
-                    // ... (etc. - this is your safe update logic from before)
                     productToUpdate.ShortDescription = product.ShortDescription;
                     productToUpdate.Description = product.Description;
                     productToUpdate.Price = product.Price;
@@ -170,18 +201,28 @@ namespace frontend.Controllers
                     productToUpdate.UsageInfo = product.UsageInfo;
                     productToUpdate.Origin = product.Origin;
                     productToUpdate.Packaging = product.Packaging;
+                    productToUpdate.Quantity = product.Quantity;
                     productToUpdate.Slug = GenerateSlug(product.Name);
 
-                    // 3. --- NEW IMAGE LOGIC ---
-                    // This is the new list of images from the form
-                    var newImageUrls = (productImages ?? new List<ProductImage>())
-                                        .Select(i => i.Url)
-                                        .ToList();
+                    // 3. --- NEW CATEGORY UPDATE LOGIC ---
+                    // The simplest way: clear all old categories and add the new selected ones.
+                    productToUpdate.Categories.Clear();
+                    if (selectedCategoryIds != null)
+                    {
+                        foreach (var catId in selectedCategoryIds)
+                        {
+                            var category = db.Categories.Find(catId);
+                            if (category != null)
+                            {
+                                productToUpdate.Categories.Add(category);
+                            }
+                        }
+                    }
+                    // --- END CATEGORY LOGIC ---
 
-                    // This is the old list of images from the database
+                    // 4. --- EXISTING IMAGE LOGIC ---
+                    var newImageUrls = (productImages ?? new List<ProductImage>()).Select(i => i.Url).ToList();
                     var oldImages = productToUpdate.ProductImages.ToList();
-
-                    // 3a. REMOVE old images that are NO LONGER checked
                     foreach (var oldImage in oldImages)
                     {
                         if (!newImageUrls.Contains(oldImage.Url))
@@ -189,32 +230,25 @@ namespace frontend.Controllers
                             db.ProductImages.Remove(oldImage);
                         }
                     }
-
-                    // 3b. ADD/UPDATE images that ARE checked
                     if (productImages != null)
                     {
                         foreach (var newImage in productImages)
                         {
-                            var existingImage = productToUpdate.ProductImages
-                                                .SingleOrDefault(i => i.Url == newImage.Url);
-
+                            var existingImage = productToUpdate.ProductImages.SingleOrDefault(i => i.Url == newImage.Url);
                             if (existingImage != null)
                             {
-                                // This image already exists, just update its 'IsPrimary' status
                                 existingImage.IsPrimary = newImage.IsPrimary;
                             }
                             else
                             {
-                                // This is a brand new image, link and add it
                                 newImage.ProductId = productToUpdate.Id;
                                 db.ProductImages.Add(newImage);
                             }
                         }
                     }
+                    // --- END IMAGE LOGIC ---
 
-                    db.Entry(productToUpdate).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges(); // This saves everything
-
+                    db.SaveChanges(); // This saves EVERYTHING (product details, category links, image links)
                     return RedirectToAction("Index");
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
@@ -225,15 +259,16 @@ namespace frontend.Controllers
                     {
                         foreach (var validationError in validationErrors.ValidationErrors)
                         {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
+                            string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
                             raise = new InvalidOperationException(message, raise);
                         }
                     }
                     throw raise;
                 }
             }
+
+            // If we fail, re-populate the ViewBag for the view to reload
+            ViewBag.AllCategories = db.Categories.ToList();
             return View(product);
         }
         // GET: Products/Delete/5
@@ -259,9 +294,37 @@ namespace frontend.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
+            //Load the product AND all its relationships
+            Product product = db.Products
+                .Include(p => p.OrderItems)    
+                .Include(p => p.ProductImages) 
+                .Include(p => p.Categories)   
+                .SingleOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            //CONSTRAINT CHECK
+            if (product.OrderItems.Any())
+            {
+                TempData["Error"] = $"Không thể xóa sản phẩm '{product.Name}' vì đã có trong đơn hàng của khách. Bạn có thể 'Sửa' sản phẩm để ẩn nó đi.";
+                return RedirectToAction("Index");
+            }
+            //Clean up many-to-many category relationships
+            product.Categories.Clear();
+
+            //Clean up one-to-many image relationships
+            foreach (var image in product.ProductImages.ToList())
+            {
+                db.ProductImages.Remove(image);
+            }
+
+            //delete the product itself
             db.Products.Remove(product);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

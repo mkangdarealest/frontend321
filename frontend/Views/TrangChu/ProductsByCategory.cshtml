@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<frontend.Models.Product>
+
+@{
+    ViewBag.Title = "Danh mục: " + ViewBag.CategoryName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    h2 {
+        padding-top: 80px;
+        padding-bottom: 20px;
+    }
+</style>
+<div class="container" style="padding-top: 20px;">
+    <h2>Danh mục: @ViewBag.CategoryName</h2>
+    <hr />
+
+    @if (!Model.Any())
+    {
+        <p>Không có sản phẩm nào trong danh mục này.</p>
+    }
+    else
+    {
+        <div class="lc-product-list_all">
+
+            @foreach (var product in Model)
+            {
+                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                <div class="lc-product-card" style="text-decoration: none;">
+                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
+                        <div class="lc-product-image-container">
+                            <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                        </div>
+                    </a>
+                    <h3>@product.Name</h3>
+                    <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
+                    @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy",style= "text-decoration:none" })
+                        
+                </div>
+            }
+        </div>
+    }
+
+    <br />
+
+    <div class="pager-container" style="text-align: center;">
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("ProductsByCategory", new { page, slug = ViewBag.CategorySlug }))
+    </div>
+</div>

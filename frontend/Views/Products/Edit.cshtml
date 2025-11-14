@@ -11,153 +11,186 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Product</h4>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @* This should be replaced with a rich text editor later *@
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 10 })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <h4>Product</h4>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @* This should be replaced with a rich text editor later *@
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 10 })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UsageInfo, "Cách dùng", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.UsageInfo, new { @class = "form-control", @rows = 5 })
-                @Html.ValidationMessageFor(model => model.UsageInfo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Packaging, "Quy cách", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Packaging, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Packaging, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReviewsCount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewsCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewsCount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        <div class="form-group">
-            <label class="control-label col-md-2">Product Images</label>
-            <div class="col-md-10">
-                <div id="imageSelectionContainer" style="max-height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
-                    @* This area will be populated with image options *@
-                    @{
-                        // Get all image files from the ~/hinh folder
-                        var imageFiles = System.IO.Directory.EnumerateFiles(Server.MapPath("~/hinh"))
-                                             .Select(f => System.IO.Path.GetFileName(f))
-                                             .ToList();
-                    }
-
-                    @for (int i = 0; i < imageFiles.Count; i++)
-                    {
-                        var fileName = imageFiles[i];
-                        var filePath = Url.Content("~/hinh/" + fileName);
-
-                        // Check if this image is already associated with the product
-                        var isChecked = Model.ProductImages != null && Model.ProductImages.Any(pi => pi.Url == filePath);
-                        var isPrimary = Model.ProductImages != null && Model.ProductImages.Any(pi => pi.Url == filePath && pi.IsPrimary);
-
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"
-                                       name="ProductImages[@i].Url"
-                                       value="@filePath"
-                                       @(isChecked ? "checked" : "") /> @fileName
-                                    <img src="@filePath" style="width: 50px; height: 50px; object-fit: cover; margin-left: 10px;" />
-                                    <input type="radio"
-                                           name="ProductImages[@i].IsPrimary"
-                                           value="true"
-                                           @(isPrimary ? "checked" : "")
-                                           style="margin-left: 20px;"
-                                           @(!isChecked ? "disabled" : "") /> Primary
-                                </label>
-                            </div>
-                        }
-                </div>
-                <p class="help-block">Select images for this product. Check 'Primary' for the main image.</p>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UsageInfo, "Cách dùng", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.UsageInfo, new { @class = "form-control", @rows = 5 })
+            @Html.ValidationMessageFor(model => model.UsageInfo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Packaging, "Quy cách", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Packaging, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Packaging, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Quantity, "Số lượng tồn", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReviewsCount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReviewsCount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ReviewsCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="form-group">
+        <label class="control-label col-md-2">Product Images</label>
+        <div class="col-md-10">
+            <div id="imageSelectionContainer" style="max-height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
+                @* This area will be populated with image options *@
+                @{
+                    // Get all image files from the ~/hinh folder
+                    var imageFiles = System.IO.Directory.EnumerateFiles(Server.MapPath("~/hinh"))
+                                         .Select(f => System.IO.Path.GetFileName(f))
+                                         .ToList();
+                }
+
+                @for (int i = 0; i < imageFiles.Count; i++)
+                {
+                    var fileName = imageFiles[i];
+                    var filePath = Url.Content("~/hinh/" + fileName);
+
+                    // Check if this image is already associated with the product
+                    var isChecked = Model.ProductImages != null && Model.ProductImages.Any(pi => pi.Url == filePath);
+                    var isPrimary = Model.ProductImages != null && Model.ProductImages.Any(pi => pi.Url == filePath && pi.IsPrimary);
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   name="ProductImages[@i].Url"
+                                   value="@filePath"
+                                   @(isChecked ? "checked" : "") /> @fileName
+                                <img src="@filePath" style="width: 50px; height: 50px; object-fit: cover; margin-left: 10px;" />
+                                <input type="radio"
+                                       name="ProductImages[@i].IsPrimary"
+                                       value="true"
+                                       @(isPrimary ? "checked" : "")
+                                       style="margin-left: 20px;"
+                                       @(!isChecked ? "disabled" : "") /> Primary
+                            </label>
+                        </div>
+                    }
+            </div>
+            <p class="help-block">Select images for this product. Check 'Primary' for the main image.</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Categories</label>
+        <div class="col-md-10" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+
+            @{
+                // Get the IDs of categories this product is ALREADY in
+                var assignedCategoryIds = new HashSet<int>(Model.Categories.Select(c => c.Id));
+            }
+
+            @foreach (var category in (List<frontend.Models.Category>)ViewBag.AllCategories)
+            {
+                // Check if this category's ID is in our set
+                bool isChecked = assignedCategoryIds.Contains(category.Id);
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"
+                               name="selectedCategoryIds"
+                               value="@category.Id"
+                               @(isChecked ? "checked" : "") />
+                        @category.Name
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+</div>
 }
 <div>
     @Html.ActionLink("Back to List", "Index")

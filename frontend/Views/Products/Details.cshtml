@@ -50,9 +50,18 @@
         flex-grow: 1;
         min-width: 0; /* Prevents flex items from overflowing */
     }
-
-    /* Style for each field */
-    .admin-detail-field {
+    .category-pill {
+        display: inline-block;
+        padding: 4px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+        /* Style for each field */
+        .admin-detail-field {
         margin-bottom: 15px;
     }
 
@@ -87,7 +96,12 @@
         border-top: 1px solid #ddd;
     }
 </style>
-
+<style>
+    h2 {
+        padding-top: 120px;
+        padding-bottom: 20px;
+    }
+</style>
 @* 2. THIS IS THE NEW HTML LAYOUT *@
 <div class="admin-detail-card">
 
@@ -101,6 +115,23 @@
         </div>
 
         <div class="admin-detail-info">
+            <div class="admin-detail-field">
+                <strong>Assigned Categories</strong>
+                <div class="category-list" style="margin-top: 5px;">
+                    @if (Model.Categories.Any())
+                    {
+                        foreach (var category in Model.Categories)
+                        {
+                            <span class="category-pill">@category.Name</span>
+                        }
+                    }
+                    else
+                    {
+                        <span style="color: #888; font-style: italic;">Not assigned to any categories.</span>
+                    }
+                </div>
+            </div>
+            @* --- END OF NEW BLOCK --- *@
             <div class="admin-detail-field">
                 <strong>@Html.DisplayNameFor(model => model.Brand)</strong>
                 <span>@Html.DisplayFor(model => model.Brand)</span>

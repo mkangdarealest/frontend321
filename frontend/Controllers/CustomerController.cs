@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 // 1. We protect the ENTIRE controller.
 // Only logged-in users can access any page here.
-[Authorize]
+[Authorize(Roles = "Customer")]
 public class CustomerController : Controller
 {
     private LongChauDbEntities db = new LongChauDbEntities();
