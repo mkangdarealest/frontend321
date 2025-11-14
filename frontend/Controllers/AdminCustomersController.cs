@@ -1,48 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+﻿using frontend.Models;
+using System.Data.Entity; // <-- Required for .Include()
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
-// Assumes you have an "Admin" area
-[Area("Admin")]
-// [Authorize(Roles = "Admin")] // Recommended: Secure your admin controller
-public class AdminCustomersController : Controller
+namespace frontend.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public AdminCustomersController(ApplicationDbContext context)
+    // Secure this entire controller for Admins
+    [Authorize(Roles = "Admin")]
+    public class AdminCustomersController : Controller
     {
-        _context = context;
-    }
+        private LongChauDbEntities db = new LongChauDbEntities();
 
-    // GET: /Admin/AdminCustomers
-    // Lists all customers
-    public async Task<IActionResult> Index()
-    {
-        var customers = await _context.Customers.ToListAsync();
-        return View(customers);
-    }
-
-    // GET: /Admin/AdminCustomers/OrderHistory/5
-    // Shows order history for a single customer
-    public async Task<IActionResult> OrderHistory(int? id)
-    {
-        if (id == null)
+        // GET: AdminCustomers
+        // Checklist: "Trang Index: lưu giữ danh sách khách hàng, không có nút Thêm/Sửa/Xóa"
+        public ActionResult Index()
         {
-            return NotFound();
+            var customers = db.Customers.OrderBy(c => c.LastName).ToList();
+            return View(customers);
         }
 
-        // Find the customer and eagerly load their 'Orders' collection
-        var customer = await _context.Customers
-            .Include(c => c.Orders) // This is the key part
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        if (customer == null)
+        // GET: AdminCustomers/Details/5
+        // Checklist: "Trang Detail: hiển thị thông tin khách hàng + danh sách đơn hàng của khách hàng"
+        public ActionResult Details(int? id)
         {
-            return NotFound();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Find the customer and "eagerly load" their related Orders
+            // We also include the OrderStatu for each order
+            Customer customer = db.Customers
+                .Include(c => c.Orders.Select(o => o.OrderStatu))
+                .FirstOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Pass the single customer object (which now contains all their orders) to the view
+            return View(customer);
         }
 
-        // Pass the single customer (with their orders) to the view
-        return View(customer);
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

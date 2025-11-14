@@ -32,6 +32,7 @@
                 <td>@order.OrderStatu.Name</td>
                 <td style="text-align:right;">@order.Total.ToString("N0") đ</td>
                 <td>
+                    @Html.ActionLink("Sửa trạng thái", "Edit", new { id = order.Id }, new { @class = "btn btn-warning btn-sm" })
                     @Html.ActionLink("Xem chi tiết", "Details", new { id = order.Id }, new { @class = "btn btn-info btn-sm" })
                 </td>
             </tr>

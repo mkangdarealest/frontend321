@@ -1,0 +1,83 @@
+﻿@model frontend.Models.AdminStockViewModel
+@{
+    ViewBag.Title = "Quản lý kho hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+}
+<style>
+    h2 {
+        padding-top: 120px;
+        padding-bottom: 20px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#instock" role="tab" data-toggle="tab">
+            Danh sách hàng tồn (@Model.InStockProducts.Count)
+        </a>
+    </li>
+    <li>
+        <a href="#outofstock" role="tab" data-toggle="tab">
+            Danh sách hàng cần nhập (@Model.OutOfStockProducts.Count)
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane active" id="instock">
+        <h3>Hàng đang có (Số lượng > 0)</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Nhãn hiệu</th>
+                    <th>Số lượng tồn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.InStockProducts)
+                {
+                    <tr>
+                        <td>
+                            <img src="@(item.ProductImages.FirstOrDefault()?.Url ?? "/hinh/default-product.png")" style="width: 50px; height: 50px; object-fit: cover;" />
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.Brand</td>
+                        <td>@item.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane" id="outofstock">
+        <h3>Hàng đã hết (Số lượng = 0)</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Nhãn hiệu</th>
+                    <th>Số lượng tồn</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OutOfStockProducts)
+                {
+                    <tr>
+                        <td>
+                            <img src="@(item.ProductImages.FirstOrDefault()?.Url ?? "/hinh/default-product.png")" style="width: 50px; height: 50px; object-fit: cover;" />
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.Brand</td>
+                        <td style="color: red; font-weight: bold;">@item.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@model frontend.Models.Customer
+@{
+    ViewBag.Title = "Chi tiết Khách hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+}
+<style>
+    h2 {
+        padding-top: 120px;
+        padding-bottom: 20px;
+    }
+</style>
+<h2>@ViewBag.Title: @Model.FirstName @Model.LastName</h2>
+<hr />
+
+<h3>Thông tin cá nhân</h3>
+<dl class="dl-horizontal">
+    <dt>Họ tên</dt>
+    <dd>@Model.FirstName @Model.LastName</dd>
+
+    <dt>Tên đăng nhập</dt>
+    <dd>@Model.UserName</dd>
+
+    <dt>Email</dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Số điện thoại</dt>
+    <dd>@Model.Phone</dd>
+
+    <dt>Địa chỉ</dt>
+    <dd>@Model.AddressLine</dd>
+
+    <dt>Ngày tham gia</dt>
+    <dd>@Model.CreatedAt.ToString("dd/MM/yyyy")</dd>
+</dl>
+
+<hr />
+
+<h3>Lịch sử đơn hàng (@Model.Orders.Count)</h3>
+
+@if (!Model.Orders.Any())
+{
+    <p>Khách hàng này chưa có đơn hàng nào.</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Mã ĐH</th>
+            <th>Ngày đặt</th>
+            <th>Trạng thái</th>
+            <th>Tổng tiền</th>
+            <th></th>
+        </tr>
+        @foreach (var order in Model.Orders.OrderByDescending(o => o.OrderDate))
+        {
+            <tr>
+                <td>#@order.Id</td>
+                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@order.OrderStatu.Name</td>
+                <td>@order.Total.ToString("N0") đ</td>
+                <td>
+                    @* This links to your *other* AdminOrders controller *@
+                    @Html.ActionLink("Xem hóa đơn", "Details", "AdminOrders", new { id = order.Id }, new { @class = "btn btn-default btn-sm" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+<br />
+@Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })

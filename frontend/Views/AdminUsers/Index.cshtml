@@ -1,0 +1,42 @@
+﻿@model IEnumerable<frontend.Models.Admin>
+
+@{
+    ViewBag.Title = "Quản lý người dùng Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    h2 {
+        padding-top: 120px;
+        padding-bottom: 20px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Username)</th>
+        <th>@Html.DisplayNameFor(model => model.Role)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Username)</td>
+            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-danger" })
+            </td>
+        </tr>
+    }
+</table>

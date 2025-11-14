@@ -1,0 +1,54 @@
+﻿@model frontend.Models.Order
+@{
+    ViewBag.Title = "Cập nhật trạng thái Đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-horizontal">
+        <h4>Đơn hàng #@Model.Id</h4>
+
+        <dl class="dl-horizontal">
+            <dt>Khách hàng</dt>
+            <dd>@Model.Customer.FirstName @Model.Customer.LastName</dd>
+
+            <dt>Ngày đặt</dt>
+            <dd>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
+
+            <dt>Tổng tiền</dt>
+            <dd>@Model.Total.ToString("N0") đ</dd>
+        </dl>
+
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="StatusId">Trạng thái Đơn hàng</label>
+            <div class="col-md-10">
+                @* This creates the <select> dropdown.
+                    It uses the "StatusList" we created in the Controller's GET action.
+                    It will automatically select the order's current status.
+                *@
+                @Html.DropDownList(
+                    "StatusId",             // The name of the form field to post
+                    (SelectList)ViewBag.StatusList, // The list of <option>
+                    new { @class = "form-control" } // HTML attributes
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-success" />
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

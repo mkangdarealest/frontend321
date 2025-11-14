@@ -14,7 +14,57 @@
 <div class="container" style="padding-top: 20px;">
     <h2>Danh mục: @ViewBag.CategoryName</h2>
     <hr />
+    @using (Html.BeginForm("ProductsByCategory", "TrangChu", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        @Html.Hidden("slug", (string)ViewBag.CurrentSlug)
 
+        <div class="form-group">
+            <input type="text" name="searchString" class="form-control" value="@ViewBag.CurrentFilter" placeholder="Tìm sản phẩm trong danh mục này...." />
+        </div>
+        <button type="submit" class="btn btn-default">Tìm</button>
+    }
+    <div class="sorting-bar" style="margin-top: 15px; margin-bottom: 15px;">
+        <strong>Sort by: </strong>
+
+        @* Default (Name) *@
+        @Html.ActionLink(
+            "Name",
+            "ProductsByCategory",
+            new
+                {
+                slug = (string)ViewBag.CurrentSlug,
+                searchString = ViewBag.CurrentFilter,
+                sortBy = "name" // or null
+            },
+            new { @class = (ViewBag.CurrentSort == null || ViewBag.CurrentSort == "name") ? "btn btn-primary" : "btn btn-default" }
+        )
+
+        @* Price: Low to High *@
+        @Html.ActionLink(
+            "Price: Low to High",
+            "ProductsByCategory",
+            new
+                {
+                slug = (string)ViewBag.CurrentSlug,
+                searchString = ViewBag.CurrentFilter,
+                sortBy = "price_asc"
+            },
+            new { @class = (ViewBag.CurrentSort == "price_asc") ? "btn btn-primary" : "btn btn-default" }
+        )
+
+        @* Price: High to Low *@
+        @Html.ActionLink(
+            "Price: High to Low",
+            "ProductsByCategory",
+            new
+                {
+                slug = (string)ViewBag.CurrentSlug,
+                searchString = ViewBag.CurrentFilter,
+                sortBy = "price_desc"
+            },
+            new { @class = (ViewBag.CurrentSort == "price_desc") ? "btn btn-primary" : "btn btn-default" }
+        )
+    </div>
     @if (!Model.Any())
     {
         <p>Không có sản phẩm nào trong danh mục này.</p>
@@ -36,8 +86,8 @@
                     </a>
                     <h3>@product.Name</h3>
                     <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
-                    @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy",style= "text-decoration:none" })
-                        
+                    @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy", style = "text-decoration:none" })
+
                 </div>
             }
         </div>
@@ -47,6 +97,7 @@
 
     <div class="pager-container" style="text-align: center;">
         Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("ProductsByCategory", new { page, slug = ViewBag.CategorySlug }))
+        @Html.PagedListPager(Model, page => Url.Action("ProductsByCategory",
+     new { slug = (string)ViewBag.CurrentSlug, page, searchString = ViewBag.CurrentFilter, sortBy = ViewBag.CurrentSort }))
     </div>
 </div>

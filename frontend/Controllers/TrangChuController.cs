@@ -21,7 +21,11 @@ namespace frontend.Controllers
         LongChauDbEntities db = new LongChauDbEntities();
         public ActionResult LongChauClone()
         {
-            var products = db.Products.Include(p => p.ProductImages).ToList();
+            var products = db.Products
+                .Include(p => p.ProductImages)
+                .Where(p => p.Quantity > 0)//in stock only
+                .OrderByDescending(p => p.CreatedAt)
+                .ToList();
             return View(products);
         }
         // GET: TrangChu/ViewProduct/your-product-slug
@@ -47,31 +51,56 @@ namespace frontend.Controllers
             // The URL in the browser STAYS as .../ViewProduct/your-product-slug
             return View("Details", product);
         }
-        public ActionResult ProductsByCategory(string slug, int? page)
+        // In /Controllers/TrangChuController.cs
+
+        // 1. Add a new parameter: string sortBy
+        public ActionResult ProductsByCategory(string slug, int? page, string searchString, string sortBy)
         {
             if (string.IsNullOrEmpty(slug))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            // 1. Find the category by its slug
             var category = db.Categories.FirstOrDefault(c => c.Slug == slug);
             if (category == null)
             {
                 return HttpNotFound();
             }
 
-            // 2. Pass the category name to the view
             ViewBag.CategoryName = category.Name;
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortBy; // 
+            ViewBag.CurrentSlug = slug;
 
-            // 3. Get all products in this category
-            // We must use the .ToList() here to work with the PagedList
-            var products = category.Products.OrderBy(p => p.Name).ToList();
+            var productsQuery = category.Products.AsQueryable();
+            productsQuery = productsQuery.Where(p => p.Quantity > 0);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                productsQuery = productsQuery.Where(p => p.Name.Contains(searchString)
+                                                      || p.Brand.Contains(searchString));
+            }
+
+            // 3. Add sorting logic
+            IOrderedQueryable<Product> orderedProducts;
+            switch (sortBy)
+            {
+                case "price_asc":
+                    orderedProducts = productsQuery.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    orderedProducts = productsQuery.OrderByDescending(p => p.Price);
+                    break;
+                default:
+                    // Default sort by Name
+                    orderedProducts = productsQuery.OrderBy(p => p.Name);
+                    break;
+            }
+
             int pageSize = 12;
             int pageNumber = (page ?? 1);
 
-            // 5. Return the paged list to a new view
-            return View(products.ToPagedList(pageNumber, pageSize));
+            // 4. Paginate the 'orderedProducts'
+            return View(orderedProducts.ToPagedList(pageNumber, pageSize));
         }
 
         [AllowAnonymous]
