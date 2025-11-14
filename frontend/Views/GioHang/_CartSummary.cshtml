@@ -1,0 +1,4 @@
+﻿@model int
+
+@* Add a class to the link, e.g., "header-cart-link" *@
+@Html.ActionLink($"Giỏ hàng ({Model})", "Index", "GioHang", null, new { @class = "header-cart-link" })

@@ -29,43 +29,7 @@
 </section>
 <div class="background-image"></div>
 @{ Html.RenderAction("CategoryNavigation", "TrangChu"); }
-<section class="lc-products container">
-    <h2>Sản phẩm nổi bật</h2>
-    <div class="lc-product-list">
-        <div class="lc-product-card">
-            <a href="/TrangChu/VitaminC">
-                <img src="~/hinh/VitaminC.jpg" alt="Vitamin C" />
-            </a>
-            <h3>Vitamin C 500mg</h3>
-            <p class="price">120.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Prospan">
-                <img src="~/hinh/Prospan.jpg" alt="Prospan" />
-            </a>
-            <h3>Thuốc ho Prospan</h3>
-            <p class="price">250.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/ThuocXuongKhop">
-                <img src="~/hinh/Bone.png" alt="Xương khớp" />
-            </a>
-            <h3>Viên bổ xương khớp</h3>
-            <p class="price">180.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-        <div class="lc-product-card">
-            <a href="https://localhost:44333/TrangChu/Omega3">
-                <img src="~/hinh/Omega3.png" alt="Omega 3" />
-            </a>
-            <h3>Omega 3 1000mg</h3>
-            <p class="price">210.000đ</p>
-            <button class="btn-buy">Chọn mua</button>
-        </div>
-    </div>
-</section>
+
 
 <section class="lc-products container">
     <h2>Tất cả sản phẩm</h2>
@@ -85,20 +49,31 @@
             string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
             @* --- END: Image logic --- *@
             //slug product
-            <div class="lc-product-card">
-                <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
+        <div class="lc-product-card">
+            <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
 
-                    <div class="lc-product-image-container">
-                        <img src="@Url.Content(imageUrl)" alt="@product.Name" />
-                    </div>
-                </a>
+                <div class="lc-product-image-container">
+                    <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                </div>
+            </a>
 
-                <h3>@product.Name</h3>
+            <h3>@product.Name</h3>
 
-                @* Added a check in case Price is null *@
-                <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Contact us")</p>
-                <button class="btn-buy">Chọn mua</button>
-            </div>
+            @* Added a check in case Price is null *@
+            <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Contact us")</p>
+            @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+            {
+                @* Pass the ProductId *@
+                @Html.Hidden("productId", product.Id)
+
+                @* We'll add a quantity of 1 by default from this page *@
+                @Html.Hidden("quantity", 1)
+
+                <button type="submit" class="btn btn-primary btn-buy">
+                    Mua hàng
+                </button>
+            }
+        </div>
         }
     </div>
 

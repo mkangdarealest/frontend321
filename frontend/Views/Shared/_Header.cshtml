@@ -23,10 +23,12 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <text>
-                    <span class="welcome-message">
-                        Chào bạn, @User.Identity.Name!
-                        @Html.ActionLink("Tài khoản", "Index", "Customer")
-                    </span>
+                            <span class="welcome-message">
+                                Chào bạn, @User.Identity.Name!
+                                @Html.ActionLink("Hồ sơ khách hàng", "Index", "Customer")
+                                ||
+                                @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer")
+                            </span>
                 </text>
                 using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
                 {
@@ -49,15 +51,16 @@
             }
         </div>
         <div class="lc-cart">
-            <a href="/TrangChu/GioHang" id="cart-icon">
-                <i class="fas fa-shopping-cart"></i>
-                Giỏ hàng
-                <span>
-                    (
-                    <span id="cart-count">0</span>
-                    )
-                </span>
-            </a>
+            @Html.Action("CartSummary", "GioHang")
+            @*<a href="/TrangChu/GioHang" id="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            Giỏ hàng
+            <span>
+                (
+                <span id="cart-count">0</span>
+                )
+            </span>
+        </a>*@
         </div>
     </div>
     <nav class="lc-nav">

@@ -25,6 +25,7 @@
         <AssociationConnector Association="LongChauDbModel.FK_Reviews_Products" ManuallyRouted="false" />
         <AssociationConnector Association="LongChauDbModel.ProductCategories" ManuallyRouted="false" />
         <EntityTypeShape EntityType="LongChauDbModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LongChauDbModel.DiscountCoupon" Width="1.5" PointX="12" PointY="7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

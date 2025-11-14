@@ -1,5 +1,4 @@
-﻿/* NGUỒN CODE GỐC CỦA BẠN */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
+﻿@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnamese');
 
 :root {
     --longchau-blue: #007bff;
@@ -14,12 +13,10 @@ body {
     font-style: normal;
     background-color: var(--light-grey);
     margin: 0;
-    /* Thêm thuộc tính để cuộn mượt hơn */
     overflow-x: hidden;
 }
 
 .container_1 {
-    /* Các thuộc tính này sẽ được GHI ĐÈ ở media query bên dưới */
     margin-left: -195px;
     margin-right: -130px;
     margin-top: 80px;
@@ -28,7 +25,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     padding: 32px 24px;
-    /* Thêm transition để thay đổi kích thước mượt mà */
     transition: all 0.3s ease;
 }
 

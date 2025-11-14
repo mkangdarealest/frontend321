@@ -1,6 +1,7 @@
 ﻿using frontend.Models;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 // 1. We protect the ENTIRE controller.
@@ -62,5 +63,59 @@ public class CustomerController : Controller
 
         // If model is not valid, return the form with errors
         return View(model);
+    }
+    // GET: Customer/OrderHistory
+    public ActionResult OrderHistory()
+    {
+        // Get the current user
+        var currentUsername = User.Identity.Name;
+        var customer = db.Customers.FirstOrDefault(c => c.UserName == currentUsername);
+        if (customer == null)
+        {
+            return HttpNotFound();
+        }
+
+        // Get all orders for THIS customer
+        // We include OrderStatu to show "Pending", "Completed", etc.
+        var orders = db.Orders
+            .Include(o => o.OrderStatu)
+            .Where(o => o.CustomerId == customer.Id)
+            .OrderByDescending(o => o.OrderDate)
+            .ToList();
+
+        return View(orders); // Pass the list of orders to a new view
+    }
+
+    // GET: Customer/OrderDetails/5
+    public ActionResult OrderDetails(int? id)
+    {
+        if (id == null)
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        // Get the current user (for security)
+        var currentUsername = User.Identity.Name;
+        var customerId = db.Customers.FirstOrDefault(c => c.UserName == currentUsername)?.Id;
+
+        // Find the order, including its items
+        var order = db.Orders
+            .Include(o => o.OrderItems.Select(oi => oi.Product)) // Include OrderItems
+            .Include(o => o.Customer) // Include the customer info
+            .Include(o => o.OrderStatu) // Include the status
+            .FirstOrDefault(o => o.Id == id);
+
+        if (order == null)
+        {
+            return HttpNotFound();
+        }
+
+        // SECURITY CHECK: Ensure the logged-in user is the one who owns this order
+        if (order.CustomerId != customerId)
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "You do not have access to this order.");
+        }
+
+        return View(order); // Pass the single order to a new view
     }
 }

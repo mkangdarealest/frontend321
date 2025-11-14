@@ -1,22 +1,17 @@
 ﻿@model frontend.Models.Product
 @{
+    // [FIX #1] Use the customer-facing layout
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = Model.Name;
 
-    // 1. Get the Image
     var image = Model.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? Model.ProductImages.FirstOrDefault();
-    string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Set a default placeholder
-
-    // 2. Format Prices
+    string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
     string price = Model.Price.HasValue ? Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
     string originalPrice = Model.OriginalPrice.HasValue ? Model.OriginalPrice.Value.ToString("N0") + "đ" : "";
-
-    // 3. Format Rating
     string rating = Model.Rating.HasValue ? Model.Rating.Value.ToString("0.0") : "N/A";
     int reviews = Model.ReviewsCount ?? 0;
 }
 
-@* Link to your CSS file *@
 <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
 
 <div class="product-container">
@@ -41,10 +36,6 @@
         </div>
 
         <div class="description">
-            @* Using Html.Raw() is the key.
-            This will render all the beautiful HTML (tables, lists, bold)
-            that you write in the Admin "Description" textbox.
-            *@
             @Html.Raw(Model.Description)
         </div>
 
@@ -54,6 +45,7 @@
             <tr><td><strong>Xuất xứ:</strong></td><td>@Model.Origin</td></tr>
             <tr><td><strong>Quy cách:</strong></td><td>@Model.Packaging</td></tr>
         </table>
+
         <div class="product-stock" style="margin-top: 15px; font-size: 1.1rem;">
             @if (Model.Quantity > 0)
             {
@@ -64,8 +56,27 @@
                 <strong style="color: #dc3545;">Tạm hết hàng</strong>
             }
         </div>
-        <button class="buy-button" @(Model.Quantity > 0 ? "" : "disabled")>
-            @(Model.Quantity > 0 ? "Mua ngay" : "Tạm hết hàng")
-        </button>
+
+        @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post, new { @class = "add-to-cart-form" }))
+        {
+            // Bug Fix: Use Model.Id (int), not Model.Name (string)
+            @Html.Hidden("productId", Model.Id)
+
+            // Add the quantity box
+            <div class="quantity-selector" style="margin-top: 20px; margin-bottom: 20px;">
+                <label for="quantity">Số lượng:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="@Model.Quantity"
+                       style="width: 60px; text-align: center;"
+                       @(Model.Quantity > 0 ? "" : "disabled") />
+            </div>
+
+            // Bug Fix: Move 'disabled' logic into the tag
+            <button type="submit" class="btn btn-primary btn-buy"
+                    @(Model.Quantity > 0 ? "" : "disabled")
+                    style="@(Model.Quantity > 0 ? "" : "background-color: #ccc; cursor: not-allowed;")">
+                @(Model.Quantity > 0 ? "Mua ngay" : "Tạm hết hàng")
+            </button>
+        }
+
     </div>
 </div>

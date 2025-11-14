@@ -1,20 +1,20 @@
 ﻿﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-@Html.Partial("_Header")
-<body>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-@Html.Partial("_Footer")
-</html>
+ <html>
+ <head>
+     <meta charset="utf-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>@ViewBag.Title</title>
+     @Styles.Render("~/Content/css")
+     @Scripts.Render("~/bundles/modernizr")
+ </head>
+ @Html.Partial("_Header")
+ <body>
+     <div class="container body-content">
+         @RenderBody()
+     </div>
+     @Scripts.Render("~/bundles/jquery")
+     @Scripts.Render("~/bundles/bootstrap")
+     @RenderSection("scripts", required: false)
+ </body>
+ @Html.Partial("_Footer")
+ </html>

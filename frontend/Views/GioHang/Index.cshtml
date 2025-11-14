@@ -1,0 +1,215 @@
+﻿@model List<frontend.Models.CartItem>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal totalAmount = Model.Sum(item => item.LineTotal);
+}
+
+<link href="~/css/GioHang.css" rel="stylesheet" />
+<div class="container_1">
+    <h1>Giỏ hàng</h1>
+
+    <div id="cart-error-message" style="display:none; background-color: #ffebe6; border: 1px solid #e43f3f; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #b71c1c;">
+    </div>
+
+    <div class="cart-layout">
+
+        <div class="cart-items">
+            @if (Model.Count == 0)
+            {
+                <div class="empty-state">
+                    <h2>Giỏ hàng của bạn đang rỗng</h2>
+                    <p>Hãy thêm sản phẩm vào giỏ để tiếp tục mua sắm nhé!</p>
+                    @Html.ActionLink("Tiếp tục mua hàng", "LongChauClone", "TrangChu", null, new { @class = "cta-shopping" })
+                </div>
+            }
+            else
+            {
+                <div id="cart-item-list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="cart-product" id="product-row-@item.ProductId">
+                            <img src="@(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
+                            <div class="cart-product-name">
+                                @item.ProductName
+                            </div>
+
+                            <div class="cart-product-price">
+                                <button class="decrease-btn cart-update-btn" data-product-id="@item.ProductId" data-operation="decrease" title="Giảm 1">-</button>
+                                <span class="quantity" id="quantity-@item.ProductId">@item.Quantity</span>
+                                <button class="increase-btn cart-update-btn" data-product-id="@item.ProductId" data-operation="increase" title="Thêm 1">+</button>
+                            </div>
+
+                            @using (Html.BeginForm("RemoveFromCart", "GioHang", FormMethod.Post, new { @class = "cart-remove-form" }))
+                            {
+                                @Html.Hidden("productId", item.ProductId)
+                                <button type="submit" class="remove-btn" title="Xóa khỏi giỏ">Xóa</button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <aside class="cart-summary">
+            <h2>Tổng cộng</h2>
+            <div class="summary-line">
+                <span>Tạm tính</span>
+                <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
+            </div>
+            @using (Html.BeginForm("ApplyDiscount", "GioHang", FormMethod.Post, new { id = "discount-form" }))
+            {
+                <div class="summary-line">
+                    @Html.TextBox("couponCode", null, new { placeholder = "Nhập mã giảm giá" })
+                    <button type="submit" class="apply-btn">Áp dụng</button>
+                </div>
+            }
+
+            <div class="summary-line" id="discount-line" style="display:none; color: #00b33c;">
+                <span>Giảm giá</span>
+                <span id="summary-discount">0 đ</span>
+            </div>
+
+            <div class="summary-line total">
+                <span>Thành tiền</span>
+                <span id="summary-total">@totalAmount.ToString("N0") đ</span>
+            </div>
+
+            @if (Model.Count > 0)
+            {
+                if (User.IsInRole("Customer"))
+                {
+                    @Html.ActionLink("Thanh toán", "Index", "Checkout", null, new { @class = "checkout-btn", style = "text-decoration:none;padding:10px;" })
+                }
+                else
+                {
+                    @Html.ActionLink("Đăng nhập/Đăng kí để thanh toán", "Login", "TrangChu", null, new { @class = "checkout-btn", style = "text-decoration:none;" })
+                }
+            }
+            else
+            {
+                <button class="checkout-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Thanh toán</button>
+            }
+        </aside>
+    </div>
+</div>
+@section scripts {
+    <script>
+    $(document).ready(function () {
+
+        // --- Handle UPDATE (Increase/Decrease) ---
+        $('#cart-item-list').on('click', '.cart-update-btn', function (e) {
+            e.preventDefault();
+
+            var $button = $(this);
+            var productId = $button.data('product-id');
+            var operation = $button.data('operation');
+
+            var $quantitySpan = $('#quantity-' + productId);
+            var currentQuantity = parseInt($quantitySpan.text());
+
+            var newQuantity = (operation === 'increase') ? currentQuantity + 1 : currentQuantity - 1;
+
+            $button.closest('.cart-product').css('opacity', 0.5);
+
+            $.post('@Url.Action("UpdateCart", "GioHang")',
+                   { productId: productId, newQuantity: newQuantity },
+                   function (response) {
+
+                $('#product-row-' + productId).css('opacity', 1);
+
+                if (response.success) { // <-- Handle success
+
+                    if (response.itemQuantity <= 0) {
+                        $('#product-row-' + productId).fadeOut(300, function() {
+                            $(this).remove();
+                            if ($('#cart-item-list .cart-product').length === 0) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        $quantitySpan.text(response.itemQuantity);
+                    }
+
+                    $('#summary-subtotal').text(response.totalAmount);
+                    $('#summary-total').text(response.totalAmount);
+                    $('.header-cart-link').text('Giỏ hàng (' + response.cartItemCount + ')');
+
+                    if (response.message) {
+                        $('#cart-error-message').text(response.message).show();
+                    } else {
+                        $('#cart-error-message').hide();
+                    }
+                }
+                else { // <-- [NEW] Handle failure
+                    $('#cart-error-message').text(response.message).show();
+                }
+            });
+        });
+
+        // --- Handle REMOVE ---
+        $('#cart-item-list').on('submit', '.cart-remove-form', function (e) {
+            e.preventDefault();
+
+            var $form = $(this);
+            var url = $form.attr('action');
+            var data = $form.serialize();
+
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                $.post(url, data, function (response) {
+                    if (response.success) {
+                        $form.closest('.cart-product').fadeOut(300, function () {
+                            $(this).remove();
+                            if ($('#cart-item-list .cart-product').length === 0) {
+                                location.reload();
+                            }
+                        });
+
+                        $('#summary-subtotal').text(response.totalAmount);
+                        $('#summary-total').text(response.totalAmount);
+                        $('.header-cart-link').text('Giỏ hàng (' + response.cartItemCount + ')');
+                    }
+                });
+            }
+        });
+
+        // --- Handle DISCOUNT ---
+        $('#discount-form').on('submit', function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            var $messageDiv = $('#discount-message');
+            // We also need the main error div
+            var $errorDiv = $('#cart-error-message');
+            var data = $form.serialize();
+            var url = $form.attr('action');
+
+            $.post(url, data, function (response) {
+                if (response.success) {
+                    // It worked! Show success.
+                    $('#summary-discount').text(response.discountAmountFormatted);
+                    $('#summary-total').text(response.finalTotalFormatted);
+                    $('#discount-line').show();
+
+                    // Use the discount-message div for success
+                    $messageDiv.text(response.message)
+                        .css({ 'background-color': '#e6f7ec', 'border': '1px solid #00b33c', 'color': '#00521b' })
+                        .show();
+                    $errorDiv.hide(); // Hide the main error div
+                }
+                else {
+                    // Hide discount line
+                    $('#discount-line').hide();
+
+                    // Reset totals
+                    $('#summary-discount').text("0 đ");
+                    $('#summary-total').text($('#summary-subtotal').text()); // Resets total
+
+                    // Show error message in the RED error div
+                    $errorDiv.text(response.message).show();
+                    $messageDiv.hide(); // Hide the green success div
+                }
+            });
+        });
+    });
+    </script>
+}

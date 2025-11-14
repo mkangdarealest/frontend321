@@ -1,0 +1,66 @@
+﻿@model frontend.Models.Order
+@{
+    ViewBag.Title = "Chi tiết đơn hàng #" + Model.Id;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/GioHang.css" rel="stylesheet" />
+
+<div class="container_1">
+    <h1>@ViewBag.Title</h1>
+
+    <div class="cart-layout">
+
+        <div class="cart-items">
+            <h3>Thông tin đơn hàng</h3>
+            <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><strong>Trạng thái:</strong> @Model.OrderStatu.Name</p>
+            <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod</p>
+            <hr />
+            <h3>Thông tin người nhận</h3>
+            <p><strong>Họ tên:</strong> @Model.Customer.FirstName @Model.Customer.LastName</p>
+            <p><strong>Email:</strong> @Model.Customer.Email</p>
+            <p><strong>Số điện thoại:</strong> @Model.Customer.Phone</p>
+            <p><strong>Địa chỉ:</strong> @Model.Customer.AddressLine</p>
+        </div>
+
+        <aside class="cart-summary">
+            <h2>Chi tiết sản phẩm</h2>
+
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="cart-product" style="background-color: #fff;">
+                    <div class="cart-product-name">
+                        @item.ProductName
+                        <div style="color: #888; font-size: 0.9em;">SL: @item.Quantity</div>
+                    </div>
+                    <div class="cart-product-price" style="min-width: 80px;">
+                        @(item.UnitPrice.ToString("N0")) đ
+                    </div>
+                </div>
+            }
+
+            <hr />
+
+            <div class="summary-line">
+                <span>Tạm tính</span>
+                <span>@Model.SubTotal.ToString("N0") đ</span>
+            </div>
+
+            @if (Model.Discount > 0)
+            {
+                <div class="summary-line" style="color: #00b33c;">
+                    <span>Giảm giá</span>
+                    <span>-@Model.Discount.ToString("N0") đ</span>
+                </div>
+            }
+
+            <div class="summary-line total">
+                <span>Thành tiền</span>
+                <span>@Model.Total.ToString("N0") đ</span>
+            </div>
+
+            @Html.ActionLink("Quay lại Lịch sử", "OrderHistory", null, new { @class = "checkout-btn", @style = "background-color: #555; text-align: center;" })
+        </aside>
+    </div>
+</div>

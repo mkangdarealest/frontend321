@@ -36,5 +36,6 @@ namespace frontend.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<DiscountCoupon> DiscountCoupons { get; set; }
     }
 }
