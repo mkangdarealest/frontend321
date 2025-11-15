@@ -177,10 +177,11 @@ namespace frontend.Controllers
                 db.SaveChanges();
 
                 // Log the new user in automatically
-                FormsAuthentication.SetAuthCookie(model.UserName, false);
+                //FormsAuthentication.SetAuthCookie(model.UserName, false);
 
                 // Send them to the home page
-                return RedirectToAction("LongChauClone", "TrangChu");
+                //return RedirectToAction("LongChauClone", "TrangChu");
+                return RedirectToAction("Login", "TrangChu");
             }
 
             // If we got this far, something failed, redisplay form

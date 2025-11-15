@@ -20,28 +20,32 @@
             </form>
         </div>
         <div class="lc-user">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="admin-nav" style="padding: 5px; margin-top: 5px;">
+                    <strong>Admin:</strong>
+                    @Html.ActionLink("Manage Products", "Index", "Products") |
+                    @Html.ActionLink("Manage Categories", "Index", "Categories") |
+                    @Html.ActionLink("Manage Customers", "Index", "AdminCustomers") |
+                    @Html.ActionLink("Manage Orders", "Index", "AdminOrders") |
+                    @Html.ActionLink("Manage Stock", "Index", "AdminStock") |
+                    @Html.ActionLink("Manage Other Admins", "Index", "AdminUsers") |
+                </div>
+            }
             @if (User.Identity.IsAuthenticated)
             {
                 <text>
-                            <span class="welcome-message">
-                                Chào bạn, @User.Identity.Name!
-                                @Html.ActionLink("Hồ sơ khách hàng", "Index", "Customer")
-                                ||
-                                @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer")
-                            </span>
+                    <span class="welcome-message">
+                        Chào bạn, @User.Identity.Name!
+                        @Html.ActionLink("Hồ sơ khách hàng", "Index", "Customer")
+                        ||
+                        @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer")
+                    </span>
                 </text>
                 using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
                     <a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
-                }
-                if (User.IsInRole("Admin"))
-                {
-                    <div class="admin-nav" style="background: #f0f0f0; padding: 5px; margin-top: 5px;">
-                        <strong>Admin:</strong>
-                        @Html.ActionLink("Manage Products", "Index", "Products") |
-                        @Html.ActionLink("Manage Categories", "Index", "Categories")
-                    </div>
                 }
             }
             else
@@ -52,15 +56,6 @@
         </div>
         <div class="lc-cart">
             @Html.Action("CartSummary", "GioHang")
-            @*<a href="/TrangChu/GioHang" id="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-            Giỏ hàng
-            <span>
-                (
-                <span id="cart-count">0</span>
-                )
-            </span>
-        </a>*@
         </div>
     </div>
     <nav class="lc-nav">
@@ -97,8 +92,8 @@
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
                                     </a>
                                     @*<a href="#" class="category-card">
-                                            <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
-                                        </a>*@
+                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
+                                </a>*@
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
                                     </a>
@@ -247,6 +242,9 @@
         <ul>
             <li><a href="/TrangChu/LongChauClone">Trang chủ</a></li>
             <li><a href="/TrangChu/Thuoc">Thuốc</a></li>
+            //
+            @{ Html.RenderAction("CategoryNavigation", "TrangChu"); }
+            //
 
             <li class="mobile-menu-dropdown">
                 <a class="mobile-menu-toggle-sub">
