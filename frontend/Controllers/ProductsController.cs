@@ -1,15 +1,17 @@
-﻿using System;
+﻿using frontend.Models;
+using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
 using System.Text;
 using System.Text.RegularExpressions;
-using frontend.Models;
-using PagedList;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace frontend.Controllers
 {
@@ -84,7 +86,7 @@ namespace frontend.Controllers
         [ValidateAntiForgeryToken]
         // 1. Notice the new parameter: 'IEnumerable<ProductImage> productImages'
         // 2. We removed 'ProductImages' from the [Bind] list.
-        public ActionResult Create([Bind(Include = "Id,Name,Brand,ShortDescription,Description,Price,OriginalPrice,Rating,ReviewsCount,Ingredients,UsageInfo,Origin,Packaging,Quantity")] Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds)
+        public ActionResult Create([Bind(Include = "Id,Name,Brand,ShortDescription,Description,Price,OriginalPrice,Rating,ReviewsCount,Ingredients,UsageInfo,Origin,Packaging,Quantity")] Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds, IEnumerable<HttpPostedFileBase> ImageFiles)
         {
             try
             {
@@ -123,6 +125,36 @@ namespace frontend.Controllers
 
                         // Save the images to the database
                         db.SaveChanges();
+                    }
+                    if (ImageFiles != null)
+                    {
+                        foreach (var file in ImageFiles)
+                        {
+                            if (file != null && file.ContentLength > 0)
+                            {
+                                // Generate a unique file name to avoid overwrites
+                                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                                // Define the save path (you have a /hinh/ folder)
+                                // Let's create a subfolder for product uploads
+                                string savePath = Path.Combine(Server.MapPath("~/hinh/products/"), fileName);
+
+                                // Create directory if it doesn't exist
+                                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+
+                                // Save the file
+                                file.SaveAs(savePath);
+
+                                // Create a new ProductImage entry for the database
+                                var newDbImage = new ProductImage
+                                {
+                                    ProductId = product.Id,
+                                    Url = "~/hinh/products/" + fileName, // Save the relative path
+                                    IsPrimary = false // You can add logic for this
+                                };
+                                db.ProductImages.Add(newDbImage);
+                            }
+                        }
                     }
 
                     return RedirectToAction("Index");
@@ -171,7 +203,7 @@ namespace frontend.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // 1. Notice the new parameter: 'IEnumerable<ProductImage> productImages'
-        public ActionResult Edit(Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds) // This is the product from the form
+        public ActionResult Edit(Product product, IEnumerable<ProductImage> productImages, int[] selectedCategoryIds, IEnumerable<HttpPostedFileBase> ImageFiles) // This is the product from the form
         {
             if (ModelState.IsValid)
             {
@@ -243,6 +275,36 @@ namespace frontend.Controllers
                             {
                                 newImage.ProductId = productToUpdate.Id;
                                 db.ProductImages.Add(newImage);
+                            }
+                        }
+                    }
+                    if (ImageFiles != null)
+                    {
+                        foreach (var file in ImageFiles)
+                        {
+                            if (file != null && file.ContentLength > 0)
+                            {
+                                // Generate a unique file name to avoid overwrites
+                                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                                // Define the save path (you have a /hinh/ folder)
+                                // Let's create a subfolder for product uploads
+                                string savePath = Path.Combine(Server.MapPath("~/hinh/products/"), fileName);
+
+                                // Create directory if it doesn't exist
+                                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+
+                                // Save the file
+                                file.SaveAs(savePath);
+
+                                // Create a new ProductImage entry for the database
+                                var newDbImage = new ProductImage
+                                {
+                                    ProductId = product.Id,
+                                    Url = "~/hinh/products/" + fileName, // Save the relative path
+                                    IsPrimary = false // You can add logic for this
+                                };
+                                db.ProductImages.Add(newDbImage);
                             }
                         }
                     }

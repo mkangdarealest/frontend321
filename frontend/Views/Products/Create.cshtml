@@ -141,6 +141,29 @@
             <p class="help-block">Select images for this product. Check 'Primary' for the main image.</p>
         </div>
     </div>
+    using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Product</h4>
+            <hr />
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Upload from PC</label>
+                <div class="col-md-10">
+                    <input type="file" name="ImageFiles" id="ImageFiles" multiple class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Add by URL</label>
+                <div class="col-md-10">
+                </div>
+            </div>
+
+        </div>
+    }
     <div class="form-group">
         <label class="control-label col-md-2">Categories</label>
         <div class="col-md-10" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">

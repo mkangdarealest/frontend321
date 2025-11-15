@@ -18,6 +18,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="ParentCategoryId" Type="int" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Slug" Type="nvarchar" MaxLength="200" />
@@ -51,6 +52,7 @@
           <Property Name="District" Type="nvarchar" MaxLength="200" />
           <Property Name="PostalCode" Type="nvarchar" MaxLength="20" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="AvatarUrl" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DiscountCoupons">
           <Key>
@@ -361,6 +363,7 @@
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="Self.ProductCategories" FromRole="Categories" ToRole="Products" />
           <Property Name="ImgUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ParentCategoryId" Type="Int32" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -391,6 +394,7 @@
           <NavigationProperty Name="Reviews" Relationship="Self.FK_Reviews_Customers" FromRole="Customers" ToRole="Reviews" />
           <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="AvatarUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -683,6 +687,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="LongChauDbModel.Category">
               <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
                 <ScalarProperty Name="ImgUrl" ColumnName="ImgUrl" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -706,6 +711,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="LongChauDbModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="AvatarUrl" ColumnName="AvatarUrl" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

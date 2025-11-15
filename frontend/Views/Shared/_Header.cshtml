@@ -1,6 +1,57 @@
 ﻿@* Views/Shared/_Header.cshtml *@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
+@*//temp*@
+<style>
+    .user-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        object-fit: cover;
+        border: 2px solid #ddd;
+    }
+
+    .user-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 200px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 100;
+        right: 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+        .user-dropdown-content a,
+        .user-dropdown-content .logout-form button {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+        }
+
+            .user-dropdown-content a:hover,
+            .user-dropdown-content .logout-form button:hover {
+                background-color: #f1f1f1;
+            }
+
+    .user-dropdown:hover .user-dropdown-content {
+        display: block;
+    }
+</style>
+    <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" >
+
 <header id="lc-header">
     <div class="lc-header-top container">
         <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu">
@@ -34,20 +85,25 @@
             }
             @if (User.Identity.IsAuthenticated)
             {
-                <text>
-                    <span class="welcome-message">
-                        Chào bạn, @User.Identity.Name!
+                var avatarUrl = Session["UserAvatar"] as string ?? "~/hinh/R.png";
+
+                <div class="user-dropdown">
+                    <img src="@Url.Content(avatarUrl)" alt="Avatar" class="user-avatar" />
+                    <div class="user-dropdown-content">
+                        <div style="padding: 10px; border-bottom: 1px solid #ddd; background-color: #eee;">
+                            <strong>@User.Identity.Name</strong>
+                        </div>
                         @Html.ActionLink("Hồ sơ khách hàng", "Index", "Customer")
-                        ||
                         @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer")
-                    </span>
-                </text>
-                using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
-                }
+                        @using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm", @class = "logout-form", style = "color:#000000" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit">Đăng xuất</button>
+                        }
+                    </div>
+                </div>
             }
+
             else
             {
                 @Html.ActionLink("Đăng nhập", "Login", "TrangChu")
@@ -92,8 +148,8 @@
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/may_massage_level_3_4bf6a7b467.png" alt="Icon"> <span>Máy massage</span>
                                     </a>
                                     @*<a href="#" class="category-card">
-                                    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
-                                </a>*@
+                                            <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/tui_chuom_level_3_869011b667.png" alt="Icon"> <span>Túi chườm</span>
+                                        </a>*@
                                     <a href="#" class="category-card">
                                         <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/40x40/https://cms-prod.s3-sgn09.fptcloud.com/vo_ngan_tinh_mach_level_3_4977786e8d.png" alt="Icon"> <span>Vớ ngăn tĩnh mạch</span>
                                     </a>

@@ -25,6 +25,7 @@ namespace frontend.Models
         public string Slug { get; set; }
         public string Description { get; set; }
         public string ImgUrl { get; set; }
+        public Nullable<int> ParentCategoryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }

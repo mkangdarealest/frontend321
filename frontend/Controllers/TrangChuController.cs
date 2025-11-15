@@ -120,7 +120,7 @@ namespace frontend.Controllers
 
                 if (user != null)
                 {
-                    // --- THIS IS THE NEW PART ---
+                    Session["UserAvatar"] = user.AvatarUrl;
                     var ticket = new FormsAuthenticationTicket(
                         1,                                  // version
                         user.UserName,                      // user name
@@ -195,7 +195,7 @@ namespace frontend.Controllers
         {
             // Sign the user out
             FormsAuthentication.SignOut();
-            // Send them back to the home page
+            Session.Remove("UserAvatar");
             return RedirectToAction("LongChauClone", "TrangChu");
         }
         //end

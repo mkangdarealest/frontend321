@@ -3,7 +3,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-
+using System.IO;
+using System.Web;
 // 1. We protect the ENTIRE controller.
 // Only logged-in users can access any page here.
 [Authorize(Roles = "Customer")]
@@ -32,36 +33,62 @@ public class CustomerController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Index(Customer model)
+    // THÊM HttpPostedFileBase AvatarFile
+    public ActionResult Index(Customer model, HttpPostedFileBase AvatarFile)
     {
         if (ModelState.IsValid)
         {
-            // 1. Load the original user from the database
             var userToUpdate = db.Customers.Find(model.Id);
-
             if (userToUpdate == null)
             {
                 return HttpNotFound();
             }
 
-            // 2. Update ONLY the fields we want to allow changing
+            // Cập nhật thông tin text
             userToUpdate.FirstName = model.FirstName;
             userToUpdate.LastName = model.LastName;
             userToUpdate.Email = model.Email;
             userToUpdate.Phone = model.Phone;
             userToUpdate.AddressLine = model.AddressLine;
+            userToUpdate.City = model.City;
+            userToUpdate.District = model.District;
+            userToUpdate.PostalCode = model.PostalCode;
 
-            // 3. Mark as modified and save
+            // --- BẮT ĐẦU LOGIC UPLOAD ẢNH MỚI ---
+            if (AvatarFile != null && AvatarFile.ContentLength > 0)
+            {
+                // Xóa ảnh cũ nếu có (tránh rác server)
+                if (!string.IsNullOrEmpty(userToUpdate.AvatarUrl))
+                {
+                    var oldPath = Server.MapPath(userToUpdate.AvatarUrl);
+                    if (System.IO.File.Exists(oldPath))
+                    {
+                        System.IO.File.Delete(oldPath);
+                    }
+                }
+
+                // Lưu ảnh mới
+                string fileName = Path.GetFileNameWithoutExtension(AvatarFile.FileName);
+                string extension = Path.GetExtension(AvatarFile.FileName);
+                fileName = fileName + "_" + userToUpdate.Id + extension; // Tạo tên file unique
+
+                string savePath = Path.Combine(Server.MapPath("~/hinh/avatars/"), fileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath)); // Tạo thư mục nếu chưa có
+                AvatarFile.SaveAs(savePath);
+
+                // Cập nhật URL trong database
+                userToUpdate.AvatarUrl = "~/hinh/avatars/" + fileName;
+            }
             db.Entry(userToUpdate).State = EntityState.Modified;
             db.SaveChanges();
 
-            // 4. Show a success message (optional)
-            ViewBag.SuccessMessage = "Cập nhật thông tin thành công!";
+            // Cập nhật avatar trong Session
+            Session["UserAvatar"] = userToUpdate.AvatarUrl;
 
+            ViewBag.SuccessMessage = "Cập nhật thông tin thành công!";
             return View(userToUpdate);
         }
 
-        // If model is not valid, return the form with errors
         return View(model);
     }
     // GET: Customer/OrderHistory
