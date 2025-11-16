@@ -1,6 +1,7 @@
 ﻿using frontend.Models;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -14,8 +15,16 @@ namespace frontend.Controllers
         [ChildActionOnly] // This means it can only be called from another view
         public ActionResult CategoryNavigation()
         {
-            var categories = db.Categories.ToList();
-            return PartialView("_CategoryNavigation", categories);
+            var allCategories = db.Categories.ToList();
+            var parentCategories = allCategories
+                                     .Where(c => c.ParentCategoryId == null)
+                                     .OrderBy(c => c.Name) // You can change this to an "Order" column if you add one later
+                                     .ToList();
+
+            ViewBag.AllCategories = allCategories;
+
+            // 4. Pass *only the parents* as the main Model to the view.
+            return PartialView("_CategoryNavigation", parentCategories);
         }
         //Database to View
         LongChauDbEntities db = new LongChauDbEntities();
@@ -46,6 +55,27 @@ namespace frontend.Controllers
             {
                 return HttpNotFound();
             }
+
+            var productCategory = product.Categories.FirstOrDefault();
+            if (productCategory != null)
+            {
+                var similarProducts = db.Products
+                    .Where(p => p.Categories.Any(c => c.Id == productCategory.Id) // In the same category
+                                && p.Id != product.Id // Not the product itself
+                                && p.Quantity > 0)    // In stock
+                    .Include(p => p.ProductImages) // Get images for display
+                    .OrderByDescending(p => p.CreatedAt) // Or OrderBy(p => Guid.NewGuid()) for random
+                    .Take(5) // Get top 5
+                    .ToList();
+
+                ViewBag.SimilarProducts = similarProducts;
+            }
+            else
+            {
+                ViewBag.SimilarProducts = new List<Product>(); // Pass an empty list
+            }
+            // === END NEW LOGIC ===
+
 
             // Go directly to the "Details" view and pass it the product
             // The URL in the browser STAYS as .../ViewProduct/your-product-slug

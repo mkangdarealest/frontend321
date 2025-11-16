@@ -6,8 +6,6 @@
 
 <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
 <script src="~/js/LongChauClone.js"></script>
-@* --- BANNER SLIDER TRONG SUỐT (PHIÊN BẢN MỚI) --- *@
-
 <div id="topSlider" class="top-transparent-banner container">
 
     <div class="top-slider-item active">
@@ -32,28 +30,21 @@
     <button class="top-slider-arrow next" id="topSliderNext">&gt;</button>
 
 </div>
-@* --- HẾT BANNER SLIDER TRONG SUỐT --- *@@* --- BANNER SCRIPT --- *@
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        banner(); // Hàm này nằm trong LongChauClone.js, giữ nguyên để chạy slider
+        banner();
     });
 </script>
 
-@* --- BANNER SECTION (ĐÃ SỬA) --- *@
 <section class="lc-categories_banner">
     <div class="lc-categories_banner container_1">
-
-        @* Wrapper mới để chia cột *@
         <div class="lc-banner-layout">
-
-            @* CỘT TRÁI: SLIDER (Chuyển động) *@
             <div class="lc-banner-left">
                 <div class="lc-banner-slider">
                     <img src="~/hinh/111.jpg" alt="Banner Slider 1" class="active" />
                     <img src="~/hinh/222.png" alt="Banner Slider 2" />
                     <img src="~/hinh/333.jpg" alt="Banner Slider 3" />
-                    @* Bạn có thể thêm hình slider thứ 3 vào đây nếu muốn *@
-
                     <div class="lc-banner-dots">
                         <span class="dot active"></span>
                         <span class="dot"></span>
@@ -61,15 +52,11 @@
                     </div>
                 </div>
             </div>
-
-            @* CỘT PHẢI: BANNER TĨNH (2 hình nhỏ) *@
             <div class="lc-banner-right">
                 <div class="lc-banner-static-item">
-                    @* Sửa đường dẫn hình ảnh tĩnh số 1 tại đây *@
                     <a href="#"><img src="~/hinh/444.png" alt="Banner Static 1" /></a>
                 </div>
                 <div class="lc-banner-static-item">
-                    @* Sửa đường dẫn hình ảnh tĩnh số 2 tại đây (Ví dụ: Banner_4.png) *@
                     <a href="#"><img src="~/hinh/555.jpg" alt="Banner Static 2" /></a>
                 </div>
             </div>
@@ -80,7 +67,7 @@
 
 <div class="background-image"></div>
 
-@{ Html.RenderAction("CategoryNavigation", "TrangChu"); }
+@*@{ Html.RenderAction("CategoryNavigation", "TrangChu"); }*@
 
 <section class="lc-products container">
     <h2>Tất cả sản phẩm</h2>
@@ -125,7 +112,6 @@
     </div>
 </section>
 
-@* --- MOBILE MENU SCRIPT --- *@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const toggleBtn = document.getElementById('mobileMenuToggle');
@@ -156,7 +142,6 @@
         }
     });
 </script>
-@* --- SCRIPT CHO HEADER CO RÚT KHI CUỘN --- *@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const headerTop = document.querySelector('.lc-header-top.container');
@@ -174,13 +159,11 @@
     });
 </script>
 
-@* --- MOBILE MENU SCRIPT (ĐÃ CÓ SẴN CỦA BẠN) --- *@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // ... (giữ nguyên code mobile menu của bạn) ...
     });
 </script>
-@* --- SCRIPT CHO TOP SLIDER (MŨI TÊN) --- *@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const topSlider = document.getElementById('topSlider');

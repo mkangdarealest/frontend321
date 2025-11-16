@@ -15,7 +15,6 @@ namespace frontend.Controllers
         // GET: AdminUsers
         public ActionResult Index()
         {
-            // Fulfills: "Trang Index: Chỉ lưu giữ danh sách người quản trị"
             return View(db.Admins.ToList());
         }
 

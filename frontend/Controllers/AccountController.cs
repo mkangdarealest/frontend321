@@ -73,7 +73,7 @@ namespace frontend.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Invalid username or password.");
+                ModelState.AddModelError("", "Wrong info dumbass.");
                 return View(model);
             }
         }

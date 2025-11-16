@@ -1,23 +1,39 @@
 ﻿@model IEnumerable<frontend.Models.Category>
-@*dynamic category*@
-<section class="lc-categories container">
-    <h2>Danh mục</h2>
-    <div class="lc-category-list">
-        @foreach (var category in Model)
+@using frontend.Models
+
+@* Get the full list of all categories that we stored in the controller *@
+@{
+    var allCategories = (List<Category>)ViewBag.AllCategories;
+}
+
+<nav class="main-navbar">
+    <ul class="nav-list">
+        @* This loop now only goes through the PARENT categories (e.g., "Dược Phẩm", "Chăm Sóc Cá Nhân") *@
+        @foreach (var parent in Model)
         {
-            <div class="lc-category-item">
-                <a href="@Url.Action("ProductsByCategory", "TrangChu", new { slug = category.Slug })" style="text-decoration: none;">
-                    @if (!string.IsNullOrEmpty(category.ImgUrl))
-                    {
-                        <img src="@Url.Content(category.ImgUrl)" alt="@category.Name" style="width: 30px; height: 30px;" />
-                    }
-                    else
-                    {
-                        <i class="fa fa-folder"></i>
-                    }
-                    <p>@category.Name</p>
-                </a>
-            </div>
+            // Find all children for the current parent
+            var children = allCategories
+                .Where(c => c.ParentCategoryId == parent.Id)
+                .OrderBy(c => c.Name)
+                .ToList();
+
+            <li class="nav-item @(children.Any() ? "has-dropdown" : "")">
+
+                @* This is the main link (e.g., "Dược Phẩm") *@
+                @Html.ActionLink(parent.Name, "ProductsByCategory", "TrangChu", new { slug = parent.Slug }, new { @class = "nav-link" })
+
+                @* If this parent has children, create a dropdown menu *@
+                @if (children.Any())
+                {
+                    <div class="dropdown-menu">
+                        @foreach (var child in children)
+                        {
+                            @* These are the child links (e.g., "Thuốc không kê đơn") *@
+                            @Html.ActionLink(child.Name, "ProductsByCategory", "TrangChu", new { slug = child.Slug }, new { @class = "dropdown-item" })
+                        }
+                    </div>
                 }
-     </div>      
-</section>
+            </li>
+        }
+    </ul>
+</nav>

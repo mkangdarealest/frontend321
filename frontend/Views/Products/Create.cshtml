@@ -1,267 +1,310 @@
 ﻿@model frontend.Models.Product
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+@* === CSS FOR THE IMAGE MANAGER === *@
+<style>
+    #image-manager-container {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+    }
 
-@using (Html.BeginForm())
+    .image-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+        .image-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+    .image-thumb {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .image-details {
+        flex-grow: 1; /* Takes up available space */
+        margin-right: 10px;
+    }
+
+    .image-actions {
+        min-width: 170px; /* Prevents wrapping */
+        display: flex;
+        align-items: center;
+    }
+
+        .image-actions label {
+            margin: 0 15px 0 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .image-actions .primary-radio {
+            margin-right: 5px;
+        }
+</style>
+
+<h2>Create New Product</h2>
+
+@* We must add enctype="multipart/form-data" for file uploads to work *@
+@using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Product</h4>
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @* This should be replaced with a rich text editor later *@
-            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 10 })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        @* === ADMIN-FRIENDLY LAYOUT === *@
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.UsageInfo, "Cách dùng", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.UsageInfo, new { @class = "form-control", @rows = 5 })
-            @Html.ValidationMessageFor(model => model.UsageInfo, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Packaging, "Quy cách", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Packaging, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Packaging, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "any" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Quantity, "Số lượng tồn", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
-            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "any" } })
+                @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, "Số lượng tồn", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = 0 } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.OriginalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.OriginalPrice, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.OriginalPrice, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control", @rows = 3 })
+                @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 10 })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ReviewsCount, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ReviewsCount, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ReviewsCount, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Ingredients, new { @class = "form-control", @rows = 4 })
+                @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UsageInfo, "Cách dùng", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.UsageInfo, new { @class = "form-control", @rows = 4 })
+                @Html.ValidationMessageFor(model => model.UsageInfo, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Product Images</label>
-        <div class="col-md-10">
-            <div id="imageSelectionContainer" style="max-height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
-                @* This area will be populated with image options *@
-                @foreach (var file in System.IO.Directory.EnumerateFiles(Server.MapPath("~/hinh")))
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Packaging, "Quy cách", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Packaging, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Packaging, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr />
+
+        @* === NEW UNIFIED IMAGE MANAGER === *@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Product Images</label>
+            <div class="col-md-10">
+                <div id="image-manager-container">
+
+                    @* This div will be empty on create, which is correct *@
+                    <div id="image-list"></div>
+
+                    <div class="text-danger" id="primary-image-warning" style="display:none; margin-top: 10px;">
+                        Please select one image as 'Primary'.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Add New URL</label>
+            <div class="col-md-10">
+                <div class="input-group">
+                    <input type="text" id="new-image-url" class="form-control" placeholder="https://example.com/image.png" />
+                    <div class="input-group-btn">
+                        <button type="button" id="add-url-btn" class="btn btn-info">Add URL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Upload New Files</label>
+            <div class="col-md-10">
+                <input type="file" name="ImageFiles" id="ImageFiles" multiple class="form-control" />
+                <span class="help-block">Uploading new files will *add* them to the product.</span>
+            </div>
+        </div>
+
+        @* === END NEW IMAGE MANAGER === *@
+
+        <hr />
+
+        @* === CATEGORIES SECTION === *@
+        <div class="form-group">
+            <label class="control-label col-md-2">Categories</label>
+            <div class="col-md-10" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+                @foreach (var category in (List<frontend.Models.Category>)ViewBag.AllCategories)
                 {
-                    var fileName = System.IO.Path.GetFileName(file);
-                    var filePath = Url.Content("~/hinh/" + fileName);
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="ProductImages[#idx#].Url" value="@filePath" /> @fileName
-                            <img src="@filePath" style="width: 50px; height: 50px; object-fit: cover; margin-left: 10px;" />
-                            <input type="radio" name="ProductImages[#idx#].IsPrimary" value="true" style="margin-left: 20px;" /> Primary
+                            <input type="checkbox"
+                                   name="selectedCategoryIds"
+                                   value="@category.Id" />
+                            @category.Name
                         </label>
                     </div>
                 }
             </div>
-            <p class="help-block">Select images for this product. Check 'Primary' for the main image.</p>
         </div>
-    </div>
-    using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Product</h4>
-            <hr />
-
-            <div class="form-group">
-                <label class="control-label col-md-2">Upload from PC</label>
-                <div class="col-md-10">
-                    <input type="file" name="ImageFiles" id="ImageFiles" multiple class="form-control" />
-                </div>
+        @* === SAVE BUTTON === *@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
             </div>
-
-            <div class="form-group">
-                <label class="control-label col-md-2">Add by URL</label>
-                <div class="col-md-10">
-                    <button type="button" id="AddUrlButton" class="btn btn-sm btn-info">Thêm ô nhập URL</button>
-                    <div id="UrlContainer" style="margin-top: 10px;">
-                        
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    }
-    <div class="form-group">
-        <label class="control-label col-md-2">Categories</label>
-        <div class="col-md-10" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-            @foreach (var category in (List<frontend.Models.Category>)ViewBag.AllCategories)
-            {
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"
-                               name="selectedCategoryIds"
-                               value="@category.Id" />
-                        @category.Name
-                    </label>
-                </div>
-            }
-        </div>
-    </div>
-    <hr />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    @* === NEW MECHANIC JAVASCRIPT (Identical to Edit.cshtml) === *@
     <script>
         $(document).ready(function () {
 
-            // This function runs just before the form is submitted
-            $('form').submit(function () {
-                var index = 0;
+            var imageListContainer = $('#image-list');
+            var primaryWarning = $('#primary-image-warning');
 
-                // Find ONLY the CHECKED checkboxes
-                $('#imageSelectionContainer input[type="checkbox"]:checked').each(function () {
-                    var $row = $(this).closest('.checkbox');
-                    var checkbox = $row.find('input[type="checkbox"]');
-                    var radio = $row.find('input[type="radio"]');
-
-                    // Set the sequential index '...[0]...', '...[1]...', etc.
-                    // This now binds to a separate parameter named 'productImages'
-                    checkbox.attr('name', 'productImages[' + index + '].Url');
-                    radio.attr('name', 'productImages[' + index + '].IsPrimary');
-
-                    index++;
+            // --- 1. FUNCTION to re-index all rows ---
+            function reindexImageManager() {
+                imageListContainer.children('.image-row').each(function (index) {
+                    $(this).find('.image-url-input').attr('name', `productImages[${index}].Url`);
+                    $(this).find('.image-primary-input').attr('name', `productImages[${index}].IsPrimary`);
                 });
-            });
+            }
 
-            // When a radio is clicked, uncheck all others and check its parent box
-            $('#imageSelectionContainer').on('change', 'input[type="radio"]', function () {
-                var $this = $(this);
-                if ($this.is(':checked')) {
-                    $('#imageSelectionContainer input[type="radio"]').not($this).prop('checked', false);
-                    $this.closest('.checkbox').find('input[type="checkbox"]').prop('checked', true);
-                }
-            });
+            // --- 2. CLICK HANDLER: Add new URL ---
+            $('#add-url-btn').on('click', function () {
+                var newUrl = $('#new-image-url').val();
+                if (newUrl && (newUrl.startsWith('http://') || newUrl.startsWith('https://'))) {
 
-            // When a checkbox is unchecked, uncheck its radio
-            $('#imageSelectionContainer').on('change', 'input[type="checkbox"]', function () {
-                if (!$(this).is(':checked')) {
-                    $(this).closest('.checkbox').find('input[type="radio"]').prop('checked', false);
-                }
-            });
-            $("#AddUrlButton").click(function () {
-                // Đếm xem đã có bao nhiêu ô input để tạo index mới
-                var newIndex = $("#UrlContainer .url-group").length;
+                    var newIndex = imageListContainer.children('.image-row').length;
 
-                // Tạo HTML cho ô input mới
-                var newRow = `
-                    <div class="input-group url-group" style="margin-bottom: 5px;">
-                        <input type="text" 
-                               name="productImages[${newIndex}].Url" 
-                               class="form-control" 
-                               placeholder="https://example.com/image.png" />
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-danger remove-url-btn">Xóa</button>
+                    var rowHtml = `
+                        <div class="image-row">
+                            <img src="${newUrl}" class="image-thumb" />
+                            <div class="image-details">
+                                <input type="text" class="form-control image-url-input" name="productImages[${newIndex}].Url" value="${newUrl}" readonly />
+                            </div>
+                            <div class="image-actions">
+                                <label>
+                                    <input type="radio" class="primary-radio" name="PrimarySelector" value="${newUrl}" /> Primary
+                                </label>
+                                <button type="button" class="btn btn-danger btn-xs remove-image-btn">Remove</button>
+                            </div>
+                            <input type="hidden" class="image-primary-input" name="productImages[${newIndex}].IsPrimary" value="false" />
                         </div>
-                    </div>`;
+                    `;
 
-                // Thêm vào container
-                $("#UrlContainer").append(newRow);
-            });
-            $("#UrlContainer").on("click", ".remove-url-btn", function () {
-                $(this).closest(".url-group").remove();
+                    imageListContainer.append(rowHtml);
+                    $('#new-image-url').val('');
 
-                // Cập nhật lại index của các ô còn lại để tránh lỗi
-                $("#UrlContainer .url-group").each(function (index, el) {
-                    var input = $(el).find("input[type='text']");
-                    input.attr("name", `productImages[${index}].Url`);
-                });
+                } else {
+                    alert('Please enter a valid, full URL (starting with http:// or https://).');
+                }
             });
+
+            // --- 3. CLICK HANDLER: Remove image row ---
+            imageListContainer.on('click', '.remove-image-btn', function () {
+                $(this).closest('.image-row').remove();
+                reindexImageManager(); // <-- This is CRITICAL
+            });
+
+            // --- 4. FORM SUBMIT: This fixes the primary button logic ---
+            $('form').submit(function (e) {
+
+                imageListContainer.find('.image-primary-input').val('false');
+                var checkedRadio = imageListContainer.find('.primary-radio:checked');
+
+                // Validation: Stop submit if there are images but none is primary
+                if (checkedRadio.length === 0 && imageListContainer.children('.image-row').length > 0) {
+                    primaryWarning.show();
+                    e.preventDefault();
+                    return;
+                }
+
+                if (checkedRadio.length > 0) {
+                    checkedRadio.closest('.image-row').find('.image-primary-input').val('true');
+                }
+
+                primaryWarning.hide();
+            });
+
         });
     </script>
 }

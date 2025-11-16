@@ -28,8 +28,11 @@ namespace frontend.Controllers
         [HttpPost]
         public ActionResult AddToCart(int productId, int quantity)
         {
-            // Find the product in the database
-            var product = db.Products.Find(productId);
+
+            var product = db.Products
+                .Include("ProductImages")
+                .SingleOrDefault(p => p.Id == productId);
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -71,7 +74,7 @@ namespace frontend.Controllers
                 {
                     ProductId = product.Id,
                     ProductName = product.Name,
-                    ProductImage = product.ProductImages.FirstOrDefault()?.Url, // Get first image
+                    ProductImage = (product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault())?.Url, // Get primary, or else first
                     UnitPrice = product.Price ?? 0, // Handle nullable decimal
                     Quantity = quantity
                 };

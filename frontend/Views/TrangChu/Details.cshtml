@@ -5,243 +5,54 @@
 
     var image = Model.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? Model.ProductImages.FirstOrDefault();
     string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
-    string price = Model.Price.HasValue ?
-Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
+    string price = Model.Price.HasValue ? Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
     string originalPrice = Model.OriginalPrice.HasValue ? Model.OriginalPrice.Value.ToString("N0") + "đ" : "";
     string rating = Model.Rating.HasValue ? Model.Rating.Value.ToString("0.0") : "N/A";
     int reviews = Model.ReviewsCount ?? 0;
 }
 
 <link rel="stylesheet" href="~/css/SanPham/detailed_product.css" />
-
-<div class="product-container">
-    <div class="product-image">
-        <img src="@Url.Content(imageUrl)" alt="@Model.Name" />
-
-        @* === KHỐI ĐÁNH GIÁ ĐÃ DI CHUYỂN BẮT ĐẦU TỪ ĐÂY === *@
-        <div class="review-content-wrapper">
-
-            <hr style="margin-top: 40px;" />
-
-            <style>
-                .rating-summary-container {
-                    border: 1px solid #e0e0e0;
-                    border-radius: 8px;
-                    padding: 20px;
-                }
-
-                .rating-bar-row {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 5px;
-                    font-size: 14px;
-                }
-
-                .rating-bar-label {
-                    width: 60px;
-                    color: #333;
-                }
-
-                .rating-bar-progress {
-                    flex-grow: 1;
-                    height: 10px;
-                    background-color: #f0f0f0;
-                    border-radius: 5px;
-                    margin: 0 10px;
-                    overflow: hidden;
-                }
-
-                .rating-bar-fill {
-                    height: 100%;
-                    background-color: #f8b800; /* Star color */
-                }
-
-                .rating-bar-count {
-                    width: 40px;
-                    text-align: right;
-                    color: #777;
-                }
-
-                .star-gold {
-                    color: #f8b800;
-                }
-            </style>
-
-            @{
-                var totalReviews = Model.ReviewsCount;
-                // THIS IS THE FIX for the 'double?' error.
-                // We use "?? 0m" to set a default of 0 if Model.Rating is null.
-                var avgRating = Model.Rating ?? 0m;
-
-                var fiveStar = 0;
-                var fourStar = 0;
-                var threeStar = 0;
-                var twoStar = 0;
-                var oneStar = 0;
-
-                var fiveStarPercent = 0.0;
-                var fourStarPercent = 0.0;
-                var threeStarPercent = 0.0;
-                var twoStarPercent = 0.0;
-                var oneStarPercent = 0.0;
-
-                // Check if Model.Reviews is not null before counting
-                if (totalReviews > 0 && Model.Reviews != null)
-                {
-                    fiveStar = Model.Reviews.Count(r => r.Rating == 5);
-                    fourStar = Model.Reviews.Count(r => r.Rating == 4);
-                    threeStar = Model.Reviews.Count(r => r.Rating == 3);
-                    twoStar = Model.Reviews.Count(r => r.Rating == 2);
-                    oneStar = Model.Reviews.Count(r => r.Rating == 1);
-                    // Calculate percentages
-                    fiveStarPercent = (fiveStar * 100.0) / totalReviews.Value;
-                    fourStarPercent = (fourStar * 100.0) / totalReviews.Value;
-                    threeStarPercent = (threeStar * 100.0) / totalReviews.Value;
-                    twoStarPercent = (twoStar * 100.0) / totalReviews.Value;
-                    oneStarPercent = (oneStar * 100.0) / totalReviews.Value;
-                }
-
-                // Logic for half-stars (now safe from null errors)
-                var fullStars = (int)Math.Truncate(avgRating);
-                var halfStar = (avgRating - fullStars) >= 0.5m ? 1 : 0;
-                var emptyStars = 5 - fullStars - halfStar;
+@{
+    var category = Model.Categories.FirstOrDefault();
+}
+<div class="breadcrumb-container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">@Html.ActionLink("Trang chủ", "LongChauClone", "TrangChu")</li>
+            @if (category != null)
+            {
+                <li class="breadcrumb-item">@Html.ActionLink(category.Name, "ProductsByCategory", "TrangChu", new { slug = category.Slug }, null)</li>
             }
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+</div>
 
-            <h3>Đánh giá sản phẩm</h3>
-
-            <div class="rating-summary-container">
-                <div class="row">
-                    <div class="col-md-4 text-center">
-                        <h4>Đánh giá trung bình</h4>
-                        <h1 style="font-size: 4em; font-weight: bold; color:
-            #d0021b;">
-                            @avgRating.ToString("0.0")<small>/5</small>
-                        </h1>
-                        <div style="font-size: 1.5em;"
-                             class="star-gold">
-                            @* This logic adds full, half, and empty stars *@
-                            @for (int i = 0; i < fullStars; i++)
-                            {
-                                <i class="fas fa-star"></i>
-                            }
-                            @if (halfStar > 0)
-                            {
-                                <i class="fas fa-star-half-alt"></i>
-                            }
-                            @for (int i = 0; i < emptyStars; i++)
-                            {
-                                <i class="far fa-star"></i>
-                            }
-                        </div>
-                        <p>
-                            (@totalReviews đánh
-                            giá)
-                        </p>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="rating-bar-row">
-                            <div class="rating-bar-label">5 <i class="fas fa-star star-gold"></i></div>
-                            <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @fiveStarPercent;"></div></div>
-                            <div class="rating-bar-count">@fiveStar</div>
-                        </div>
-                        <div class="rating-bar-row">
-                            <div class="rating-bar-label">4 <i class="fas fa-star star-gold"></i></div>
-                            <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @fourStarPercent;"></div></div>
-                            <div class="rating-bar-count">@fourStar</div>
-                        </div>
-                        <div class="rating-bar-row">
-                            <div class="rating-bar-label">3 <i class="fas fa-star star-gold"></i></div>
-                            <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @threeStarPercent;"></div></div>
-                            <div class="rating-bar-count">@threeStar</div>
-                        </div>
-                        <div class="rating-bar-row">
-                            <div class="rating-bar-label">2 <i class="fas fa-star star-gold"></i></div>
-                            <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @twoStarPercent;"></div></div>
-                            <div class="rating-bar-count">@twoStar</div>
-                        </div>
-                        <div class="rating-bar-row">
-                            <div class="rating-bar-label">1 <i class="fas fa-star star-gold"></i></div>
-                            <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @oneStarPercent;"></div></div>
-                            <div class="rating-bar-count">@oneStar</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 20px;
-            padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <h4>Gửi đánh giá của bạn</h4>
-                    using (Html.BeginForm("AddReview", "TrangChu", new { slug = Model.Slug }, FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class.form-group">
-                            <label>Xếp hạng:</label>
-                            <select name="rating" class="form-control" style="width: 200px;">
-                                <option value="5">5 sao (Tuyệt vời)</option>
-                                <option value="4">4 sao (Tốt)</option>
-                                <option value="3">3 sao (Khá)</option>
-                                <option value="2">2 sao (Tệ)</option>
-                                <option value="1">1 sao (Rất tệ)</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-top: 10px;">
-                            <label>Bình luận:</label>
-                            <textarea name="comment" class="form-control" rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Gửi đánh giá</button>
-                    }
-                }
-                else
-                {
-                    <div class="alert alert-info">
-                        Vui lòng
-                        <strong>@Html.ActionLink("đăng nhập", "Login", "TrangChu")</strong> để gửi đánh giá.
-                    </div>
-                }
-            </div>
-
-            <div style="margin-top: 30px;">
-                <h4>Tất cả đánh giá (@totalReviews)</h4>
-                @if (Model.Reviews != null && Model.Reviews.Any())
-                {
-                    foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAt))
-                    {
-                        <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
-                            <strong>@review.Customer.FirstName @review.Customer.LastName</strong>
-                            <span class_="" style="margin-left: 10px;">
-                                @for (int i = 0; i < review.Rating; i++)
-                                {
-                                    <i class="fas fa-star
-            star-gold"></i>
-                                }
-                                @for (int i = 0; i < (5 - review.Rating); i++)
-                                {
-                                    <i class="far fa-star star-gold"></i>
-                                }
-                            </span>
-                            <small class="text-muted" style="float: right;">@review.CreatedAt.ToString("dd/MM/yyyy")</small>
-                            <p style="margin-top: 5px;">@review.Body</p>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-                }
-            </div>
-
+<div class="details-layout-wrapper">
+    <div class="product-gallery-sticky">
+        <div class="main-image-wrapper">
+            <img src="@Url.Content(imageUrl)" alt="@Model.Name" id="main-product-image" />
         </div>
-        @* === KHỐI ĐÁNH GIÁ KẾT THÚC TẠI ĐÂY === *@
-
+        @if (Model.ProductImages != null && Model.ProductImages.Count > 1)
+        {
+            <div class="product-thumbnail-gallery">
+                @foreach (var img in Model.ProductImages.OrderBy(i => i.IsPrimary ? 0 : 1))
+                {
+                    <img src="@Url.Content(img.Url)"
+                         alt="@Model.Name thumbnail"
+                         class="thumbnail-image @(img.Url == imageUrl ? "active" : "")"
+                         data-large-url="@Url.Content(img.Url)" />
+                }
+            </div>
+        }
     </div>
+    <div class="product-details-column">
 
-    <div class="product-info">
-        <h1>@Model.Name</h1>
+            <h1>
+                @Html.Raw(Model.Description)
+            </h1>
         <p class="brand">Thương hiệu: <strong>@Model.Brand</strong></p>
-
+        
         <div class="price">
             <span class="current">@price</span>
             @if (!string.IsNullOrEmpty(originalPrice))
@@ -253,20 +64,25 @@ Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
         <div class="rating">
             ⭐ @rating / 5.0 - @reviews đánh giá
         </div>
-
-        <div class="description">
-            @Html.Raw(Model.Description)
+        <div class="store-guarantee">
+            <img src="~/hinh/store-guarantee.png" alt="Cam kết từ nhà thuốc" />
         </div>
-
-        <table class="details">
-            <tr><td><strong>Thành phần:</strong></td><td>@Model.Ingredients</td></tr>
-            <tr><td><strong>Cách dùng:</strong></td><td>@Model.UsageInfo</td></tr>
-            <tr><td><strong>Xuất xứ:</strong></td><td>@Model.Origin</td></tr>
-            <tr><td><strong>Quy cách:</strong></td><td>@Model.Packaging</td></tr>
-        </table>
-
-        <div class="product-stock" style="margin-top: 15px;
-        font-size: 1.1rem;">
+        <div class="product-tabs">
+            <ul class="tab-nav">
+                <li><a class="tab-link active" href="#tab-info">Thông tin sản phẩm</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-info" class="tab-pane active">
+                    <table class="details">
+                        <tr><td><strong>Thành phần:</strong></td><td>@Model.Ingredients</td></tr>
+                        <tr><td><strong>Cách dùng:</strong></td><td>@Model.UsageInfo</td></tr>
+                        <tr><td><strong>Xuất xứ:</strong></td><td>@Model.Origin</td></tr>
+                        <tr><td><strong>Quy cách:</strong></td><td>@Model.Packaging</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="product-stock" style="margin-top: 15px; font-size: 1.1rem;">
             @if (Model.Quantity > 0)
             {
                 <strong style="color: #28a745;">Còn hàng (Còn @Model.Quantity sản phẩm)</strong>
@@ -279,26 +95,373 @@ Model.Price.Value.ToString("N0") + "đ" : "Liên hệ";
 
         @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post, new { @class = "add-to-cart-form" }))
         {
-            // Bug Fix: Use Model.Id (int), not Model.Name (string)
             @Html.Hidden("productId", Model.Id)
 
-          
-            <div class="quantity-selector" style="margin-top: 20px;
-        margin-bottom: 20px;">
-            <label for="quantity">Số lượng:</label>
-            <input type = "number" id="quantity" name="quantity" value="1" min="1" max="@Model.Quantity"
-                   style="width: 60px;
-        text-align: center;"
-                   @(Model.Quantity > 0 ? "" : "disabled") />
-</div>
+            <div class="quantity-selector" style="margin-top: 20px; margin-bottom: 20px;font-size:20px;">
+                <label for="quantity">Số lượng:</label>
+                <div class="quantity-input-group">
+                    <button type="button" class="btn-qty btn-minus" @(Model.Quantity > 0 ? "" : "disabled")>-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="@Model.Quantity"
+                           class="quantity-input-field"
+                           @(Model.Quantity > 0 ? "" : "disabled") />
+                    <button type="button" class="btn-qty btn-plus" @(Model.Quantity > 0 ? "" : "disabled")>+</button>
+                </div>
+            </div>
 
-            // Bug Fix: Move 'disabled' logic into the tag
-<button type="submit" class="btn btn-primary btn-buy"
-        @(Model.Quantity  > 0 ? "" : "disabled")
-        style="@(Model.Quantity > 0 ? "" : "background-color: #ccc; cursor: not-allowed;")">
-    @(Model.Quantity > 0 ? "Mua ngay" : "Tạm hết hàng")
-</button>
+            <button type="submit" class="btn btn-primary btn-buy"
+                    @(Model.Quantity > 0 ? "" : "disabled")
+                    style="@(Model.Quantity > 0 ? "" : "background-color: #ccc; cursor: not-allowed;")">
+                @(Model.Quantity > 0 ? "Mua ngay" : "Tạm hết hàng")
+            </button>
         }
-        @* === PHẦN ĐÁNH GIÁ ĐÃ BỊ DI CHUYỂN KHỎI ĐÂY === *@
     </div>
+</div>
+@{
+    var similarProducts = ViewBag.SimilarProducts as List<frontend.Models.Product>;
+}
+
+@if (similarProducts != null && similarProducts.Any())
+{
+    <div class="similar-products-container">
+        <h3 class="similar-products-title">Sản phẩm tương tự</h3>
+        <div class="similar-products-grid">
+
+            @foreach (var p in similarProducts)
+            {
+                // Get image
+                var img = p.ProductImages.FirstOrDefault(i => i.IsPrimary) ?? p.ProductImages.FirstOrDefault();
+                var imgUrl = (img != null) ? img.Url : "~/hinh/VitaminC.jpg"; // Default image
+
+                // Get price
+                var pPrice = p.Price.HasValue ? p.Price.Value.ToString("N0") + "đ" : "Liên hệ";
+
+                <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = p.Slug })" class="similar-product-card">
+                    <img src="@Url.Content(imgUrl)" alt="@p.Name" class="similar-product-image" />
+                    <h4 class="similar-product-name">@p.Name</h4>
+                    <p class="similar-product-price">@pPrice</p>
+                </a>
+            }
+
+        </div>
     </div>
+}
+<div style="max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+    <div class="review-content-wrapper">
+
+        <style>
+            .rating-summary-container {
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                padding: 20px;
+            }
+
+            .rating-bar-row {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+                font-size: 14px;
+            }
+
+            .rating-bar-label {
+                width: 60px;
+                color: #333;
+            }
+
+            .rating-bar-progress {
+                flex-grow: 1;
+                height: 10px;
+                background-color: #f0f0f0;
+                border-radius: 5px;
+                margin: 0 10px;
+                overflow: hidden;
+            }
+
+            .rating-bar-fill {
+                height: 100%;
+                background-color: #f8b800; /* Star color */
+            }
+
+            .rating-bar-count {
+                width: 40px;
+                text-align: right;
+                color: #777;
+            }
+
+            .star-gold {
+                color: #f8b800;
+            }
+        </style>
+
+        @{
+            var totalReviews = Model.ReviewsCount;
+            // THIS IS THE FIX for the 'double?' error.
+            // We use "?? 0m" to set a default of 0 if Model.Rating is null.
+            var avgRating = Model.Rating ?? 0m;
+
+            var fiveStar = 0;
+            var fourStar = 0;
+            var threeStar = 0;
+            var twoStar = 0;
+            var oneStar = 0;
+
+            var fiveStarPercent = 0.0;
+            var fourStarPercent = 0.0;
+            var threeStarPercent = 0.0;
+            var twoStarPercent = 0.0;
+            var oneStarPercent = 0.0;
+
+            // Check if Model.Reviews is not null before counting
+            if (totalReviews > 0 && Model.Reviews != null)
+            {
+                fiveStar = Model.Reviews.Count(r => r.Rating == 5);
+                fourStar = Model.Reviews.Count(r => r.Rating == 4);
+                threeStar = Model.Reviews.Count(r => r.Rating == 3);
+                twoStar = Model.Reviews.Count(r => r.Rating == 2);
+                oneStar = Model.Reviews.Count(r => r.Rating == 1);
+
+                // Calculate percentages
+                fiveStarPercent = (fiveStar * 100.0) / totalReviews.Value;
+                fourStarPercent = (fourStar * 100.0) / totalReviews.Value;
+                threeStarPercent = (threeStar * 100.0) / totalReviews.Value;
+                twoStarPercent = (twoStar * 100.0) / totalReviews.Value;
+                oneStarPercent = (oneStar * 100.0) / totalReviews.Value;
+            }
+
+            // Logic for half-stars (now safe from null errors)
+            var fullStars = (int)Math.Truncate(avgRating);
+            var halfStar = (avgRating - fullStars) >= 0.5m ? 1 : 0;
+            var emptyStars = 5 - fullStars - halfStar;
+        }
+
+        <h3>Đánh giá sản phẩm</h3>
+
+        <div class="rating-summary-container">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <h4>Đánh giá trung bình</h4>
+
+                    <h1 style="font-size: 4em; font-weight: bold; color: #d0021b;">
+                        @avgRating.ToString("0.0")<small>/5</small>
+                    </h1>
+
+                    <div style="font-size: 1.5em;" class="star-gold">
+                        @* This logic adds full, half, and empty stars *@
+                        @for (int i = 0; i < fullStars; i++)
+                        {
+                            <i class="fas fa-star"></i>
+                        }
+                        @if (halfStar > 0)
+                        {
+                            <i class="fas fa-star-half-alt"></i>
+                        }
+
+                        @for (int i = 0; i < emptyStars; i++)
+                        {
+                            <i class="far fa-star"></i>
+
+                        }
+                    </div>
+                    <p>
+                        (@totalReviews đánh
+
+                        giá)
+                    </p>
+                </div>
+
+                <div class="col-md-8">
+
+                    <div class="rating-bar-row">
+                        <div class="rating-bar-label">5 <i class="fas fa-star star-gold"></i></div>
+                        <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @fiveStarPercent;"></div></div>
+                        <div class="rating-bar-count">@fiveStar</div>
+
+                    </div>
+                    <div class="rating-bar-row">
+                        <div class="rating-bar-label">4 <i class="fas fa-star star-gold"></i></div>
+
+                        <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @fourStarPercent;"></div></div>
+                        <div class="rating-bar-count">@fourStar</div>
+                    </div>
+                    <div class="rating-bar-row">
+
+                        <div class="rating-bar-label">3 <i class="fas fa-star star-gold"></i></div>
+                        <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @threeStarPercent;"></div></div>
+                        <div class="rating-bar-count">@threeStar</div>
+
+                    </div>
+                    <div class="rating-bar-row">
+                        <div class="rating-bar-label">2 <i class="fas fa-star star-gold"></i></div>
+                        <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @twoStarPercent;"></div></div>
+
+                        <div class="rating-bar-count">@twoStar</div>
+                    </div>
+                    <div class="rating-bar-row">
+
+                        <div class="rating-bar-label">1 <i class="fas fa-star star-gold"></i></div>
+                        <div class="rating-bar-progress"><div class="rating-bar-fill" style="width: @oneStarPercent;"></div></div>
+                        <div class="rating-bar-count">@oneStar</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <h4>Gửi đánh giá của bạn</h4>
+                using (Html.BeginForm("AddReview", "TrangChu", new { slug = Model.Slug }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class.form-group">
+                        <label>Xếp hạng:</label>
+
+                        <select name="rating" class="form-control" style="width: 200px;">
+                            <option value="5">5 sao (Hài lòng)</option>
+                            <option value="4">4 sao (Tốt)</option>
+
+                            <option value="3">3 sao (Khá)</option>
+                            <option value="2">2 sao (Tệ)</option>
+                            <option value="1">1 sao (Không hài lòng)</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+
+                        <label>Bình luận:</label>
+                        <textarea name="comment" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Gửi đánh giá</button>
+
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+
+                    Vui lòng
+                    <strong>@Html.ActionLink("đăng nhập", "Login", "TrangChu")</strong> để gửi đánh giá.
+                </div>
+            }
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h4>Tất cả đánh giá (@totalReviews)</h4>
+            @if (Model.Reviews != null && Model.Reviews.Any())
+            {
+                foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAt))
+                {
+                    <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+
+                        <strong>@review.Customer.FirstName @review.Customer.LastName</strong>
+                        <span class_="" style="margin-left: 10px;">
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <i class="fas fa-star star-gold"></i>
+                            }
+
+                            @for (int i = 0; i < (5 - review.Rating); i++)
+                            {
+                                <i class="far fa-star star-gold"></i>
+                            }
+                        </span>
+                        <small class="text-muted" style="float: right;">@review.CreatedAt.ToString("dd/MM/yyyy")</small>
+
+                        <p style="margin-top: 5px;">@review.Body</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+            }
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // --- 1. LOGIC FOR IMAGE GALLERY ---
+            const mainImage = document.getElementById("main-product-image");
+            const thumbnails = document.querySelectorAll(".thumbnail-image");
+
+            if (mainImage && thumbnails.length > 0) {
+                thumbnails.forEach(function (thumb) {
+                    thumb.addEventListener("click", function () {
+
+                        const largeUrl = this.getAttribute("data-large-url");
+                        mainImage.src = largeUrl;
+
+                        // Update the 'active' class
+                        thumbnails.forEach(t => t.classList.remove("active"));
+                        this.classList.add("active");
+                    });
+                });
+            }
+
+            // --- 2. LOGIC FOR PRODUCT TABS ---
+            const tabLinks = document.querySelectorAll(".tab-link");
+            const tabPanes = document.querySelectorAll(".tab-pane");
+
+            if (tabLinks.length > 0 && tabPanes.length > 0) {
+                tabLinks.forEach(function (link) {
+                    link.addEventListener("click", function (e) {
+                        e.preventDefault(); // Stop the link from jumping
+
+                        const tabId = this.getAttribute("href"); // e.g., "#tab-info"
+
+                        // Remove 'active' class from all
+                        tabLinks.forEach(l => l.classList.remove("active"));
+                        tabPanes.forEach(p => p.classList.remove("active"));
+
+                        // Add 'active' class to the clicked link and its matching pane
+                        this.classList.add("active");
+                        document.querySelector(tabId).classList.add("active");
+                    });
+                });
+            }
+
+            // --- 3. LOGIC FOR QUANTITY BUTTONS ---
+            const btnMinus = document.querySelector(".btn-minus");
+            const btnPlus = document.querySelector(".btn-plus");
+            const quantityInput = document.querySelector("#quantity");
+
+            if (btnMinus && btnPlus && quantityInput) {
+
+                const minQty = parseInt(quantityInput.min, 10);
+                const maxQty = parseInt(quantityInput.max, 10);
+
+                btnPlus.addEventListener("click", function () {
+                    let currentValue = parseInt(quantityInput.value, 10);
+                    if (isNaN(currentValue)) { currentValue = minQty; }
+
+                    if (currentValue < maxQty) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                });
+
+                btnMinus.addEventListener("click", function () {
+                    let currentValue = parseInt(quantityInput.value, 10);
+                    if (isNaN(currentValue)) { currentValue = minQty; }
+
+                    if (currentValue > minQty) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+
+                quantityInput.addEventListener("change", function () {
+                    let currentValue = parseInt(quantityInput.value, 10);
+                    if (isNaN(currentValue) || currentValue < minQty) {
+                        quantityInput.value = minQty;
+                    } else if (currentValue > maxQty) {
+                        quantityInput.value = maxQty;
+                    }
+                });
+            }
+        });
+    </script>
+}

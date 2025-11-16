@@ -29,7 +29,7 @@
                     @foreach (var item in Model)
                     {
                         <div class="cart-product" id="product-row-@item.ProductId">
-                            <img src="@(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
+                            <img src="@Url.Content(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
                             <div class="cart-product-name">
                                 @item.ProductName
                             </div>

@@ -47,7 +47,7 @@
             @foreach (var item in Model.CartItems)
             {
                 <div class="cart-product" style="background-color: #fff;">
-                    <img src="@(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
+                    <img src="@Url.Content(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
                     <div class="cart-product-name">
                         @item.ProductName
                         <div style="color: #888; font-size: 0.9em;">SL: @item.Quantity</div>
