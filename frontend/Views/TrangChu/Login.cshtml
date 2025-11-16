@@ -6,34 +6,45 @@
 
 <link href="~/css/Login.css" rel="stylesheet" type="text/css" />
 
-<div class="login-container"style="padding-top: 65px; padding-bottom: 20px;">
-    <h2>@ViewBag.Title</h2>
+<div class="login-container">
+    @*
 
-    @using (Html.BeginForm("Login", "TrangChu", FormMethod.Post, new { role = "form" }))
+    *@
+    @using (Html.BeginForm("Login", "TrangChu", FormMethod.Post, new { @class = "login-form" }))
     {
         @Html.AntiForgeryToken()
 
-        <div class="login-form">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h2>@ViewBag.Title</h2>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserName, "Tên đăng nhập")
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-            </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, "Tên đăng nhập")
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="Đăng nhập" class="btn btn-primary" />
-            </div>
+        <div class="form-group">
+            @* CHỈNH SỬA: Thêm chữ "Mật khẩu" cho label *@
+            @Html.LabelFor(m => m.Password, "Mật khẩu")
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
 
+        <div class="form-group">
+            @* CHỈNH SỬA: Đổi <input> thành <button> để dễ style 100% width.
+                Chức năng submit vẫn y hệt.
+            *@
+            <button type="submit" class="btn btn-primary">
+                Đăng nhập
+            </button>
+        </div>
+
+        @* CHỈNH SỬA: Thêm class "form-footer" để style link đăng ký *@
+        <div class="form-footer">
             <p>
-                Chưa có tài khoản? @Html.ActionLink("Đăng ký ngay", "Register")
+                Chưa có tài khoản?
+                @Html.ActionLink("Đăng ký ngay", "Register")
             </p>
         </div>
     }

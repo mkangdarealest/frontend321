@@ -25,9 +25,11 @@ namespace frontend.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<DiscountCoupon> DiscountCoupons { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderStatu> OrderStatus { get; set; }
@@ -35,7 +37,5 @@ namespace frontend.Models
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
-        public virtual DbSet<Admin> Admins { get; set; }
-        public virtual DbSet<DiscountCoupon> DiscountCoupons { get; set; }
     }
 }

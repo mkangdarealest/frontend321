@@ -87,3 +87,12 @@
     .buy-button:hover {
         background-color: #004080;
     }
+
+/*
+ * THÊM MỚI: Căn lề trái cho nội dung đánh giá đã di chuyển
+ * Ghi đè 'text-align: center;' từ class .product-image
+ */
+.product-image .review-content-wrapper {
+    text-align: left;
+    padding: 20px; /* Thêm padding cho đẹp, giống .product-info */
+}

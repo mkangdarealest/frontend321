@@ -4,100 +4,95 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@* Liên kết CSS được giữ nguyên theo yêu cầu của bạn *@
 <link href="~/css/register.css" rel="stylesheet" type="text/css" />
 
-<div class="register-container"style="padding-top: 65px; padding-bottom: 20px;">
-    <h2>@ViewBag.Title</h2>
+<div class="register-container" style="padding-top: 65px; padding-bottom: 20px;">
 
-    @using (Html.BeginForm("Register", "TrangChu", FormMethod.Post, new { role = "form" }))
+    @* Sử dụng cấu trúc form từ tệp Register.cshtml gốc:
+        1. Thêm class "register-form" vào BeginForm.
+        2. Chuyển <h2> vào BÊN TRONG form.
+    *@
+    @using (Html.BeginForm("Register", "TrangChu", FormMethod.Post, new { @class = "register-form" }))
     {
         @Html.AntiForgeryToken()
 
-<div class="register-form">
+        <h2>@ViewBag.Title</h2>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, "Tên đăng nhập *")
-        <div>
+        @* Sử dụng ValidationSummary ở trên cùng, thay vì cho từng trường lẻ *@
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, "Tên đăng nhập *")
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, "Mật khẩu *")
-        <div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, "Mật khẩu *")
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, "Họ")
-        <div>
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        @* Sử dụng "form-row" để chia 2 cột cho Họ và Tên *@
+        <div class="form-row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, "Họ")
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, "Tên *")
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, "Tên *")
-        <div>
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, "Email *")
-        <div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, "Email *")
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, "Số điện thoại")
+            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.AddressLine, "Địa chỉ", htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.AddressLine, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AddressLine, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.AddressLine, "Địa chỉ")
+            @Html.TextBoxFor(m => m.AddressLine, new { @class = "form-control" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, "Thành phố", htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+        @* --- BẮT ĐẦU: Các trường còn thiếu được thêm vào --- *@
+        @* (Lấy từ mã gốc của bạn và áp dụng style "form-control") *@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.City, "Thành phố")
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.District, "Quận/Huyện", htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.District, "Quận/Huyện")
+            @Html.TextBoxFor(m => m.District, new { @class = "form-control" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PostalCode, "Mã bưu điện", htmlAttributes: new { @class = "control-label" })
-        <div>
-            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.PostalCode, "Mã bưu điện")
+            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
         </div>
-    </div>
 
-    <div class="form-group">
-        <input type="submit" value="Tạo tài khoản" class="btn btn-primary" />
-    </div>
-</div>
+        @* --- KẾT THÚC: Các trường được thêm vào --- *@
+
+        <div class="form-group">
+            @* Sử dụng <button> thay vì <input> để nhất quán style *@
+            <button type="submit" class="btn btn-primary">
+                Tạo tài khoản
+            </button>
+        </div>
+
+        @* Thêm link quay về trang Đăng nhập *@
+        <div class="form-footer">
+            <p>
+                Đã có tài khoản?
+                @Html.ActionLink("Đăng nhập ngay", "Login")
+            </p>
+        </div>
     }
 </div>

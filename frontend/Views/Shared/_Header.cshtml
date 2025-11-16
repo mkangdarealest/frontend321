@@ -61,7 +61,7 @@
         </button>
         <div class="lc-logo">
             <a href="@Url.Action("LongChauClone", "TrangChu")">
-                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/https://cms-prod.s3-sgn09.fptcloud.com/smalls/logo_default_web_78584a5cc6.png" alt="Long Châu" />
+                <img src="~/hinh/logo_default_web_78584a5cc6.png" alt="Long Châu" />
             </a>
         </div>
         <div class="lc-search">
@@ -85,7 +85,7 @@
             }
             @if (User.Identity.IsAuthenticated)
             {
-                var avatarUrl = Session["UserAvatar"] as string ?? "~/hinh/R.png";
+                var avatarUrl = Session["UserAvatar"] as string ?? "~/hinh/999.jpg";
 
                 <div class="user-dropdown">
                     <img src="@Url.Content(avatarUrl)" alt="Avatar" class="user-avatar" />

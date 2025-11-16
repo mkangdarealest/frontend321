@@ -37,8 +37,8 @@ namespace frontend.Models
         public string UsageInfo { get; set; }
         public string Origin { get; set; }
         public string Packaging { get; set; }
-        public System.DateTime CreatedAt { get; set; }
         public int Quantity { get; set; }
+        public System.DateTime CreatedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }

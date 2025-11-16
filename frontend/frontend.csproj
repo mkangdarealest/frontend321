@@ -262,7 +262,16 @@
     <Content Include="favicon.ico" />
     <Content Include="favicon_1.ico" />
     <Content Include="Global.asax" />
+    <Content Include="hinh\111.jpg" />
+    <Content Include="hinh\222.png" />
+    <Content Include="hinh\333.jpg" />
+    <Content Include="hinh\444.png" />
+    <Content Include="hinh\555.jpg" />
+    <Content Include="hinh\666.png" />
+    <Content Include="hinh\777.png" />
     <Content Include="hinh\7_dau_hieu_buoi_sang_to_cao_benh_tieu_duong_16173fc65a.png" />
+    <Content Include="hinh\888.png" />
+    <Content Include="hinh\999.jpg" />
     <Content Include="hinh\Amoxicillin-500mg.png" />
     <Content Include="hinh\cold.png" />
     <Content Include="hinh\dich_cum_la_gi_bieu_hien_va_cach_chu_dong_phong_ngua_dich_cum_mua_1_9928bd56ac.png" />
@@ -270,12 +279,14 @@
     <Content Include="hinh\BrauerDHA.jpg" />
     <Content Include="hinh\CanxiDHC.jpg" />
     <Content Include="hinh\DSC_00718_b4a73be4c9.jpg" />
+    <Content Include="hinh\D_Theme_layer_1920x940_6_a668b0d0c5.png" />
     <Content Include="hinh\Ginkgo.jpg" />
     <Content Include="hinh\CoQ10.jpg" />
     <Content Include="hinh\gradient_hero.png" />
     <Content Include="hinh\header_desktop.png" />
     <Content Include="hinh\hero_banner.jpg" />
     <Content Include="hinh\JexMax.jpg" />
+    <Content Include="hinh\logo_default_web_78584a5cc6.png" />
     <Content Include="hinh\Magnesium.jpg" />
     <Content Include="hinh\Collagen.jpg" />
     <Content Include="hinh\MultiVitamin.jpg" />
@@ -323,6 +334,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Compile Include="Models\Customer.Partial.cs" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -330,7 +342,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Compile Include="Models\Customer.Partial.cs" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
