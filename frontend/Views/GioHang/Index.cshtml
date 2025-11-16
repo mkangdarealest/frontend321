@@ -53,43 +53,57 @@
 
         <aside class="cart-summary">
             <h2>Tổng cộng</h2>
-            <div class="summary-line">
-                <span>Tạm tính</span>
-                <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
-            </div>
-            @using (Html.BeginForm("ApplyDiscount", "GioHang", FormMethod.Post, new { id = "discount-form" }))
-            {
-                <div class="summary-line">
-                    @Html.TextBox("couponCode", null, new { placeholder = "Nhập mã giảm giá" })
-                    <button type="submit" class="apply-btn">Áp dụng</button>
-                </div>
-            }
-
-            <div class="summary-line" id="discount-line" style="display:none; color: #00b33c;">
-                <span>Giảm giá</span>
-                <span id="summary-discount">0 đ</span>
-            </div>
-
-            <div class="summary-line total">
-                <span>Thành tiền</span>
-                <span id="summary-total">@totalAmount.ToString("N0") đ</span>
-            </div>
-
             @if (Model.Count > 0)
             {
                 if (User.IsInRole("Customer"))
-                {
+                {   
+                    <div class="summary-line">
+                        <span>Tạm tính</span>
+                        <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
+                    </div>
+                    <div class="summary-line" id="discount-line" style="display:none; color: #00b33c;">
+                        <span>Giảm giá</span>
+                        <span id="summary-discount">0 đ</span>
+                    </div>
+                    using (Html.BeginForm("ApplyDiscount", "GioHang", FormMethod.Post, new { id = "discount-form" }))
+                    {
+                        <div class="summary-line">
+                            @Html.TextBox("couponCode", null, new { placeholder = "Nhập mã giảm giá" })
+                            <button type="submit" class="apply-btn">Áp dụng</button>
+                        </div>
+                    }
+                    <div class="summary-line total">
+                        <span>Thành tiền</span>
+                        <span id="summary-total">@totalAmount.ToString("N0") đ</span>
+                    </div>
                     @Html.ActionLink("Thanh toán", "Index", "Checkout", null, new { @class = "checkout-btn", style = "text-decoration:none;padding:10px;" })
                 }
                 else
                 {
+                    <div class="summary-line">
+                        <span>Tạm tính</span>
+                        <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
+                    </div>
+                    <div class="summary-line total">
+                        <span>Thành tiền</span>
+                        <span id="summary-total">@totalAmount.ToString("N0") đ</span>
+                    </div>
                     @Html.ActionLink("Đăng nhập/Đăng kí để thanh toán", "Login", "TrangChu", null, new { @class = "checkout-btn", style = "text-decoration:none;" })
                 }
             }
             else
             {
+                <div class="summary-line">
+                    <span>Tạm tính</span>
+                    <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
+                </div>
+                <div class="summary-line total">
+                    <span>Thành tiền</span>
+                    <span id="summary-total">@totalAmount.ToString("N0") đ</span>
+                </div>
                 <button class="checkout-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Thanh toán</button>
             }
+
         </aside>
     </div>
 </div>

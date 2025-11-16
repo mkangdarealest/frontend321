@@ -33,18 +33,44 @@ public class CustomerController : Controller
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
-    // THÊM HttpPostedFileBase AvatarFile
     public ActionResult Index(Customer model, HttpPostedFileBase AvatarFile)
     {
+        // --- NEW VALIDATION LOGIC ---
+        // Check if the user is trying to change their password
+        if (!string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(model.ConfirmPassword))
+        {
+            // If they are, manually check if the passwords match
+            if (model.Password != model.ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "Mật khẩu và mật khẩu xác nhận không khớp.");
+            }
+
+            // Also, manually check if the new password meets length requirements
+            if (string.IsNullOrEmpty(model.Password) || model.Password.Length < 12)
+            {
+                ModelState.AddModelError("Password", "Mật khẩu phải có ít nhất 12 ký tự.");
+            }
+        }
+        else
+        {
+            // If both fields are empty, the user is NOT changing their password.
+            // We must remove any errors from the 'Password' and 'ConfirmPassword' fields
+            // so that ModelState.IsValid becomes true.
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+        }
+        // --- END NEW VALIDATION LOGIC ---
+
         if (ModelState.IsValid)
         {
+            // 1. Load the original user from the database
             var userToUpdate = db.Customers.Find(model.Id);
             if (userToUpdate == null)
             {
                 return HttpNotFound();
             }
 
-            // Cập nhật thông tin text
+            // 2. Update ALL text fields
             userToUpdate.FirstName = model.FirstName;
             userToUpdate.LastName = model.LastName;
             userToUpdate.Email = model.Email;
@@ -54,41 +80,42 @@ public class CustomerController : Controller
             userToUpdate.District = model.District;
             userToUpdate.PostalCode = model.PostalCode;
 
-            // --- BẮT ĐẦU LOGIC UPLOAD ẢNH MỚI ---
+            // 3. --- PASSWORD LOGIC ---
+            // Only update the password IF the user entered a new one.
+            if (!string.IsNullOrEmpty(model.Password))
+            {
+                // In a real app, you MUST HASH this password.
+                userToUpdate.Password = model.Password;
+            }
+
+            // 4. --- AVATAR LOGIC ---
             if (AvatarFile != null && AvatarFile.ContentLength > 0)
             {
-                // Xóa ảnh cũ nếu có (tránh rác server)
                 if (!string.IsNullOrEmpty(userToUpdate.AvatarUrl))
                 {
                     var oldPath = Server.MapPath(userToUpdate.AvatarUrl);
-                    if (System.IO.File.Exists(oldPath))
-                    {
-                        System.IO.File.Delete(oldPath);
-                    }
+                    if (System.IO.File.Exists(oldPath)) { System.IO.File.Delete(oldPath); }
                 }
-
-                // Lưu ảnh mới
-                string fileName = Path.GetFileNameWithoutExtension(AvatarFile.FileName);
-                string extension = Path.GetExtension(AvatarFile.FileName);
-                fileName = fileName + "_" + userToUpdate.Id + extension; // Tạo tên file unique
-
+                string fileName = Path.GetFileNameWithoutExtension(AvatarFile.FileName) + "_" + userToUpdate.Id + Path.GetExtension(AvatarFile.FileName);
                 string savePath = Path.Combine(Server.MapPath("~/hinh/avatars/"), fileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(savePath)); // Tạo thư mục nếu chưa có
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
                 AvatarFile.SaveAs(savePath);
-
-                // Cập nhật URL trong database
                 userToUpdate.AvatarUrl = "~/hinh/avatars/" + fileName;
+
+                // Update avatar in session
+                Session["UserAvatar"] = userToUpdate.AvatarUrl;
             }
+
+            // 5. Save all changes
             db.Entry(userToUpdate).State = EntityState.Modified;
             db.SaveChanges();
 
-            // Cập nhật avatar trong Session
-            Session["UserAvatar"] = userToUpdate.AvatarUrl;
-
             ViewBag.SuccessMessage = "Cập nhật thông tin thành công!";
+
             return View(userToUpdate);
         }
 
+        // If model is not valid, return the form with errors
         return View(model);
     }
     // GET: Customer/OrderHistory

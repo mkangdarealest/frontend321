@@ -39,7 +39,7 @@ namespace frontend.Controllers
             // Find the product by its slug, AND include all its related data
             Product product = db.Products
                 .Include(p => p.ProductImages)
-                .Include(p => p.Reviews)
+                .Include(p => p.Reviews.Select(r => r.Customer))
                 .SingleOrDefault(p => p.Slug == slug);
 
             if (product == null)
@@ -186,6 +186,57 @@ namespace frontend.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer")] // Only logged-in customers can review
+        public ActionResult AddReview(string slug, int rating, string comment)
+        {
+            // 1. Get the product and the currently logged-in customer
+            var product = db.Products.FirstOrDefault(p => p.Slug == slug);
+            var currentUsername = User.Identity.Name;
+            var customer = db.Customers.FirstOrDefault(c => c.UserName == currentUsername);
+
+            if (product == null || customer == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // 2. Create the new Review object
+            var newReview = new Review
+            {
+                ProductId = product.Id,
+                CustomerId = customer.Id,
+                Rating = rating,
+                Body = comment,
+                CreatedAt = DateTime.Now
+            };
+
+            // 3. Save the new review
+            db.Reviews.Add(newReview);
+            db.SaveChanges(); // Save this first
+
+            // 4. Recalculate the product's average rating and count
+            var allReviewsForProduct = db.Reviews.Where(r => r.ProductId == product.Id);
+
+            if (allReviewsForProduct.Any())
+            {
+                // This calculates the new average. The (decimal?) cast is crucial.
+                product.Rating = (decimal?)allReviewsForProduct.Average(r => r.Rating);
+                product.ReviewsCount = allReviewsForProduct.Count();
+            }
+            else
+            {
+                product.Rating = null;
+                product.ReviewsCount = 0;
+            }
+
+            // 5. Save the updated product
+            db.Entry(product).State = EntityState.Modified;
+            db.SaveChanges();
+
+            // 6. Redirect back to the product page
+            return RedirectToAction("ViewProduct", new { slug = slug });
         }
 
         // POST: TrangChu/Logout

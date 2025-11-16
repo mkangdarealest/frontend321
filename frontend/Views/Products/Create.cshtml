@@ -159,6 +159,10 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Add by URL</label>
                 <div class="col-md-10">
+                    <button type="button" id="AddUrlButton" class="btn btn-sm btn-info">Thêm ô nhập URL</button>
+                    <div id="UrlContainer" style="margin-top: 10px;">
+                        
+                    </div>
                 </div>
             </div>
 
@@ -229,6 +233,34 @@
                 if (!$(this).is(':checked')) {
                     $(this).closest('.checkbox').find('input[type="radio"]').prop('checked', false);
                 }
+            });
+            $("#AddUrlButton").click(function () {
+                // Đếm xem đã có bao nhiêu ô input để tạo index mới
+                var newIndex = $("#UrlContainer .url-group").length;
+
+                // Tạo HTML cho ô input mới
+                var newRow = `
+                    <div class="input-group url-group" style="margin-bottom: 5px;">
+                        <input type="text" 
+                               name="productImages[${newIndex}].Url" 
+                               class="form-control" 
+                               placeholder="https://example.com/image.png" />
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-danger remove-url-btn">Xóa</button>
+                        </div>
+                    </div>`;
+
+                // Thêm vào container
+                $("#UrlContainer").append(newRow);
+            });
+            $("#UrlContainer").on("click", ".remove-url-btn", function () {
+                $(this).closest(".url-group").remove();
+
+                // Cập nhật lại index của các ô còn lại để tránh lỗi
+                $("#UrlContainer .url-group").each(function (index, el) {
+                    var input = $(el).find("input[type='text']");
+                    input.attr("name", `productImages[${index}].Url`);
+                });
             });
         });
     </script>

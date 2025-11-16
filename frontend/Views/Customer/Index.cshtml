@@ -1,26 +1,22 @@
 ﻿@model frontend.Models.Customer
 @{
-    ViewBag.Title = "Thông tin tài khoản";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Hồ sơ khách hàng";
 }
 
-<link href="~/css/register.css" rel="stylesheet" type="text/css" />
+<h2>@ViewBag.Title</h2>
 
-<div class="register-container" style="padding-top: 65px; padding-bottom: 20px;">
-    <h2>@ViewBag.Title</h2>
-    <p>Chỉnh sửa thông tin cá nhân của bạn.</p>
 
-    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.UserName)
-    @Html.HiddenFor(model => model.Password)
+    @Html.HiddenFor(model => model.AvatarUrl)
     @Html.HiddenFor(model => model.CreatedAt)
+
 
     <div class="form-group">
         <label class="control-label col-md-2">Ảnh đại diện</label>
@@ -28,55 +24,115 @@
             <img src="@Url.Content(Model.AvatarUrl ?? "~/hinh/R.png")" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
         </div>
     </div>
+
     <div class="form-group">
         <label class="control-label col-md-2">Thay ảnh mới</label>
         <div class="col-md-10">
             <input type="file" name="AvatarFile" id="AvatarFile" class="form-control" />
         </div>
     </div>
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success" style="margin-top: 20px;">@ViewBag.SuccessMessage</div>
+    }
+
+    <hr />
+    <h4>Thông tin cá nhân</h4>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Username</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, "Tên", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, "Họ", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone, "Số điện thoại", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AddressLine, "Địa chỉ", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AddressLine, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AddressLine, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.City, "Thành phố", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.District, "Quận/Huyện", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PostalCode, "Mã bưu điện", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <hr />
+    <h4>Đổi mật khẩu (Bỏ trống nếu không đổi)</h4>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mật khẩu mới" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập lại mật khẩu mới" } })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
         </div>
     </div>
-    @if (ViewBag.SuccessMessage != null)
-    {
-        <div class="alert alert-success" style="margin-top: 20px;">@ViewBag.SuccessMessage</div>
-    }
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, "Tên đăng nhập")
-        @* We make the username read-only so they can't change it *@
-        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, "Họ")
-        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, "Tên *")
-        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, "Email *")
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.Phone, "Số điện thoại")
-        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.AddressLine, "Địa chỉ")
-        @Html.TextBoxFor(m => m.AddressLine, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
-    </div>
 </div>
-    }
-</div>
+}

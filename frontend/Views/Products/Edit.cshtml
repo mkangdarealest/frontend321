@@ -159,6 +159,60 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-md-2">1. Upload file mới</label>
+        <div class="col-md-10">
+            <input type="file" name="ImageFiles" id="ImageFiles" multiple class="form-control" />
+            <span class="help-block">Tải file mới lên sẽ *thêm* vào danh sách ảnh, không xóa ảnh cũ.</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">2. Quản lý URL</label>
+        <div class="col-md-10">
+            <button type="button" id="AddUrlButton" class="btn btn-sm btn-info">Thêm ô nhập URL</button>
+            <div id="UrlContainer" style="margin-top: 10px;">
+                @* HIỂN THỊ CÁC ẢNH ĐÃ CÓ (từ URL)
+                    Chúng ta bắt đầu index từ 0
+                *@
+                @{ int imageIndex = 0; }
+                @if (Model.ProductImages != null)
+                {
+                    foreach (var image in Model.ProductImages)
+                    {
+                        <div class="input-group url-group" style="margin-bottom: 5px;">
+                            @if (!image.Url.StartsWith("~/hinh/products/"))
+                            {
+                                <input type="text"
+                                       name="productImages[@imageIndex].Url"
+                                       value="@image.Url"
+                                       class="form-control" />
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-danger remove-url-btn">Xóa</button>
+                                </div>
+
+                                imageIndex++; // Tăng index
+                            }
+                        </div>
+                    }
+                }
+            </div>
+
+            <h5 style="margin-top: 20px;">Các ảnh đã upload (chỉ xem)</h5>
+            <div id="UploadedImagesContainer">
+                @if (Model.ProductImages != null)
+                {
+                    foreach (var image in Model.ProductImages.Where(i => i.Url.StartsWith("~/hinh/products/")))
+                    {
+                        <div style="display: inline-block; margin: 5px; border: 1px solid #ddd; padding: 5px;">
+                            <img src="@Url.Content(image.Url)" style="width: 100px; height: 100px; object-fit: cover;" />
+                            <p style="font-size: 10px; text-align: center; word-break: break-all;">@Path.GetFileName(image.Url)</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-md-2">Categories</label>
         <div class="col-md-10" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
 
@@ -233,6 +287,35 @@
                 if (!$(this).is(':checked')) {
                     $(this).closest('.checkbox').find('input[type="radio"]').prop('checked', false);
                 }
+            });
+            function getNextIndex() {
+                return $("#UrlContainer .url-group").length;
+            }
+
+            $("#AddUrlButton").click(function () {
+                var newIndex = getNextIndex();
+
+                var newRow = `
+                    <div class="input-group url-group" style="margin-bottom: 5px;">
+                        <input type="text" 
+                               name="productImages[${newIndex}].Url" 
+                               class="form-control" 
+                               placeholder="https://example.com/image.png" />
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-danger remove-url-btn">Xóa</button>
+                        </div>
+                    </div>`;
+
+                $("#UrlContainer").append(newRow);
+            });
+
+            $("#UrlContainer").on("click", ".remove-url-btn", function () {
+                $(this).closest(".url-group").remove();
+
+                $("#UrlContainer .url-group").each(function (index, el) {
+                    var input = $(el).find("input[type='text']");
+                    input.attr("name", `productImages[${index}].Url`);
+                });
             });
         });
     </script>

@@ -212,7 +212,7 @@ namespace frontend.Controllers
                     // 1. Load the ORIGINAL product from DB, INCLUDING its old images AND categories
                     var productToUpdate = db.Products
                         .Include(p => p.ProductImages)
-                        .Include(p => p.Categories) // <-- Load existing categories
+                        .Include(p => p.Categories) // Load existing categories
                         .SingleOrDefault(p => p.Id == product.Id);
 
                     if (productToUpdate == null)
@@ -250,9 +250,8 @@ namespace frontend.Controllers
                             }
                         }
                     }
-                    // --- END CATEGORY LOGIC ---
 
-                    // 4. --- EXISTING IMAGE LOGIC ---
+                    //IMAGE LOGIC
                     var newImageUrls = (productImages ?? new List<ProductImage>()).Select(i => i.Url).ToList();
                     var oldImages = productToUpdate.ProductImages.ToList();
                     foreach (var oldImage in oldImages)
@@ -308,7 +307,27 @@ namespace frontend.Controllers
                             }
                         }
                     }
-                    // --- END IMAGE LOGIC ---
+                    if (ImageFiles != null)
+                    {
+                        foreach (var file in ImageFiles)
+                        {
+                            if (file != null && file.ContentLength > 0)
+                            {
+                                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                                string savePath = Path.Combine(Server.MapPath("~/hinh/products/"), fileName);
+                                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                                file.SaveAs(savePath);
+
+                                var newDbImage = new ProductImage
+                                {
+                                    ProductId = productToUpdate.Id,
+                                    Url = "~/hinh/products/" + fileName,
+                                    IsPrimary = false
+                                };
+                                db.ProductImages.Add(newDbImage);
+                            }
+                        }
+                    }
 
                     db.SaveChanges(); // This saves EVERYTHING (product details, category links, image links)
                     return RedirectToAction("Index");

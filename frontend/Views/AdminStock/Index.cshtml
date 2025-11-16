@@ -3,14 +3,19 @@
     ViewBag.Title = "Quản Lý Kho Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml"; // Or your Admin layout
 }
-
+<style>
+    h2 {
+        padding-top: 120px;
+        padding-bottom: 20px;
+    }
+</style>
 <h2>@ViewBag.Title</h2>
 
 <hr />
 
 <h4>
     <span class="badge badge-success" style="background-color: #28a745;">
-        Hàng Tồn (Số lượng > 0)
+        Hàng Tồn
     </span>
 </h4>
 <p>Tổng cộng có @Model.InStockProducts.Count() sản phẩm còn hàng.</p>
@@ -63,7 +68,7 @@
 
 <h4>
     <span class="badge badge-danger" style="background-color: #dc3545;">
-        Hàng Cần Nhập (Số lượng = 0)
+        Hàng Cần Nhập
     </span>
 </h4>
 <p>Tổng cộng có @Model.OutOfStockProducts.Count() sản phẩm đã hết hàng.</p>
