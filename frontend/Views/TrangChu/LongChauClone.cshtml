@@ -67,7 +67,7 @@
 
 <div class="background-image"></div>
 
-@*@{ Html.RenderAction("CategoryNavigation", "TrangChu"); }*@
+
 
 <section class="lc-products container">
     <h2>Tất cả sản phẩm</h2>
@@ -95,7 +95,7 @@
 
                 <h3>@product.Name</h3>
 
-                @* Added a check in case Price is null *@
+                 @*Added a check in case Price is null*@ 
                 <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
 
                 @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
