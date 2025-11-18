@@ -113,21 +113,19 @@ namespace frontend.Controllers
                         }
                         db.SaveChanges(); // Save the new category relationships
                     }
-                    if (productImages != null)
+                    if(productImages != null)
                     {
                         foreach (var newImage in productImages)
                         {
-                            var existingImage = product.ProductImages.SingleOrDefault(i => i.Url == newImage.Url);
-                            if (existingImage != null)
-                            {
-                                existingImage.IsPrimary = newImage.IsPrimary;
-                            }
-                            else
-                            {
-                                newImage.ProductId = product.Id;
-                                db.ProductImages.Add(newImage);
-                            }
+                            // 1. Gán ID của sản phẩm (bạn đã SaveChanges ở trên nên có product.Id)
+                            newImage.ProductId = product.Id;
+
+                            // 2. Thêm ảnh mới vào cơ sở dữ liệu
+                            db.ProductImages.Add(newImage);
                         }
+
+                        // 3. QUAN TRỌNG: Lưu các ảnh vừa thêm vào
+                        db.SaveChanges();
                     }
 
                     if (ImageFiles != null)
