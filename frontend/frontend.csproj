@@ -378,7 +378,6 @@
     <Content Include="Views\TrangChu\Thuoc\Thuoc-Khong-Ke-Don\Omega3.cshtml" />
     <Content Include="Views\TrangChu\Vitamin_khoangchat.cshtml" />
     <Content Include="Views\GioHang\GioHang.cshtml" />
-    <Content Include="Views\TrangChu\GioHang.cshtml" />
     <Content Include="Views\TrangChu\Thuoc\Thuc-Pham-Bo-Sung\CoenzymeQ10.cshtml" />
     <Content Include="Views\TrangChu\Thuoc\Vitamin-va-KhoangChat\MultiVitamin.cshtml" />
     <Content Include="Views\TrangChu\Thuoc\Thuoc-Khong-Ke-Don\Magnesium.cshtml" />

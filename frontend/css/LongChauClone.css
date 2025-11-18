@@ -3,26 +3,25 @@
 
 
 :root {
-    /* --- Bảng màu chính --- */
-    --primary-color: #007bff; /* Màu xanh dương chủ đạo */
-    --primary-dark: #00529b; /* Màu xanh dương đậm (cho hover) */
+    --primary-color: #007bff; 
+    --primary-dark: #00529b; 
     --primary-darkest: #003d6b;
     --white: #fff;
     --text-color: #222;
     --text-light: #555;
     --text-muted: #777;
-    --price-color: #e53935; /* Màu đỏ của giá */
+    --price-color: #e53935; 
     --footer-bg: #004a99;
     --footer-bg-dark: #003a7c;
     --footer-text: #ffffff;
     --footer-text-muted: #b3d1ff;
-    /* --- Màu nền --- */
+
     --bg-light-gray: #f6f6f6;
     --bg-light-gray-hover: #f9f9f9;
     --bg-gray: #e9ecef;
     --border-color: #eee;
     --gradient-hero: linear-gradient(to bottom, rgba(0, 0, 0, 0.02), var(--white));
-    /* --- Bố cục & Bóng đổ --- */
+    
     --container-width: 1200px;
     --border-radius-main: 8px;
     --border-radius-small: 6px;
@@ -33,7 +32,7 @@
     --shadow-card-hover: 0 4px 16px rgba(0,82,155,0.12);
 }
 
-/* --- GLOBAL & BODY --- */
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -72,7 +71,6 @@ body {
     background-repeat: no-repeat;
 }
 
-/* --- HEADER --- */
 #lc-header {
     background: url('https://cdn.nhathuoclongchau.com.vn/unsafe/1920x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/header_desktop_f832104627.png');
     z-index: 100;
@@ -94,7 +92,7 @@ body {
     padding: 54px 0;
     transition: padding 0.3s ease;
 }
-    /* Class 'scrolled' này sẽ được thêm bằng JavaScript */
+
     .lc-header-top.scrolled {
         padding: 10px 0;
     }
@@ -167,7 +165,6 @@ body {
         margin: 0 4px;
     }
 
-/* --- NAVIGATION --- */
 .lc-nav {
     background: var(--primary-color);
     font-size: 1.08em;
@@ -200,11 +197,11 @@ body {
                     background: var(--primary-dark);
                 }
 
-/* Mega Menu Styles */
+
 .mega-menu {
     display: none;
     position: absolute;
-    /* Đã sửa: 'left: 50%' và 'transform' là cách căn giữa chuẩn */
+
     left: 50%;
     transform: translateX(-50%);
     top: 100%;
@@ -384,9 +381,8 @@ body {
         display: block;
         max-width: 100%;
     }
-/* --- CSS CHO TOP SLIDER (MŨI TÊN) --- */
 
-/* 1. Sửa lại container chính */
+
 .top-transparent-banner {
     margin-top: 100px;
     margin-bottom: 18px;
@@ -395,18 +391,18 @@ body {
     margin-right: auto;
     overflow: hidden;
     border-radius: var(--border-radius-main);
-    position: relative; /* QUAN TRỌNG: Để định vị mũi tên */
+    position: relative; 
 }
 
-/* 2. CSS cho các slide item */
+
 .top-slider-item {
-    display: none; /* Ẩn tất cả slide */
+    display: none; 
     width: 100%;
 }
 
     .top-slider-item.active {
-        display: block; /* Chỉ hiện slide có class 'active' */
-        animation: fadeIn 0.7s; /* Hiệu ứng mờ ảo khi chuyển */
+        display: block; 
+        animation: fadeIn 0.7s; 
     }
 
     .top-slider-item img {
@@ -416,7 +412,7 @@ body {
         border-radius: var(--border-radius-main);
     }
 
-/* 3. Hiệu ứng mờ */
+
 @keyframes fadeIn {
     from {
         opacity: 0.5;
@@ -427,13 +423,12 @@ body {
     }
 }
 
-/* 4. CSS cho Mũi tên */
 .top-slider-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    /* Giao diện nút */
+
     background-color: rgba(255, 255, 255, 0.7);
     color: #222;
     border: none;
@@ -444,12 +439,11 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    /* Ẩn nút đi, chỉ hiện khi hover */
+
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-/* Hiện nút khi di chuột vào slider */
 .top-transparent-banner:hover .top-slider-arrow {
     opacity: 1;
 }
@@ -466,7 +460,6 @@ body {
     right: 15px;
 }
 
-/* --- BANNER SECTION (NEW LAYOUT) --- */
 .lc-categories_banner {
     background: transparent;
     border-radius: var(--border-radius-main);
@@ -572,7 +565,6 @@ body {
         transform: scale(1.05);
     }
 
-/* --- SERVICES --- */
 .lc-services {
     display: flex;
     flex-wrap: wrap;
@@ -606,7 +598,6 @@ body {
         color: var(--primary-color);
     }
 
-/* --- CATEGORIES & PRODUCTS LIST --- */
 .lc-categories, .lc-products {
     background: var(--white);
     border-radius: var(--border-radius-main);
@@ -708,7 +699,7 @@ body {
     font-weight: 500;
     margin: 0 0 6px 0;
     color: var(--text-color);
-    height: 3.2em; /* Giữ 2 dòng */
+    height: 3.2em; 
     overflow: hidden;
     line-height: 1.6em;
 }
@@ -728,7 +719,7 @@ body {
     border-radius: var(--border-radius-pill);
     cursor: pointer;
     transition: background 0.2s;
-    margin-top: auto; /* Đẩy nút xuống dưới cùng */
+    margin-top: auto; 
     font-family: "Lexend", sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
@@ -744,7 +735,6 @@ body {
     transform: translateY(-4px) scale(1.03);
 }
 
-/* --- FOOTER --- */
 #lc-footer {
     width: 100vw;
     max-width: 100vw;
@@ -887,7 +877,6 @@ body {
         color: var(--footer-text-muted);
     }
 
-/* --- MOBILE MENU --- */
 .mobile-menu-toggle {
     display: none;
     background: none;
@@ -1081,12 +1070,11 @@ body {
     }
 
 
-/* --- MEDIA QUERIES (RESPONSIVE) --- */
 @media (max-width: 992px) {
 
     #lc-header {
         max-height: none;
-        position: static; /* Header không dính nữa trên mobile */
+        position: static; 
     }
 
     .mobile-menu-toggle {
@@ -1103,13 +1091,12 @@ body {
         gap: 10px;
         justify-content: space-between;
     }
-    /* Tắt hiệu ứng cuộn trên desktop */
     .lc-header-top.scrolled {
         padding: 15px 10px;
     }
 
         .lc-header-top.scrolled .lc-logo img {
-            height: 40px; /* Giữ nguyên kích thước logo mobile */
+            height: 40px;
         }
 
 
@@ -1124,7 +1111,7 @@ body {
     }
 
     .lc-banner-slider {
-        padding-top: 56.25%; /* 16:9 ratio */
+        padding-top: 56.25%; 
     }
 
     .lc-banner-right {
@@ -1206,7 +1193,6 @@ body {
         flex: 1 1 90px;
     }
 
-    /* Đảm bảo 2 cột bằng nhau */
     .lc-category-list,
     .lc-product-list,
     .lc-product-list_all {
@@ -1218,7 +1204,7 @@ body {
 
     .lc-category-item,
     .lc-product-card {
-        width: 100%; /* Cho grid quản lý */
+        width: 100%;
         flex-basis: auto;
         flex-grow: 0;
         flex-shrink: 0;
@@ -1280,7 +1266,7 @@ body {
 
     .lc-product-card h3 {
         font-size: 0.95em;
-        height: 3em; /* 2 dòng */
+        height: 3em; 
         line-height: 1.5em;
     }
 
@@ -1305,18 +1291,15 @@ body {
         text-align: left;
     }
 }
-/* === NEW NAVIGATION DROPDOWN STYLES === */
 
-/* The main navigation bar container */
 .main-navbar {
     width: 100%;
     background-color: #2091ff;
     border-bottom: 1px solid #e0e0e0;
     display: flex;
-    justify-content: center; /* Centers the nav list */
+    justify-content: center; 
 }
 
-/* The <ul> list of nav items */
 .nav-list {
     display: flex;
     list-style: none;
@@ -1324,12 +1307,12 @@ body {
     padding: 0;
 }
 
-/* Each <li> item */
+
 .nav-item {
-    position: relative; /* This is CRITICAL for the dropdown */
+    position: relative; 
 }
 
-    /* The main category link (e.g., "Dược Phẩm") */
+    
     .nav-item .nav-link {
         display: block;
         padding: 15px 20px;
@@ -1346,11 +1329,11 @@ body {
         border-bottom-color: #005baa;
     }
 
-/* The dropdown <div> */
+
 .dropdown-menu {
-    display: none; /* Hide by default */
+    display: none; 
     position: absolute;
-    top: 100%; /* Position it right below the parent */
+    top: 100%;   
     left: 0;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -1359,12 +1342,12 @@ body {
     z-index: 1000;
 }
 
-/* This is the magic: show dropdown on hover */
+
 .nav-item:hover .dropdown-menu {
     display: block;
 }
 
-/* The links inside the dropdown */
+
 .dropdown-item {
     display: block;
     padding: 12px 15px;

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<frontend.Models.Customer>
 @{
     ViewBag.Title = "Quản lý Khách hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     h2 {
@@ -31,7 +31,6 @@
                 <td>@item.Phone</td>
                 <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
                 <td>
-                    @* As required by the checklist, only a "Details" link *@
                     @Html.ActionLink("Xem chi tiết", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm" })
                 </td>
             </tr>

@@ -1,7 +1,7 @@
 ﻿@model frontend.Models.Customer
 @{
     ViewBag.Title = "Chi tiết Khách hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     h2 {
@@ -59,7 +59,6 @@ else
                 <td>@order.OrderStatu.Name</td>
                 <td>@order.Total.ToString("N0") đ</td>
                 <td>
-                    @* This links to your *other* AdminOrders controller *@
                     @Html.ActionLink("Xem hóa đơn", "Details", "AdminOrders", new { id = order.Id }, new { @class = "btn btn-default btn-sm" })
                 </td>
             </tr>
