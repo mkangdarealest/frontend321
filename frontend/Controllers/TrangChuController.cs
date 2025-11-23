@@ -81,10 +81,8 @@ namespace frontend.Controllers
             // The URL in the browser STAYS as .../ViewProduct/your-product-slug
             return View("Details", product);
         }
-        // In /Controllers/TrangChuController.cs
-
-        // 1. Add a new parameter: string sortBy
-        public ActionResult ProductsByCategory(string slug, int? page, string searchString, string sortBy)
+        
+        public ActionResult ProductsByCategory(string slug, int? page, string searchString, string sortBy, decimal? minPrice, decimal? maxPrice, string origin)
         {
             if (string.IsNullOrEmpty(slug))
             {
@@ -98,19 +96,47 @@ namespace frontend.Controllers
 
             ViewBag.CategoryName = category.Name;
             ViewBag.CurrentFilter = searchString;
-            ViewBag.CurrentSort = sortBy; // 
+            ViewBag.CurrentSort = sortBy;
             ViewBag.CurrentSlug = slug;
+            ViewBag.CurrentMinPrice = minPrice;
+            ViewBag.CurrentMaxPrice = maxPrice;
+            ViewBag.CurrentOrigin = origin;
+
+            var distinctOrigins = category.Products
+                                          .Where(p => p.Origin != null && p.Origin != "")
+                                          .Select(p => p.Origin)
+                                          .Distinct()
+                                          .OrderBy(o => o)
+                                          .ToList();
+            ViewBag.AllOrigins = distinctOrigins;
 
             var productsQuery = category.Products.AsQueryable();
             productsQuery = productsQuery.Where(p => p.Quantity > 0);
 
+            // --- 1. Search Logic ---
             if (!String.IsNullOrEmpty(searchString))
             {
-                productsQuery = productsQuery.Where(p => p.Name.Contains(searchString)
-                                                      || p.Brand.Contains(searchString));
+                // Check if Name/Brand is NOT null before checking Contains
+                productsQuery = productsQuery.Where(p =>
+                    (p.Name != null && p.Name.Contains(searchString)) ||
+                    (p.Brand != null && p.Brand.Contains(searchString))
+                );
             }
 
-            // 3. Add sorting logic
+            // --- 2. New Price Filter Logic ---
+            if (minPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price <= maxPrice.Value);
+            }
+            if (!string.IsNullOrEmpty(origin))
+            {
+                productsQuery = productsQuery.Where(p => p.Origin == origin);
+            }
+            // --- 3. Sorting Logic ---
             IOrderedQueryable<Product> orderedProducts;
             switch (sortBy)
             {
@@ -120,8 +146,11 @@ namespace frontend.Controllers
                 case "price_desc":
                     orderedProducts = productsQuery.OrderByDescending(p => p.Price);
                     break;
+                case "name_desc": // Optional: Add Name Z-A
+                    orderedProducts = productsQuery.OrderByDescending(p => p.Name);
+                    break;
                 default:
-                    // Default sort by Name
+                    // Default sort by Name A-Z
                     orderedProducts = productsQuery.OrderBy(p => p.Name);
                     break;
             }
@@ -129,7 +158,6 @@ namespace frontend.Controllers
             int pageSize = 12;
             int pageNumber = (page ?? 1);
 
-            // 4. Paginate the 'orderedProducts'
             return View(orderedProducts.ToPagedList(pageNumber, pageSize));
         }
 

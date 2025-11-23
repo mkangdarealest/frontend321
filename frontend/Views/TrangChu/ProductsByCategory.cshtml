@@ -5,99 +5,300 @@
     ViewBag.Title = "Danh mục: " + ViewBag.CategoryName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
-    h2 {
-        padding-top: 80px;
-        padding-bottom: 20px;
+    #lc-header {
+        background: url('/hinh/acb.png');
+        z-index: 100;
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 160px;
+        left: 0;
+        right: 0;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        position:static;
+        top: 0;
+    }
+
+    .filter-sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        margin-top: 20px;
+    }
+
+    .filter-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+        display: inline-block;
+    }
+
+    .sort-dropdown {
+        max-width: 200px;
+        display: inline-block;
+    }
+
+    .product-grid-container {
+        margin-top: 20px;
+    }
+
+    .lc-product-list_all {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: flex-start;
+    }
+
+    .lc-product-card {
+        width: 31%;
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 992px) {
+        .lc-product-card {
+            width: 48%;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .lc-product-card {
+            width: 100%;
+        }
+    }
+    .filter-sidebar .btn-primary {
+        background-color: #00529b; 
+        border-color: #00529b;
+        border-radius: 20px; 
+        transition: all 0.3s ease;
+    }
+
+        .filter-sidebar .btn-primary:hover {
+            background-color: #003e75; 
+            border-color: #003e75;
+        }
+
+    .filter-sidebar .btn-outline-primary {
+        color: #00529b;
+        border-color: #00529b;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+        .filter-sidebar .btn-outline-primary:hover {
+            background-color: #00529b;
+            color: #fff;
+        }
+
+    .pager-container {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .pagination {
+        display: inline-flex;
+        gap: 8px; 
+        padding-left: 0;
+        list-style: none;
+    }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            color: #00529b;  
+            background-color: #fff;  
+            border: 2px solid #e0e0e0; 
+            padding: 10px 20px;
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            border-radius: 50px !important; 
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            min-width: 48px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .pagination > li > a:hover {
+                background-color: #f0f8ff; 
+                border-color: #00529b; 
+                transform: translateY(-2px); 
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover {
+            background-color: #00529b; 
+            border-color: #00529b;
+            color: #fff; 
+            cursor: default;
+            box-shadow: 0 4px 10px rgba(0, 82, 155, 0.4); 
+            transform: none;
+        }
+
+        .pagination > .disabled > a,
+        .pagination > .disabled > span,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > span:hover {
+            color: #bcc5ce;
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+    .filter-sidebar {
+        background: #fff;
+        position: sticky;
+        top: 50px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .filter-title {
+        color: #333;
+        border-bottom: 2px solid #00529b; 
     }
 </style>
-<div class="container" style="padding-top: 20px;">
-    <h2>Danh mục: @ViewBag.CategoryName</h2>
-    <hr />
-    @using (Html.BeginForm("ProductsByCategory", "TrangChu", FormMethod.Get, new { @class = "form-inline" }))
-    {
-        @Html.Hidden("slug", (string)ViewBag.CurrentSlug)
 
-        <div class="form-group">
-            <input type="text" name="searchString" class="form-control" value="@ViewBag.CurrentFilter" placeholder="Tìm sản phẩm trong danh mục này...." />
-        </div>
-        <button type="submit" class="btn btn-default">Tìm</button>
-    }
-    <div class="sorting-bar" style="margin-top: 15px; margin-bottom: 15px;">
-        <strong>Sort by: </strong>
+<div class="container" style="padding-top: 80px; padding-bottom: 40px;">
+    <div class="row">
 
-        @* Default (Name) *@
-        @Html.ActionLink(
-            "Name",
-            "ProductsByCategory",
-            new
-                {
-                slug = (string)ViewBag.CurrentSlug,
-                searchString = ViewBag.CurrentFilter,
-                sortBy = "name" // or null
-            },
-            new { @class = (ViewBag.CurrentSort == null || ViewBag.CurrentSort == "name") ? "btn btn-primary" : "btn btn-default" }
-        )
+        <div class="col-md-3">
+            <div class="filter-sidebar">
+                <div class="filter-section mb-4">
+                    <span class="filter-title">Tìm kiếm sản phẩm</span>
+                    <form action="@Url.Action("ProductsByCategory", "TrangChu")" method="get">
+                        <input type="hidden" name="slug" value="@ViewBag.CurrentSlug" />
+                        <input type="hidden" name="sortBy" value="@ViewBag.CurrentSort" />
 
-        @* Price: Low to High *@
-        @Html.ActionLink(
-            "Price: Low to High",
-            "ProductsByCategory",
-            new
-                {
-                slug = (string)ViewBag.CurrentSlug,
-                searchString = ViewBag.CurrentFilter,
-                sortBy = "price_asc"
-            },
-            new { @class = (ViewBag.CurrentSort == "price_asc") ? "btn btn-primary" : "btn btn-default" }
-        )
-
-        @* Price: High to Low *@
-        @Html.ActionLink(
-            "Price: High to Low",
-            "ProductsByCategory",
-            new
-                {
-                slug = (string)ViewBag.CurrentSlug,
-                searchString = ViewBag.CurrentFilter,
-                sortBy = "price_desc"
-            },
-            new { @class = (ViewBag.CurrentSort == "price_desc") ? "btn btn-primary" : "btn btn-default" }
-        )
-    </div>
-    @if (!Model.Any())
-    {
-        <p>Không có sản phẩm nào trong danh mục này.</p>
-    }
-    else
-    {
-        <div class="lc-product-list_all">
-
-            @foreach (var product in Model)
-            {
-                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
-                string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
-
-                <div class="lc-product-card" style="text-decoration: none;">
-                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
-                        <div class="lc-product-image-container">
-                            <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                        <div class="input-group mb-3">
+                            <input type="text" name="searchString" class="form-control" placeholder="Tìm sản phẩm..." value="@ViewBag.CurrentFilter">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Tìm</button>
+                            </div>
                         </div>
-                    </a>
-                    <h3>@product.Name</h3>
-                    <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
-                    @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy", style = "text-decoration:none" })
+                    </form>
+                </div>
+                <div class="filter-section mb-4">
+                    <span class="filter-title">Filter Options</span>
 
+                    <form action="@Url.Action("ProductsByCategory", "TrangChu")" method="get">
+                        <input type="hidden" name="slug" value="@ViewBag.CurrentSlug" />
+                        <input type="hidden" name="sortBy" value="@ViewBag.CurrentSort" />
+                        <input type="hidden" name="searchString" value="@ViewBag.CurrentFilter" />
+
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Xuất xứ (Country)</label>
+                            <select name="origin" class="form-control" onchange="this.form.submit()">
+                                <option value="">-- Tất cả / All --</option>
+                                @if (ViewBag.AllOrigins != null)
+                                {
+                                    foreach (var country in ViewBag.AllOrigins)
+                                    {
+                                        <option value="@country" @(ViewBag.CurrentOrigin == country ? "selected" : "")>
+                                            @country
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        </form>
+                    </div>
+
+                        <div class="filter-section">
+                            <span class="filter-title">Khoảng giá tiền</span>
+                            <form action="@Url.Action("ProductsByCategory", "TrangChu")" method="get">
+                                <input type="hidden" name="slug" value="@ViewBag.CurrentSlug" />
+                                <input type="hidden" name="searchString" value="@ViewBag.CurrentFilter" />
+                                <input type="hidden" name="sortBy" value="@ViewBag.CurrentSort" />
+
+                                <div class="form-group mb-2">
+                                    <label class="small text-muted">Giá thấp nhất (VND)</label>
+                                    <input type="number" name="minPrice" class="form-control" value="@ViewBag.CurrentMinPrice" placeholder="0">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="small text-muted">Giá cao nhất (VND)</label>
+                                    <input type="number" name="maxPrice" class="form-control" value="@ViewBag.CurrentMaxPrice" placeholder="1000000">
+                                </div>
+                                <button type="submit" class="btn btn-outline-primary btn-block btn-sm w-100">Áp dụng</button>
+                                <div class="text-center mt-2">
+                                    <a href="@Url.Action("ProductsByCategory", new { slug = ViewBag.CurrentSlug })" class="small text-muted" style="text-decoration: underline;">
+                                        Xóa hết lọc
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+
+        <div class="col-md-9 product-grid-container">
+
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <div>
+                    <h2 style="padding:0; margin:0; font-size:1.5rem;">@ViewBag.CategoryName</h2>
+                    <span class="text-muted small">Đang hiện @Model.Count sản phẩm</span>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <span class="mr-2 text-muted">Sắp xếp theo: </span>
+                    <select class="form-control sort-dropdown" onchange="location = this.value;">
+                        <option value="@Url.Action("ProductsByCategory", new { slug = ViewBag.CurrentSlug, searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, sortBy = "name" })" @(ViewBag.CurrentSort == "name" || ViewBag.CurrentSort == null ? "selected" : "")>Tên: A-Z</option>
+                        <option value="@Url.Action("ProductsByCategory", new { slug = ViewBag.CurrentSlug, searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, sortBy = "price_asc" })" @(ViewBag.CurrentSort == "price_asc" ? "selected" : "")>Giá: Thấp đến Cao</option>
+                        <option value="@Url.Action("ProductsByCategory", new { slug = ViewBag.CurrentSlug, searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, sortBy = "price_desc" })" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Cao đến Thấp</option>
+                    </select>
+                </div>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info text-center">
+                    Không tìm thấy sản phẩm theo yêu cầu của bạn.
                 </div>
             }
+            else
+            {
+                <div class="lc-product-list_all">
+                    @foreach (var product in Model)
+                    {
+                        var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                        string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                        <div class="lc-product-card" style="text-decoration: none;">
+                            <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
+                                <div class="lc-product-image-container">
+                                    <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                                </div>
+                            </a>
+                            <h3>@product.Name</h3>
+                            <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
+                            @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy", style = "text-decoration:none" })
+                        </div>
+                    }
+                </div>
+            }
+
+        <div class="pager-container mt-4 text-center">
+            @Html.PagedListPager(Model, page => Url.Action("ProductsByCategory",
+                new
+                    {
+                        slug = (string)ViewBag.CurrentSlug,
+                    page,
+                    searchString = ViewBag.CurrentFilter,
+                    sortBy = ViewBag.CurrentSort,
+                    minPrice = ViewBag.CurrentMinPrice,
+                    maxPrice = ViewBag.CurrentMaxPrice,
+                    origin = ViewBag.CurrentOrigin 
+                }))
         </div>
-    }
 
-    <br />
-
-    <div class="pager-container" style="text-align: center;">
-        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-        @Html.PagedListPager(Model, page => Url.Action("ProductsByCategory",
-     new { slug = (string)ViewBag.CurrentSlug, page, searchString = ViewBag.CurrentFilter, sortBy = ViewBag.CurrentSort }))
+        </div>
     </div>
 </div>

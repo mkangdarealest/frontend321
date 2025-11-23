@@ -4,138 +4,145 @@
 @{
     ViewData["Title"] = "Giới thiệu Long Châu";
 }
-
 <style>
-    .container {
-        max-width: 1200px;
-        margin: 90px auto;
+    #lc-header {
+        background: url('/hinh/acb.png');
+        z-index: 100;
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 160px;
+        left: 0;
+        right: 0;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        position: static;
+        margin-bottom: 100px;
     }
 </style>
 
-<link href="~/css/HeThongNhaThuoc.css" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnames" rel="stylesheet">
-<div class="page-container">
-    <div class="intro-section">
+    <link href="~/css/HeThongNhaThuoc.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap&subset=vietnames" rel="stylesheet" >
+    <div class="page-container" >
+    <div class="intro-section" >
 
-        <p class="intro-text">
-            Long Châu là hệ thống nhà thuốc bán lẻ & phân phối trải khắp 34 tỉnh thành luôn luôn mở rộng để phục vụ
-            Khách hàng trên toàn quốc, cung cấp dịch vụ bán hàng và phục vụ hàng đầu:
-        </p>
+    <p class="intro-text" >
+    Long Châu là hệ thống nhà thuốc bán lẻ & phân phối trải khắp 34 tỉnh thành luôn luôn mở rộng để phục vụ
+    Khách hàng trên toàn quốc, cung cấp dịch vụ bán hàng và phục vụ hàng đầu:
+    </p >
 
-        <div class="features-grid">
+    <div class="features-grid" >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/nhathuoc.svg" alt="Icon nhà thuốc">
-                </div>
-                <div class="feature-content">
-                    <h4>Nhà thuốc chính hãng</h4>
-                    <p>Sở hữu danh mục thuốc chính hãng vừa đa dạng, phong phú lại vừa chuyên sâu.</p>
-                </div>
-            </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/nhathuoc.svg" alt="Icon nhà thuốc" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Nhà thuốc chính hãng</h4 >
+    <p > Sở hữu danh mục thuốc chính hãng vừa đa dạng, phong phú lại vừa chuyên sâu.</p >
+    </div >
+    </div >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/thuoc.svg" alt="Icon đơn thuốc">
-                </div>
-                <div class="feature-content">
-                    <h4>Chuyên thuốc theo toa</h4>
-                    <p>Long Châu có đầy đủ các loại thuốc để có thể đáp ứng đầy đủ nhu cầu của người dùng.</p>
-                </div>
-            </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/thuoc.svg" alt="Icon đơn thuốc" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Chuyên thuốc theo toa</h4 >
+    <p > Long Châu có đầy đủ các loại thuốc để có thể đáp ứng đầy đủ nhu cầu của người dùng.</p >
+    </div >
+    </div >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/duocsi.svg" alt="Icon dược sĩ">
-                </div>
-                <div class="feature-content">
-                    <h4>Dược sĩ tư vấn tại chỗ</h4>
-                    <p>Với kinh nghiệm và chuyên môn cao với 4 tiêu chí: đúng thuốc, đúng liều, đúng cách và đúng giá.</p>
-                </div>
-            </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/duocsi.svg" alt="Icon dược sĩ" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Dược sĩ tư vấn tại chỗ</h4 >
+    <p > Với kinh nghiệm và chuyên môn cao với 4 tiêu chí: đúng thuốc, đúng liều, đúng cách và đúng giá.</p >
+    </div >
+    </div >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/muale.svg" alt="Icon giá tốt">
-                </div>
-                <div class="feature-content">
-                    <h4>Mua lẻ với giá sỉ</h4>
-                    <p>Sản phẩm đúng chất lượng với giá thấp hơn so với thị trường chung, tương đương với giá bán sỉ.</p>
-                </div>
-            </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/muale.svg" alt="Icon giá tốt" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Mua lẻ với giá sỉ</h4 >
+    <p > Sản phẩm đúng chất lượng với giá thấp hơn so với thị trường chung, tương đương với giá bán sỉ.</p >
+    </div >
+    </div >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/giaohang.svg" alt="Icon giao hàng">
-                </div>
-                <div class="feature-content">
-                    <h4>Giao hàng tận nơi</h4>
-                    <p>Giao hàng cực nhanh trong khu vực Tp.HCM và chuyển hàng đến tận nhà tại các tỉnh thành khác.</p>
-                </div>
-            </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/giaohang.svg" alt="Icon giao hàng" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Giao hàng tận nơi</h4 >
+    <p > Giao hàng cực nhanh trong khu vực Tp.HCM và chuyển hàng đến tận nhà tại các tỉnh thành khác.</p >
+    </div >
+    </div >
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/trahang.svg" alt="Icon đổi trả">
-                </div>
-                <div class="feature-content">
-                    <h4>Đổi trả nguyên giá</h4>
-                    <p>Chỉ cần đọc SĐT hoặc giữ lại hóa đơn, bạn sẽ được đổi trả / hoàn tiền đã mua trong vòng 30 ngày.</p>
-                </div>
-            </div>
-        </div>
+    <div class="feature-item" >
+    <div class="feature-icon" >
+    <img src="https://nhathuoclongchau.com.vn/estore-images/hethongnhathuoc/trahang.svg" alt="Icon đổi trả" >
+    </div >
+    <div class="feature-content" >
+    <h4 > Đổi trả nguyên giá</h4 >
+    <p > Chỉ cần đọc SĐT hoặc giữ lại hóa đơn, bạn sẽ được đổi trả / hoàn tiền đã mua trong vòng 30 ngày.</p >
+    </div >
+    </div >
+    </div >
 
-        <h3 class="gallery-title">Hình ảnh nhận dạng hệ thống nhà thuốc Long Châu:</h3>
-        <div class="store-gallery">
-            <div class="gallery-image">
-                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/320x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/2_a1e4fe72e2.png" alt="Hình ảnh nhà thuốc Long Châu 1">
-            </div>
-            <div class="gallery-image">
-                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/320x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/3_1ecf9fc736.png" alt="Hình ảnh nhà thuốc Long Châu 2">
-            </div>
-        </div>
+    <h3 class="gallery-title" > Hình ảnh nhận dạng hệ thống nhà thuốc Long Châu:</h3 >
+    <div class="store-gallery" >
+    <div class="gallery-image" >
+    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/320x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/2_a1e4fe72e2.png" alt="Hình ảnh nhà thuốc Long Châu 1" >
+    </div >
+    <div class="gallery-image" >
+    <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/320x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/3_1ecf9fc736.png" alt="Hình ảnh nhà thuốc Long Châu 2" >
+    </div >
+    </div >
 
-    </div>
+    </div >
 
-    <div class="store-list-section">
-        <h2 class="store-list-title">Hệ thống cửa hàng</h2>
+    <div class="store-list-section" >
+    <h2 class="store-list-title" > Hệ thống cửa hàng</h2 >
 
-        <div class="store-filters">
-            <select name="city">
-                <option value="">Chọn Tỉnh/Thành phố</option>
-                <option value="hcm">TP. Hồ Chí Minh</option>
-                <option value="hanoi">Hà Nội</option>
-                <option value="danang">Đà Nẵng</option>
-            </select>
-            <select name="district">
-                <option value="">Chọn Quận/Huyện</option>
-            </select>
-            <input type="text" placeholder="Tìm theo tên đường...">
-            <button type="submit">Tìm kiếm</button>
-        </div>
+    <div class="store-filters" >
+    <select name="city" >
+    <option value="" > Chọn Tỉnh/Thành phố</option >
+    <option value="hcm" > TP. Hồ Chí Minh</option >
+    <option value="hanoi" > Hà Nội</option >
+    <option value="danang" > Đà Nẵng</option >
+    </select >
+    <select name="district" >
+    <option value="" > Chọn Quận/Huyện</option >
+    </select >
+    <input type="text" placeholder="Tìm theo tên đường..." >
+    <button type="submit" > Tìm kiếm</button >
+    </div >
 
-        <ul class="store-list">
-            <li class="store-item">
-                <strong>Long Châu 1:</strong> 828 Sư Vạn Hạnh, Phường Hòa Hưng, TP. Hồ Chí Minh.
-            </li>
-            <li class="store-item">
-                <strong>Long Châu 2:</strong> 806 Lê Quang Đạo, Xã Hóc Môn, TP. Hồ Chí Minh.
-            </li>
-            <li class="store-item">
-                <strong>Long Châu 3:</strong> 70 Ba Gia, Phường Tân Sơn Nhất, TP. Hồ Chí Minh.
-            </li>
-            <li class="store-item">
-                <strong>Long Châu 4:</strong> 32 Trường Sơn, Phường Tân Sơn Hòa, TP. Hồ Chí Minh.
-            </li>
-        </ul>
-        <div class ="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d41037.85886673842!2d106.5996329153112!3d10.7318395026899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zbmjDoCB0aHXhu5FjIGxvbmcgY2jDonU!5e1!3m2!1svi!2s!4v1762189772502!5m2!1svi!2s" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-        </div>
-    </div>
+    <ul class="store-list" >
+    <li class="store-item" >
+    <strong > Long Châu 1:</strong > 828 Sư Vạn Hạnh, Phường Hòa Hưng, TP. Hồ Chí Minh.
+    </li >
+    <li class="store-item" >
+    <strong > Long Châu 2:</strong > 806 Lê Quang Đạo, Xã Hóc Môn, TP. Hồ Chí Minh.
+    </li >
+    <li class="store-item" >
+    <strong > Long Châu 3:</strong > 70 Ba Gia, Phường Tân Sơn Nhất, TP. Hồ Chí Minh.
+    </li >
+    <li class="store-item" >
+    <strong > Long Châu 4:</strong > 32 Trường Sơn, Phường Tân Sơn Hòa, TP. Hồ Chí Minh.
+    </li >
+    </ul >
+    <div class ="map-container" >
+    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d41037.85886673842!2d106.5996329153112!3d10.7318395026899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1zbmjDoCB0aHXhu5FjIGxvbmcgY2jDonU!5e1!3m2!1svi!2s!4v1762189772502!5m2!1svi!2s"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade" >
+    </iframe >
+    </div >
+    </div >
 
-</div>
-
+    </div >
