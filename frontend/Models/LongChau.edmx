@@ -628,7 +628,7 @@
           <End Role="Categories" Type="Self.Category" Multiplicity="*" />
           <End Role="Products" Type="Self.Product" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="LongChauDbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="LongChauDbEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Admins" EntityType="Self.Admin" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Contacts" EntityType="Self.Contact" />
@@ -683,7 +683,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LongChauDbModelStoreContainer" CdmEntityContainer="LongChauDbEntities">
+        <EntityContainerMapping StorageEntityContainer="LongChauDbModelStoreContainer" CdmEntityContainer="LongChauDbEntities1">
           <EntitySetMapping Name="Admins">
             <EntityTypeMapping TypeName="LongChauDbModel.Admin">
               <MappingFragment StoreEntitySet="Admin">
