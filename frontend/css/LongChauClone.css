@@ -72,7 +72,7 @@ body {
 }
 
 #lc-header {
-    background: url('https://cdn.nhathuoclongchau.com.vn/unsafe/1920x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/header_desktop_f832104627.png');
+    background: url('/hinh/acb.png');
     z-index: 100;
     width: 100vw;
     max-width: 100vw;
