@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1d93a6272d3a43c6a69c769c4db174b1" Name="Diagram1">
-        <EntityTypeShape EntityType="LongChauDbModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LongChauDbModel.Category" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+      <Diagram DiagramId="0152d9f2012444db955c9382a9570528" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="LongChauDbModel.Admin" Width="1.5" PointX="11.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LongChauDbModel.Category" Width="1.5" PointX="0.875" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.Contact" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LongChauDbModel.Customer" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LongChauDbModel.Customer" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.DiscountCoupon" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.OrderItem" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LongChauDbModel.Order" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="LongChauDbModel.Order" Width="1.5" PointX="8.75" PointY="8.875" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.OrderStatu" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.Payment" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.ProductImage" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LongChauDbModel.Product" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LongChauDbModel.Product" Width="1.5" PointX="3.625" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LongChauDbModel.Review" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
         <AssociationConnector Association="LongChauDbModel.FK_Orders_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="LongChauDbModel.FK_Reviews_Customers" ManuallyRouted="false" />

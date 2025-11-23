@@ -1,7 +1,7 @@
 ﻿@model frontend.Models.Order
 @{
     ViewBag.Title = "Cập nhật trạng thái Đơn hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Your Admin layout
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
 <h2>@ViewBag.Title</h2>
@@ -32,14 +32,10 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="StatusId">Trạng thái Đơn hàng</label>
             <div class="col-md-10">
-                @* This creates the <select> dropdown.
-                    It uses the "StatusList" we created in the Controller's GET action.
-                    It will automatically select the order's current status.
-                *@
                 @Html.DropDownList(
-                    "StatusId",             // The name of the form field to post
-                    (SelectList)ViewBag.StatusList, // The list of <option>
-                    new { @class = "form-control" } // HTML attributes
+                    "StatusId",            
+                    (SelectList)ViewBag.StatusList, 
+                    new { @class = "form-control" } 
                 )
             </div>
         </div>

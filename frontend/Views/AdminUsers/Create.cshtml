@@ -30,7 +30,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PasswordUser, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* Use PasswordFor to mask the input *@
                 @Html.PasswordFor(model => model.PasswordUser, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PasswordUser, "", new { @class = "text-danger" })
             </div>
@@ -39,7 +38,6 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* It's good practice to force this *@
                 @Html.TextBoxFor(model => model.Role, new { @class = "form-control", @Value = "Admin" })
                 @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>

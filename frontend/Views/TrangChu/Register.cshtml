@@ -4,22 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@* Liên kết CSS được giữ nguyên theo yêu cầu của bạn *@
 <link href="~/css/register.css" rel="stylesheet" type="text/css" />
 
 <div class="register-container" style="padding-top: 65px; padding-bottom: 20px;">
-
-    @* Sử dụng cấu trúc form từ tệp Register.cshtml gốc:
-        1. Thêm class "register-form" vào BeginForm.
-        2. Chuyển <h2> vào BÊN TRONG form.
-    *@
     @using (Html.BeginForm("Register", "TrangChu", FormMethod.Post, new { @class = "register-form" }))
     {
         @Html.AntiForgeryToken()
 
         <h2>@ViewBag.Title</h2>
 
-        @* Sử dụng ValidationSummary ở trên cùng, thay vì cho từng trường lẻ *@
         @Html.ValidationSummary("", new { @class = "text-danger" })
 
         <div class="form-group">
@@ -32,7 +25,6 @@
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
 
-        @* Sử dụng "form-row" để chia 2 cột cho Họ và Tên *@
         <div class="form-row">
             <div class="form-group">
                 @Html.LabelFor(m => m.FirstName, "Họ")
@@ -60,9 +52,6 @@
             @Html.TextBoxFor(m => m.AddressLine, new { @class = "form-control" })
         </div>
 
-        @* --- BẮT ĐẦU: Các trường còn thiếu được thêm vào --- *@
-        @* (Lấy từ mã gốc của bạn và áp dụng style "form-control") *@
-
         <div class="form-group">
             @Html.LabelFor(m => m.City, "Thành phố")
             @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
@@ -78,16 +67,13 @@
             @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
         </div>
 
-        @* --- KẾT THÚC: Các trường được thêm vào --- *@
 
         <div class="form-group">
-            @* Sử dụng <button> thay vì <input> để nhất quán style *@
             <button type="submit" class="btn btn-primary">
                 Tạo tài khoản
             </button>
         </div>
 
-        @* Thêm link quay về trang Đăng nhập *@
         <div class="form-footer">
             <p>
                 Đã có tài khoản?
