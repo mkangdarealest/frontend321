@@ -57,6 +57,7 @@ namespace frontend.Controllers
 
         // POST: /Checkout/PlaceOrder
         // This action saves the cart to the database
+        // POST: /Checkout/PlaceOrder
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PlaceOrder()
@@ -70,65 +71,80 @@ namespace frontend.Controllers
                 return RedirectToAction("Index", "TrangChu");
             }
 
+            // --- 1. PRE-CHECK STOCK (VALIDATION) ---
+            // Before creating an order, ensure ALL items have enough stock.
+            foreach (var item in cart)
+            {
+                var productCheck = db.Products.Find(item.ProductId);
+                if (productCheck == null || productCheck.Quantity < item.Quantity)
+                {
+                    TempData["Error"] = $"Sản phẩm '{item.ProductName}' chỉ còn {productCheck?.Quantity ?? 0} sản phẩm. Vui lòng cập nhật giỏ hàng.";
+                    return RedirectToAction("Index", "GioHang");
+                }
+            }
+
             decimal subTotal = cart.Sum(item => item.LineTotal);
             decimal discountAmount = (decimal)(Session["DiscountAmount"] ?? 0m);
             decimal finalTotal = subTotal - discountAmount;
 
-            try
+            using (var transaction = db.Database.BeginTransaction()) // Use transaction for safety
             {
-                // 1. Create the Order
-                var order = new Order
+                try
                 {
-                    CustomerId = customer.Id,
-                    OrderDate = DateTime.Now,
-                    StatusId = 1, // 1 = "Pending" from your LC_Store.sql
-                    SubTotal = subTotal,
-                    Discount = discountAmount,
-                    ShippingFee = 0, // You can add this later
-                    Total = finalTotal,
-                    PaymentMethod = "COD" // Hard-coded for now
-                };
-                db.Orders.Add(order);
-                db.SaveChanges(); // Save to get the new 'order.Id'
-
-                // 2. Create OrderItems and update stock
-                foreach (var cartItem in cart)
-                {
-                    var orderItem = new OrderItem
+                    // 2. Create the Order
+                    var order = new Order
                     {
-                        OrderId = order.Id,
-                        ProductId = cartItem.ProductId,
-                        ProductName = cartItem.ProductName,
-                        UnitPrice = cartItem.UnitPrice,
-                        Quantity = cartItem.Quantity
+                        CustomerId = customer.Id,
+                        OrderDate = DateTime.Now,
+                        StatusId = 1, // Pending
+                        SubTotal = subTotal,
+                        Discount = discountAmount,
+                        ShippingFee = 0,
+                        Total = finalTotal,
+                        PaymentMethod = "COD"
                     };
-                    db.OrderItems.Add(orderItem);
+                    db.Orders.Add(order);
+                    db.SaveChanges();
 
-                    // 3. Update product stock (Quantity)
-                    var product = db.Products.Find(cartItem.ProductId);
-                    if (product != null)
+                    // 3. Process Order Items & Update Stock/Sold
+                    foreach (var cartItem in cart)
                     {
-                        product.Quantity -= cartItem.Quantity;
-                        db.Entry(product).State = EntityState.Modified;
+                        var orderItem = new OrderItem
+                        {
+                            OrderId = order.Id,
+                            ProductId = cartItem.ProductId,
+                            ProductName = cartItem.ProductName,
+                            UnitPrice = cartItem.UnitPrice,
+                            Quantity = cartItem.Quantity
+                        };
+                        db.OrderItems.Add(orderItem);
+
+                        // UPDATE PRODUCT METRICS
+                        var product = db.Products.Find(cartItem.ProductId);
+                        if (product != null)
+                        {
+                            product.Quantity -= cartItem.Quantity;      // Decrease Stock
+                            product.SoldQuantity += cartItem.Quantity;  // Increase Sold Count (FIX)
+                            db.Entry(product).State = EntityState.Modified;
+                        }
                     }
+
+                    db.SaveChanges();
+                    transaction.Commit(); // Commit only if everything succeeds
+
+                    // 4. Cleanup
+                    ClearCart();
+                    Session.Remove("DiscountAmount");
+
+                    TempData["SuccessMessage"] = "Đặt hàng thành công! Cảm ơn bạn.";
+                    return RedirectToAction("OrderHistory", "Customer");
                 }
-
-                // 4. Save all changes
-                db.SaveChanges();
-
-                // 5. Clear the cart and discount
-                ClearCart();
-                Session.Remove("DiscountAmount");
-
-                // 6. Redirect to a "Thank You" page (we'll use Order History)
-                TempData["SuccessMessage"] = "Đặt hàng thành công! Cảm ơn bạn.";
-                return RedirectToAction("OrderHistory", "Customer");
-            }
-            catch (Exception ex)
-            {
-                // Handle errors
-                TempData["Error"] = "Có lỗi xảy ra khi đặt hàng: " + ex.Message;
-                return RedirectToAction("Index");
+                catch (Exception ex)
+                {
+                    transaction.Rollback(); // Undo everything if error occurs
+                    TempData["Error"] = "Có lỗi xảy ra: " + ex.Message;
+                    return RedirectToAction("Index");
+                }
             }
         }
 

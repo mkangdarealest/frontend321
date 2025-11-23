@@ -1,0 +1,108 @@
+﻿@model frontend.Models.Order
+<style>
+    #lc-header {
+        background: url('/hinh/acb.png');
+        z-index: 100;
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 160px;
+        left: 0;
+        right: 0;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        position:unset;
+        margin-bottom:40px;
+    }
+</style>
+
+<div class="invoice-container" style="background: #fff; padding: 30px; border: 1px solid #ddd; border-radius: 8px; max-width: 800px; margin: 0 auto;">
+    <div class="invoice-header" style="border-bottom: 2px solid #00529b; padding-bottom: 20px; margin-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 style="color: #00529b; font-weight: bold; margin: 0;">HÓA ĐƠN</h2>
+                <span style="color: #666;">Mã đơn hàng: #@Model.Id</span><br />
+                <span style="color: #666;">Ngày đặt: @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+            <div class="col-md-6 text-right" style="text-align: right;">
+                <h4 style="margin: 0;">Nhà thuốc Long Châu Clone</h4>
+                <p style="margin: 0; font-size: 0.9em; color: #555;">
+                    Hotline: 1800 6928<br />
+                    Email: cskh@longchau.com
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="invoice-info" style="margin-bottom: 30px;">
+        <h5 style="border-bottom: 1px solid #eee; padding-bottom: 10px; font-weight: bold;">Thông tin khách hàng</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <strong>Người nhận:</strong> @(Model.Customer.LastName + " " + Model.Customer.FirstName)<br />
+                <strong>Điện thoại:</strong> @Model.Customer.Phone<br />
+                <strong>Email:</strong> @Model.Customer.Email
+            </div>
+            <div class="col-md-6">
+                <strong>Địa chỉ giao hàng:</strong><br />
+                @Model.Customer.AddressLine<br />
+                @Model.Customer.District, @Model.Customer.City
+            </div>
+        </div>
+    </div>
+
+    <div class="invoice-items">
+        <table class="table table-bordered table-striped">
+            <thead style="background-color: #f8f9fa;">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-right">Đơn giá</th>
+                    <th class="text-right">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>
+                            <strong>@item.ProductName</strong>
+                        </td>
+                        <td class="text-center">@item.Quantity</td>
+                        <td class="text-right">@item.UnitPrice.ToString("N0")đ</td>
+                        <td class="text-right">@((item.UnitPrice * item.Quantity).ToString("N0"))đ</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Tạm tính:</strong></td>
+                    <td class="text-right">@Model.SubTotal.ToString("N0")đ</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Phí vận chuyển:</strong></td>
+                    <td class="text-right">@Model.ShippingFee.ToString("N0")đ</td>
+                </tr>
+                @if (Model.Discount > 0)
+                {
+                    <tr>
+                        <td colspan="3" class="text-right" style="color: #28a745;"><strong>Giảm giá:</strong></td>
+                        <td class="text-right" style="color: #28a745;">-@Model.Discount.ToString("N0")đ</td>
+                    </tr>
+                }
+                <tr style="font-size: 1.2em; background-color: #eef5ff;">
+                    <td colspan="3" class="text-right" style="color: #00529b;"><strong>TỔNG CỘNG:</strong></td>
+                    <td class="text-right" style="color: #00529b; font-weight: bold;">@Model.Total.ToString("N0")đ</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="invoice-footer" style="margin-top: 30px;">
+        <div class="alert @(Model.StatusId == 3 ? "alert-success" : "alert-info")">
+            <strong>Trạng thái đơn hàng:</strong> @Model.OrderStatu.Name
+            @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+            {
+                <span style="margin-left: 20px;"><strong>Thanh toán:</strong> @Model.PaymentMethod</span>
+            }
+        </div>
+    </div>
+</div>

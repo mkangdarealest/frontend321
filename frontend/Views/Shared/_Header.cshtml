@@ -66,8 +66,12 @@
                 </a>
             </div>
             <div class="lc-search">
-                <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
-                    <input type="text" name="q" placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
+                <form method="get" action="@Url.Action("AllProducts", "TrangChu")" style="display:flex; width:100%;">
+
+                    <input type="text" name="searchString"
+                           value="@Request.QueryString["searchString"]"
+                           placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
+
                     <button type="submit"><span>🔍</span></button>
                 </form>
             </div>

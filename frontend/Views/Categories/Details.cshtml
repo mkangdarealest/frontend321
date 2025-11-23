@@ -1,74 +1,86 @@
 ﻿@model frontend.Models.Category
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết danh mục: " + Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    h2 {
-        padding-top: 120px;
-        padding-bottom: 20px;
-    }
-</style>
-<h2>Details</h2>
 
-<div>
-    <h4>Category</h4>
+<div class="container" style="padding-top: 50px;">
+    <h2>@ViewBag.Title</h2>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px;">
+                <h4>Thông tin danh mục</h4>
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                    <dd>@Html.DisplayFor(model => model.Name)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
+                    <dt>@Html.DisplayNameFor(model => model.Slug)</dt>
+                    <dd>@Html.DisplayFor(model => model.Slug)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
+                    <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+                    <dd>@Html.DisplayFor(model => model.Description)</dd>
+                </dl>
+                <div style="margin-top: 20px;">
+                    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+        <div class="col-md-8">
+            <h4>Danh sách sản phẩm (@Model.Products.Count)</h4>
+            @if (Model.Products.Any())
+            {
+                <table class="table table-bordered table-hover">
+                    <thead style="background-color: #f9f9f9;">
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Tồn kho</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            var img = product.ProductImages.FirstOrDefault(i => i.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                            var imgUrl = img != null ? img.Url : "~/hinh/VitaminC.jpg";
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ImgUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImgUrl)
-        </dd>
-
-    </dl>
+                            <tr>
+                                <td style="width: 60px;">
+                                    <img src="@Url.Content(imgUrl)" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />
+                                </td>
+                                <td>
+                                    <strong>@product.Name</strong><br />
+                                    <span style="color: #777; font-size: 0.9em;">@product.Brand</span>
+                                </td>
+                                <td style="color: #007bff;">@string.Format("{0:N0}đ", product.Price)</td>
+                                <td class="text-center">
+                                    @if (product.Quantity > 0)
+                                    {
+                                        <span class="badge badge-success" style="background-color: #28a745;">@product.Quantity</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger" style="background-color: #dc3545;">Hết hàng</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Chi tiết", "Details", "Products", new { id = product.Id }, new { @class = "btn btn-sm btn-info" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning">Chưa có sản phẩm nào trong danh mục này.</div>
+            }
+        </div>
+    </div>
 </div>
-@if (Model.Products.Any())
-{
-    <table class="table table-striped" style="width: auto;">
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>
-
-                    @Html.ActionLink("Xem chi tiết", "Details", "Products", new { id = product.Id }, null)
-                </td>
-            </tr>
-        }
-    </table>
-}
-else
-{
-    <p>Không có sản phẩm nào trong danh mục này.</p>
-}
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

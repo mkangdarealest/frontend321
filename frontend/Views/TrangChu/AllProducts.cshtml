@@ -1,0 +1,298 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<frontend.Models.Product>
+
+@{
+    ViewBag.Title = "Tất cả sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #lc-header {
+        background: url('/hinh/acb.png');
+        z-index: 100;
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 160px;
+        left: 0;
+        right: 0;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        position: unset;
+        margin-bottom:40px;
+    }
+
+    .filter-sidebar {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        margin-top: 20px;
+    }
+
+    .filter-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+        display: inline-block;
+    }
+
+    .sort-dropdown {
+        max-width: 200px;
+        display: inline-block;
+    }
+
+    .product-grid-container {
+        margin-top: 20px;
+    }
+
+    .lc-product-list_all {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: flex-start;
+    }
+
+    .lc-product-card {
+        width: 31%;
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 992px) {
+        .lc-product-card {
+            width: 48%;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .lc-product-card {
+            width: 100%;
+        }
+    }
+
+    .filter-sidebar .btn-primary {
+        background-color: #00529b;
+        border-color: #00529b;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+        .filter-sidebar .btn-primary:hover {
+            background-color: #003e75;
+            border-color: #003e75;
+        }
+
+    .filter-sidebar .btn-outline-primary {
+        color: #00529b;
+        border-color: #00529b;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+        .filter-sidebar .btn-outline-primary:hover {
+            background-color: #00529b;
+            color: #fff;
+        }
+
+    .pager-container {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .pagination {
+        display: inline-flex;
+        gap: 8px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            color: #00529b;
+            background-color: #fff;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px !important;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            min-width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .pagination > li > a:hover {
+                background-color: #f0f8ff;
+                border-color: #00529b;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover {
+            background-color: #00529b;
+            border-color: #00529b;
+            color: #fff;
+            cursor: default;
+            box-shadow: 0 4px 10px rgba(0, 82, 155, 0.4);
+            transform: none;
+        }
+
+        .pagination > .disabled > a,
+        .pagination > .disabled > span,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > span:hover {
+            color: #bcc5ce;
+            background-color: #f8f9fa;
+            border-color: #e9ecef;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+    .filter-sidebar {
+        background: #fff;
+        position: sticky;
+        top: 50px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .filter-title {
+        color: #333;
+        border-bottom: 2px solid #00529b;
+    }
+</style>
+
+<div class="container" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="filter-sidebar">
+                <div class="filter-section mb-4">
+                    <span class="filter-title"><i class="fas fa-filter"></i> Bộ Lọc</span>
+
+                    <form action="@Url.Action("AllProducts", "TrangChu")" method="get">
+                        <input type="hidden" name="sortBy" value="@ViewBag.CurrentSort" />
+
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Tìm tên / thương hiệu</label>
+                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tên thuốc..." value="@ViewBag.CurrentFilter">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Xuất xứ</label>
+                            <select name="origin" class="form-control">
+                                <option value="">-- Tất cả --</option>
+                                @if (ViewBag.AllOrigins != null)
+                                {
+                                    foreach (var country in ViewBag.AllOrigins)
+                                    {
+                                        <option value="@country" @(ViewBag.CurrentOrigin == country ? "selected" : "")>@country</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label class="small text-muted font-weight-bold">Khoảng giá (VNĐ)</label>
+                            <input type="number" name="minPrice" class="form-control mb-2" value="@ViewBag.CurrentMinPrice" placeholder="Thấp nhất (0)">
+                            <input type="number" name="maxPrice" class="form-control" value="@ViewBag.CurrentMaxPrice" placeholder="Cao nhất">
+                        </div>
+
+                        <hr />
+
+                        <button type="submit" class="btn btn-primary btn-block w-100" style="background-color: #00529b; border:none;">
+                            Áp dụng
+                        </button>
+
+                        <div class="text-center mt-2">
+                            <a href="@Url.Action("AllProducts", "TrangChu")" class="btn btn-link btn-sm w-100 text-muted">
+                                <i class="fas fa-sync-alt"></i> Xóa bộ lọc
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <h2 style="margin:0; font-size:1.5rem;">
+                    @ViewBag.PageTitle
+                    <span class="text-muted" style="font-size: 0.8em; font-weight: normal;">(@Model.TotalItemCount sản phẩm)</span>
+                </h2>
+
+                <div class="d-flex align-items-center">
+                    <span class="mr-2 text-muted">Sắp xếp: </span>
+                    <select class="form-control" onchange="location = this.value;" style="width: 180px; display:inline-block;">
+                        <option value="@Url.Action("AllProducts", new { searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, origin = ViewBag.CurrentOrigin, sortBy = "name" })" @(ViewBag.CurrentSort == "name" ? "selected" : "")>Tên A-Z</option>
+                        <option value="@Url.Action("AllProducts", new { searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, origin = ViewBag.CurrentOrigin, sortBy = "price_asc" })" @(ViewBag.CurrentSort == "price_asc" ? "selected" : "")>Giá: Thấp đến Cao</option>
+                        <option value="@Url.Action("AllProducts", new { searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, origin = ViewBag.CurrentOrigin, sortBy = "price_desc" })" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá: Cao đến Thấp</option>
+                        <option value="@Url.Action("AllProducts", new { searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, origin = ViewBag.CurrentOrigin, sortBy = "best_selling" })" @(ViewBag.CurrentSort == "best_selling" ? "selected" : "")>Bán chạy nhất</option>
+                        <option value="@Url.Action("AllProducts", new { searchString = ViewBag.CurrentFilter, minPrice = ViewBag.CurrentMinPrice, maxPrice = ViewBag.CurrentMaxPrice, origin = ViewBag.CurrentOrigin, sortBy = "newest" })" @(ViewBag.CurrentSort == "newest" ? "selected" : "")>Hàng mới nhập</option>
+                    </select>
+                </div>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info text-center" style="margin-top: 20px;">
+                    <h4><i class="fas fa-search"></i> Không tìm thấy sản phẩm nào.</h4>
+                    <p>Vui lòng thử lại với từ khóa hoặc bộ lọc khác.</p>
+                </div>
+            }
+            else
+            {
+                <div class="lc-product-list_all">
+                    @foreach (var product in Model)
+                    {
+                        var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                        string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                        <div class="lc-product-card">
+                            <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })" style="text-decoration:none; color: inherit;">
+                                <div class="lc-product-image-container">
+                                    <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                                </div>
+                                <h3>@product.Name</h3>
+                                <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
+
+                                <div style="font-size: 12px; color: #666; margin-bottom: 5px;">
+                                    Đã bán: @product.SoldQuantity
+                                </div>
+                            </a>
+
+                            @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                            {
+                                @Html.Hidden("productId", product.Id)
+                                @Html.Hidden("quantity", 1)
+                                <button type="submit" class="btn-buy">Chọn mua</button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="pager-container mt-4 text-center">
+                @Html.PagedListPager(Model, page => Url.Action("AllProducts",
+                    new
+                         {
+                        page,
+                        searchString = ViewBag.CurrentFilter,
+                        sortBy = ViewBag.CurrentSort,
+                        minPrice = ViewBag.CurrentMinPrice,
+                        maxPrice = ViewBag.CurrentMaxPrice,
+                        origin = ViewBag.CurrentOrigin
+                    }))
+            </div>
+        </div>
+    </div>
+</div>

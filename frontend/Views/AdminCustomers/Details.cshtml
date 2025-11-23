@@ -1,69 +1,86 @@
 ﻿@model frontend.Models.Customer
+
 @{
-    ViewBag.Title = "Chi tiết Khách hàng";
+    ViewBag.Title = "Chi tiết khách hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    h2 {
-        padding-top: 120px;
-        padding-bottom: 20px;
-    }
-</style>
-<h2>@ViewBag.Title: @Model.FirstName @Model.LastName</h2>
-<hr />
 
-<h3>Thông tin cá nhân</h3>
-<dl class="dl-horizontal">
-    <dt>Họ tên</dt>
-    <dd>@Model.FirstName @Model.LastName</dd>
+<div class="container" style="padding-top: 50px;">
+    <h2>Hồ sơ khách hàng: @Model.LastName @Model.FirstName</h2>
+    <hr />
 
-    <dt>Tên đăng nhập</dt>
-    <dd>@Model.UserName</dd>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default" style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #fff;">
+                <div class="text-center mb-3">
+                    <img src="@Url.Content(Model.AvatarUrl ?? "~/hinh/999.jpg")" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #eee;" />
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Username:</dt>
+                    <dd>@Model.UserName</dd>
+                    <dt>Email:</dt>
+                    <dd>@Model.Email</dd>
+                    <dt>SĐT:</dt>
+                    <dd>@Model.Phone</dd>
+                    <dt>Địa chỉ:</dt>
+                    <dd>@Model.AddressLine</dd>
+                    <dt>Thành phố:</dt>
+                    <dd>@Model.City</dd>
+                    <dt>Ngày ĐK:</dt>
+                    <dd>@Model.CreatedAt.ToString("dd/MM/yyyy")</dd>
+                </dl>
+                <div style="margin-top: 20px; text-align: center;">
+                    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default btn-block" })
+                </div>
+            </div>
+        </div>
 
-    <dt>Email</dt>
-    <dd>@Model.Email</dd>
+        <div class="col-md-8">
+            <h4>Lịch sử đơn hàng (@Model.Orders.Count)</h4>
 
-    <dt>Số điện thoại</dt>
-    <dd>@Model.Phone</dd>
-
-    <dt>Địa chỉ</dt>
-    <dd>@Model.AddressLine</dd>
-
-    <dt>Ngày tham gia</dt>
-    <dd>@Model.CreatedAt.ToString("dd/MM/yyyy")</dd>
-</dl>
-
-<hr />
-
-<h3>Lịch sử đơn hàng (@Model.Orders.Count)</h3>
-
-@if (!Model.Orders.Any())
-{
-    <p>Khách hàng này chưa có đơn hàng nào.</p>
-}
-else
-{
-    <table class="table">
-        <tr>
-            <th>Mã ĐH</th>
-            <th>Ngày đặt</th>
-            <th>Trạng thái</th>
-            <th>Tổng tiền</th>
-            <th></th>
-        </tr>
-        @foreach (var order in Model.Orders.OrderByDescending(o => o.OrderDate))
-        {
-            <tr>
-                <td>#@order.Id</td>
-                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>@order.OrderStatu.Name</td>
-                <td>@order.Total.ToString("N0") đ</td>
-                <td>
-                    @Html.ActionLink("Xem hóa đơn", "Details", "AdminOrders", new { id = order.Id }, new { @class = "btn btn-default btn-sm" })
-                </td>
-            </tr>
-        }
-    </table>
-}
-<br />
-@Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
+            @if (Model.Orders.Any())
+            {
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã ĐH</th>
+                            <th>Ngày đặt</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders.OrderByDescending(o => o.OrderDate))
+                        {
+                            <tr>
+                                <td>#@order.Id</td>
+                                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td style="font-weight: bold; color: #00529b;">@order.Total.ToString("N0")đ</td>
+                                <td>
+                                    @if (order.StatusId == 1)
+                                    {<span class="label label-warning" style="background:orange; color:white; padding:3px 8px; border-radius:4px;">Chờ xử lý</span> }
+                                    else if (order.StatusId == 2)
+                                    { <span class="label label-blue" style="background:blue; color:white; padding:3px 8px; border-radius:4px;">Đang thanh toán</span> }
+                                    else if (order.StatusId == 3)
+                                    { <span class="label label-success" style="background:green; color:white; padding:3px 8px; border-radius:4px;">Hoàn thành</span> }
+                                    else if (order.StatusId == 4)
+                                    { <span class="label label-failed" style="background:red; color:white; padding:3px 8px; border-radius:4px;">Đã hủy</span> }
+                                    else
+                                    { <span>@order.OrderStatu.Name</span>}
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Xem chi tiết", "Details", "AdminOrders", new { id = order.Id }, new { @class = "btn btn-xs btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">Khách hàng này chưa có đơn hàng nào.</div>
+            }
+        </div>
+    </div>
+</div>

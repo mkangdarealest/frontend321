@@ -30,12 +30,33 @@ namespace frontend.Controllers
         LongChauDbEntities db = new LongChauDbEntities();
         public ActionResult LongChauClone()
         {
-            var products = db.Products
-                .Include(p => p.ProductImages)
-                .Where(p => p.Quantity > 0)//in stock only
+            // 1. Get Top 8 Newest Products (Hàng Mới)
+            var newProducts = db.Products
+                .Where(p => p.Quantity > 0) // In stock only
                 .OrderByDescending(p => p.CreatedAt)
+                .Take(8)
+                .Include(p => p.ProductImages)
                 .ToList();
-            return View(products);
+
+            // 2. Get Top 8 Best Selling Products (Bán Chạy) - Using the new SoldQuantity field
+            var bestSellers = db.Products
+                .Where(p => p.Quantity > 0)
+                .OrderByDescending(p => p.SoldQuantity) // Sort by sales
+                .Take(8)
+                .Include(p => p.ProductImages)
+                .ToList();
+            var allProductsPreview = db.Products
+                .Where(p => p.Quantity > 0)
+                .OrderBy(p => p.Name) // You can change this to Guid.NewGuid() for random if supported
+                .Take(12)
+                .Include(p => p.ProductImages)
+                .ToList();
+
+            ViewBag.BestSellers = bestSellers;
+            ViewBag.NewProducts = newProducts;
+            ViewBag.AllProductsPreview = allProductsPreview; // <--- New ViewBag
+
+            return View(); // We don't pass a single model anymore, we use ViewBag
         }
         // GET: TrangChu/ViewProduct/your-product-slug
         public ActionResult ViewProduct(string slug)
@@ -159,6 +180,91 @@ namespace frontend.Controllers
             int pageNumber = (page ?? 1);
 
             return View(orderedProducts.ToPagedList(pageNumber, pageSize));
+        }
+        // GET: /TrangChu/AllProducts
+        // GET: /TrangChu/AllProducts
+        public ActionResult AllProducts(int? page, string searchString, string sortBy, decimal? minPrice, decimal? maxPrice, string origin)
+        {
+            // 1. Start with ALL products (including Images for the thumbnail)
+            var productsQuery = db.Products.Include(p => p.ProductImages).AsQueryable();
+
+            // 2. Filter: Only show In-Stock items
+            productsQuery = productsQuery.Where(p => p.Quantity > 0);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ViewBag.PageTitle = $"Kết quả tìm kiếm: '{searchString}'";
+            }
+            else
+            {
+                ViewBag.PageTitle = "Tất cả sản phẩm";
+            }
+            // 3. Filter: Search by Name or Brand
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                productsQuery = productsQuery.Where(p => (p.Name != null && p.Name.Contains(searchString))
+                                                      || (p.Brand != null && p.Brand.Contains(searchString)));
+            }
+
+            // 4. Filter: Price Range
+            if (minPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price >= minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            // 5. Filter: Origin (Xuất xứ)
+            if (!string.IsNullOrEmpty(origin))
+            {
+                productsQuery = productsQuery.Where(p => p.Origin == origin);
+            }
+
+            // 6. Sorting Logic
+            switch (sortBy)
+            {
+                case "price_asc":
+                    productsQuery = productsQuery.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    productsQuery = productsQuery.OrderByDescending(p => p.Price);
+                    break;
+                case "name_desc":
+                    productsQuery = productsQuery.OrderByDescending(p => p.Name);
+                    break;
+                case "best_selling":
+                    productsQuery = productsQuery.OrderByDescending(p => p.SoldQuantity);
+                    break;
+                case "newest":
+                    productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
+                    break;
+                default:
+                    // Default: A-Z
+                    productsQuery = productsQuery.OrderBy(p => p.Name);
+                    break;
+            }
+
+            // 7. Prepare ViewBag for the View (to keep filter inputs filled)
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortBy;
+            ViewBag.CurrentMinPrice = minPrice;
+            ViewBag.CurrentMaxPrice = maxPrice;
+            ViewBag.CurrentOrigin = origin;
+
+            // Get list of ALL distinct origins from the database for the dropdown
+            ViewBag.AllOrigins = db.Products
+                                   .Where(p => p.Origin != null && p.Origin != "")
+                                   .Select(p => p.Origin)
+                                   .Distinct()
+                                   .OrderBy(o => o)
+                                   .ToList();
+
+            // 8. Pagination
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+
+            return View(productsQuery.ToPagedList(pageNumber, pageSize));
         }
 
         [AllowAnonymous]

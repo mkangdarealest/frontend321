@@ -146,7 +146,17 @@
                 <strong>@Html.DisplayNameFor(model => model.Rating)</strong>
                 <span>@Html.DisplayFor(model => model.Rating) / 5.0 (@Html.DisplayFor(model => model.ReviewsCount) reviews)</span>
             </div>
-
+            <div class="admin-detail-field">
+                <strong>Stock & Sales</strong>
+                <div style="display: flex; gap: 20px;">
+                    <span style="color: #28a745; font-weight: bold;">
+                        <i class="fas fa-box"></i> Stock: @Model.Quantity
+                    </span>
+                    <span style="color: #6c757d; font-weight: bold;">
+                        <i class="fas fa-shopping-cart"></i> Sold: @Model.SoldQuantity
+                    </span>
+                </div>
+            </div>
             <div class="admin-detail-field">
                 <strong>@Html.DisplayNameFor(model => model.ShortDescription)</strong>
                 <div class="long-text-box" style="max-height: 100px;">

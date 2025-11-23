@@ -1,29 +1,29 @@
 ﻿@model IEnumerable<frontend.Models.Product>
-    @{
-        ViewBag.Title = "Long Châu Clone";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{
+    ViewBag.Title = "Long Châu Clone";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <style>
 
-.pill-nav-container {
-    background: transparent;
-    border: none;
-    padding: 15px 0;
-    display: block;
-}
+    .pill-nav-container {
+        background: transparent;
+        border: none;
+        padding: 15px 0;
+        display: block;
+    }
 
-.pill-nav-list {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    gap: 12px;   
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-wrap: nowrap;  
-    overflow-x: auto;    
-    padding-bottom: 5px;     
-}
+    .pill-nav-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
 
     .pill-nav-link {
         display: inline-flex;
@@ -42,174 +42,247 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.03);
     }
 
-.pill-icon {
-    margin-right: 8px;
-    font-size: 16px;
-    color: #555;
-}
+    .pill-icon {
+        margin-right: 8px;
+        font-size: 16px;
+        color: #555;
+    }
 
-.pill-arrow-icon {
-    margin-left: 6px;
-    font-size: 10px;
-    opacity: 0.6;
-}
+    .pill-arrow-icon {
+        margin-left: 6px;
+        font-size: 10px;
+        opacity: 0.6;
+    }
 
-.pill-nav-link:hover,
-.pill-nav-link.active,
-.pill-has-dropdown:hover .pill-nav-link {
-    background-color: #e5f3ff; 
-    color: #00529b;          
-    border-color: #00529b;   
-    box-shadow: 0 2px 6px rgba(0, 82, 155, 0.15);
-}
+    .pill-nav-link:hover,
+    .pill-nav-link.active,
+    .pill-has-dropdown:hover .pill-nav-link {
+        background-color: #e5f3ff;
+        color: #00529b;
+        border-color: #00529b;
+        box-shadow: 0 2px 6px rgba(0, 82, 155, 0.15);
+    }
 
-.pill-nav-link:hover .pill-icon,
-.pill-nav-link.active .pill-icon,
-.pill-has-dropdown:hover .pill-nav-link .pill-icon {
-    color: #00529b;
-}
+        .pill-nav-link:hover .pill-icon,
+        .pill-nav-link.active .pill-icon,
+        .pill-has-dropdown:hover .pill-nav-link .pill-icon {
+            color: #00529b;
+        }
 
-.pill-nav-item { position: relative; }
-
+    .pill-nav-item {
+        position: relative;
+    }
 </style>
-    <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
-    <script src="~/js/LongChauClone.js"></script>
-    <div id="topSlider" class="top-transparent-banner container">
+<link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" />
+<script src="~/js/LongChauClone.js"></script>
+<div id="topSlider" class="top-transparent-banner container">
 
-        <div class="top-slider-item active">
-            <a href="#link-banner-1">
-                <img src="~/hinh/666.png" alt="Banner 1" />
-            </a>
-        </div>
-
-        <div class="top-slider-item">
-            <a href="#link-banner-2">
-                <img src="~/hinh/777.png" alt="Banner 2" />
-            </a>
-        </div>
-
-        <div class="top-slider-item">
-            <a href="#link-banner-3">
-                <img src="~/hinh/888.png" alt="Banner 3" />
-            </a>
-        </div>
-
-        <button class="top-slider-arrow prev" id="topSliderPrev">&lt;</button>
-        <button class="top-slider-arrow next" id="topSliderNext">&gt;</button>
-
+    <div class="top-slider-item active">
+        <a href="#link-banner-1">
+            <img src="~/hinh/666.png" alt="Banner 1" />
+        </a>
     </div>
 
-    <script>
+    <div class="top-slider-item">
+        <a href="#link-banner-2">
+            <img src="~/hinh/777.png" alt="Banner 2" />
+        </a>
+    </div>
+
+    <div class="top-slider-item">
+        <a href="#link-banner-3">
+            <img src="~/hinh/888.png" alt="Banner 3" />
+        </a>
+    </div>
+
+    <button class="top-slider-arrow prev" id="topSliderPrev">&lt;</button>
+    <button class="top-slider-arrow next" id="topSliderNext">&gt;</button>
+
+</div>
+
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         banner();
     });
-    </script>
+</script>
 
-    <section class="lc-categories_banner">
-        <div class="lc-categories_banner container_1">
-            <div class="lc-banner-layout">
-                <div class="lc-banner-left">
-                    <div class="lc-banner-slider">
-                        <img src="~/hinh/111.jpg" alt="Banner Slider 1" class="active" />
-                        <img src="~/hinh/222.png" alt="Banner Slider 2" />
-                        <img src="~/hinh/333.jpg" alt="Banner Slider 3" />
-                        <div class="lc-banner-dots">
-                            <span class="dot active"></span>
-                            <span class="dot"></span>
-                            <span class="dot"></span>
-                        </div>
+<section class="lc-categories_banner">
+    <div class="lc-categories_banner container_1">
+        <div class="lc-banner-layout">
+            <div class="lc-banner-left">
+                <div class="lc-banner-slider">
+                    <img src="~/hinh/111.jpg" alt="Banner Slider 1" class="active" />
+                    <img src="~/hinh/222.png" alt="Banner Slider 2" />
+                    <img src="~/hinh/333.jpg" alt="Banner Slider 3" />
+                    <div class="lc-banner-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                     </div>
                 </div>
-                <div class="lc-banner-right">
-                    <div class="lc-banner-static-item">
-                        <a href="#"><img src="~/hinh/444.png" alt="Banner Static 1" /></a>
-                    </div>
-                    <div class="lc-banner-static-item">
-                        <a href="#"><img src="~/hinh/555.jpg" alt="Banner Static 2" /></a>
-                    </div>
-                </div>
-
             </div>
+            <div class="lc-banner-right">
+                <div class="lc-banner-static-item">
+                    <a href="#"><img src="~/hinh/444.png" alt="Banner Static 1" /></a>
+                </div>
+                <div class="lc-banner-static-item">
+                    <a href="#"><img src="~/hinh/555.jpg" alt="Banner Static 2" /></a>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
-    <div class="background-image"></div>
+<div class="background-image"></div>
 
-    <nav class="pill-nav-container">
-        <div class="container">
-            <ul class="pill-nav-list">
-           
-                <li class="pill-nav-item">
-                    <a href="/TrangChu/TiemChung" class="pill-nav-link">
-                        <i class="fas fa-syringe pill-icon"></i>
-                        Tiêm Chủng
-                    </a>
-                </li>
+<nav class="pill-nav-container">
+    <div class="container">
+        <ul class="pill-nav-list">
 
-                <li class="pill-nav-item">
-                    <a href="/TrangChu/BenhLy" class="pill-nav-link">
-                        <i class="fas fa-book-medical pill-icon"></i>
-                        Bệnh lý
-                    </a>
-                </li>
+            <li class="pill-nav-item">
+                <a href="/TrangChu/TiemChung" class="pill-nav-link">
+                    <i class="fas fa-syringe pill-icon"></i>
+                    Tiêm Chủng
+                </a>
+            </li>
 
-                <li class="pill-nav-item">
-                    <a href="/TrangChu/GocSucKhoe" class="pill-nav-link">
-                        <i class="fas fa-heartbeat pill-icon"></i>
-                        Góc sức khỏe
-                    </a>
-                </li>
+            <li class="pill-nav-item">
+                <a href="/TrangChu/BenhLy" class="pill-nav-link">
+                    <i class="fas fa-book-medical pill-icon"></i>
+                    Bệnh lý
+                </a>
+            </li>
 
-                <li class="pill-nav-item">
-                    <a href="/TrangChu/HeThongNhaThuoc" class="pill-nav-link">
-                        <i class="fas fa-store pill-icon"></i>
-                        Hệ thống nhà thuốc
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+            <li class="pill-nav-item">
+                <a href="/TrangChu/GocSucKhoe" class="pill-nav-link">
+                    <i class="fas fa-heartbeat pill-icon"></i>
+                    Góc sức khỏe
+                </a>
+            </li>
 
-    <section class="lc-products container">
-        <h2>Tất cả sản phẩm</h2>
-        <div class="lc-product-list">
-            @foreach (var product in Model)
+            <li class="pill-nav-item">
+                <a href="/TrangChu/HeThongNhaThuoc" class="pill-nav-link">
+                    <i class="fas fa-store pill-icon"></i>
+                    Hệ thống nhà thuốc
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<section class="lc-products container">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="color: #d0021b; font-weight: 700;"><i class="fas fa-fire"></i> Bán Chạy Nhất</h2>
+    </div>
+    <div class="lc-product-list_all">
+        @if (ViewBag.BestSellers != null)
+        {
+            foreach (var product in (List<frontend.Models.Product>)ViewBag.BestSellers)
             {
-                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary);
-
-                if (image == null)
-                {
-                    image = product.ProductImages.FirstOrDefault();
-                }
-
+                // Image logic
+                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
                 string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
 
                 <div class="lc-product-card">
-                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })">
+                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })" class="product-link">
+                        <div class="lc-product-image-container">
+                            <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                            <span style="position: absolute; top: 5px; right: 5px; background: #d0021b; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: bold;">HOT</span>
+                        </div>
+                    </a>
+                    <h3>@product.Name</h3>
+                    <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
+
+                    <div style="font-size: 12px; color: #666; margin-bottom: 5px;">
+                        Đã bán: @product.SoldQuantity
+                    </div>
+
+                    @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                    {
+                        @Html.Hidden("productId", product.Id)
+                        @Html.Hidden("quantity", 1)
+                        <button type="submit" class="btn-buy">Chọn mua</button>
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>
+
+<section class="lc-products container" style="margin-top: 30px;">
+    <h2 style="color: #00529b; font-weight: 700;">Sản Phẩm Mới</h2>
+    <div class="lc-product-list_all">
+        @if (ViewBag.NewProducts != null)
+        {
+            foreach (var product in (List<frontend.Models.Product>)ViewBag.NewProducts)
+            {
+                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                <div class="lc-product-card">
+                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })" class="product-link">
                         <div class="lc-product-image-container">
                             <img src="@Url.Content(imageUrl)" alt="@product.Name" />
                         </div>
                     </a>
-
                     <h3>@product.Name</h3>
+                    <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
+                    @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                    {
+                        @Html.Hidden("productId", product.Id)
+                        @Html.Hidden("quantity", 1)
+                        <button type="submit" class="btn-buy">Chọn mua</button>
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>
+<section class="lc-products container" style="margin-top: 30px; margin-bottom: 40px;">
+    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="color: #333; font-weight: 700;">Tất cả sản phẩm</h2>
+        <a href="@Url.Action("AllProducts", "TrangChu")" class="btn btn-outline-primary btn-sm" style="border-radius: 20px;">
+            Xem tất cả sản phẩm <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
 
+    <div class="lc-product-list_all">
+        @if (ViewBag.AllProductsPreview != null)
+        {
+            foreach (var product in (List<frontend.Models.Product>)ViewBag.AllProductsPreview)
+            {
+                var image = product.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? product.ProductImages.FirstOrDefault();
+                string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                <div class="lc-product-card">
+                    <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = product.Slug })" class="product-link">
+                        <div class="lc-product-image-container">
+                            <img src="@Url.Content(imageUrl)" alt="@product.Name" />
+                        </div>
+                    </a>
+                    <h3>@product.Name</h3>
                     <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
 
                     @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
                     {
                         @Html.Hidden("productId", product.Id)
                         @Html.Hidden("quantity", 1)
-
-                        <button type="submit" class="btn btn-primary btn-buy">
-                            Mua hàng
-                        </button>
+                        <button type="submit" class="btn-buy">Chọn mua</button>
                     }
                 </div>
             }
-        </div>
-    </section>
+        }
+    </div>
 
-    <script>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="@Url.Action("AllProducts", "TrangChu")" class="btn btn-outline-secondary" style="padding: 10px 30px; border-radius: 25px;">
+            Xem thêm @((ViewBag.AllProductsPreview as List<frontend.Models.Product>)?.Count ?? 0)+ sản phẩm khác
+        </a>
+    </div>
+</section>
+
+
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const toggleBtn = document.getElementById('mobileMenuToggle');
         const closeBtn = document.getElementById('mobileMenuClose');
@@ -238,8 +311,8 @@
             overlay.addEventListener('click', closeMenu);
         }
     });
-    </script>
-    <script>
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const headerTop = document.querySelector('.lc-header-top.container');
 
@@ -253,13 +326,13 @@
             });
         }
     });
-    </script>
+</script>
 
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
     });
-    </script>
-    <script>
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const topSlider = document.getElementById('topSlider');
 
@@ -294,4 +367,4 @@
             }, 5000);
         }
     });
-    </script>
+</script>
