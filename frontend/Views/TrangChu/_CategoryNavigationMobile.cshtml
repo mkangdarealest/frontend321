@@ -1,0 +1,55 @@
+﻿@model IEnumerable<frontend.Models.Category>
+@using frontend.Models
+
+@{
+    // Lấy danh sách tất cả danh mục từ ViewBag để tìm con
+    var allCategories = (List<Category>)ViewBag.AllCategories;
+}
+
+<div class="mobile-nav-container">
+    <div class="mobile-nav-title">SẢN PHẨM</div>
+
+    <ul class="mobile-nav-list">
+        @foreach (var parent in Model)
+        {
+            // Tìm danh mục con của cha hiện tại
+            var children = allCategories
+                .Where(c => c.ParentCategoryId == parent.Id)
+                .OrderBy(c => c.Name)
+                .ToList();
+
+            <li class="mobile-nav-item">
+                @if (children.Any())
+                {
+                    @* TRƯỜNG HỢP CÓ MENU CON: Hiển thị dạng Accordion *@
+                    <div class="mobile-accordion-header" onclick="toggleSubmenu(this)">
+                        @* Link đến danh mục cha *@
+                        <a href="@Url.Action("ProductsByCategory", "TrangChu", new { slug = parent.Slug })" class="parent-link">
+                            @parent.Name
+                        </a>
+                        @* Mũi tên để mở menu con *@
+                        <span class="arrow-icon">▼</span>
+                    </div>
+
+                    @* Danh sách con (mặc định ẩn) *@
+                    <ul class="mobile-submenu">
+                        @foreach (var child in children)
+                        {
+                            <li>
+                                @Html.ActionLink(child.Name, "ProductsByCategory", "TrangChu", new { slug = child.Slug }, new { @class = "child-link" })
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    @* TRƯỜNG HỢP KHÔNG CÓ CON: Hiển thị link thường *@
+                    <div class="mobile-nav-link-wrapper">
+                        @Html.ActionLink(parent.Name, "ProductsByCategory", "TrangChu", new { slug = parent.Slug }, new { @class = "mobile-nav-link" })
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+</div>
+

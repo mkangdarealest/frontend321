@@ -26,6 +26,17 @@ namespace frontend.Controllers
             // 4. Pass *only the parents* as the main Model to the view.
             return PartialView("_CategoryNavigation", parentCategories);
         }
+        public ActionResult CategoryNavigationMobile()
+        {
+            var allCategories = db.Categories.ToList();
+            var parentCategories = allCategories
+                                     .Where(c => c.ParentCategoryId == null)
+                                     .OrderBy(c => c.Name)
+                                     .ToList();
+
+            ViewBag.AllCategories = allCategories;
+            return PartialView("_CategoryNavigationMobile", parentCategories);
+        }
         //Database to View
         LongChauDbEntities db = new LongChauDbEntities();
         public ActionResult LongChauClone()

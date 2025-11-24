@@ -551,6 +551,7 @@
     <Content Include="Views\Shared\_OrderInvoice.cshtml" />
     <Content Include="Views\AdminOrders\Details.cshtml" />
     <Content Include="Views\Shared\_NavLinks.cshtml" />
+    <Content Include="Views\TrangChu\_CategoryNavigationMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

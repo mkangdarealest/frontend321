@@ -1,123 +1,356 @@
 ﻿@* Views/Shared/_Header.cshtml *@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-@*//temp*@
+<link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css">
+
 <style>
+    /* --- CSS CHO MENU MOBILE & ACCORDION --- */
+
+    /* 1. Cấu trúc Drawer */
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        z-index: 9999999;
+        position: relative;
+    }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: #fff;
+            margin: 6px 0;
+            border-radius: 2px;
+        }
+
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 2147483646;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+    }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    .mobile-menu-drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 100vh;
+        background: #fff;
+        z-index: 2147483647;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+        .mobile-menu-drawer.active {
+            transform: translateX(0) !important;
+        }
+
+    /* 2. Style cho Accordion Menu (Danh mục Mobile) */
+    .mobile-nav-title {
+        padding: 15px 20px 10px;
+        font-weight: bold;
+        color: #999;
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+
+    .mobile-nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-nav-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Header của mục có con */
+    .mobile-accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        cursor: pointer;
+    }
+
+    /* Link chính */
+    .parent-link, .mobile-nav-link {
+        flex-grow: 1;
+        padding: 15px 0;
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        display: block;
+    }
+
+    /* Icon mũi tên */
+    .arrow-icon {
+        width: 40px;
+        text-align: right;
+        color: #888;
+        font-size: 12px;
+        transition: transform 0.3s;
+        padding: 15px 0;
+    }
+
+    /* Link con */
+    .mobile-submenu {
+        display: none; /* Ẩn mặc định */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #f9f9f9;
+        border-top: 1px solid #eee;
+    }
+
+        .mobile-submenu li a.child-link {
+            display: block;
+            padding: 12px 20px 12px 35px; /* Thụt đầu dòng */
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+            .mobile-submenu li a.child-link:hover {
+                color: #1d48ba;
+                background: #fff;
+            }
+
+    /* Trạng thái mở */
+    .mobile-nav-item.open .mobile-submenu {
+        display: block;
+    }
+
+    .mobile-nav-item.open .arrow-icon {
+        transform: rotate(180deg);
+        color: #1d48ba;
+    }
+
+    .mobile-nav-item.open .parent-link {
+        color: #1d48ba;
+    }
+
+    /* 3. Style Header & User */
+    .drawer-header {
+        background: #1d48ba;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+
+    .drawer-content {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .drawer-auth {
+        padding: 20px;
+        border-bottom: 5px solid #f0f0f0;
+    }
+
+    .drawer-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .d-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        object-fit: cover;
+    }
+
+    .d-btns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .d-btn {
+        flex: 1;
+        padding: 8px;
+        text-align: center;
+        border-radius: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+    }
+
+    .btn-log {
+        border: 1px solid #1d48ba;
+        color: #1d48ba;
+        background: #fff;
+    }
+
+    .btn-reg {
+        border: 1px solid #1d48ba;
+        background: #1d48ba;
+        color: #fff;
+    }
+
+    /* Desktop Styles */
     .user-dropdown {
         position: relative;
         display: inline-block;
     }
 
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        object-fit: cover;
-        border: 2px solid #ddd;
-    }
-
     .user-dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
+        background: #fff;
         min-width: 200px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 100;
         right: 0;
-        border-radius: 5px;
-        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 100;
     }
-
-        .user-dropdown-content a,
-        .user-dropdown-content .logout-form button {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-size: 14px;
-        }
-
-            .user-dropdown-content a:hover,
-            .user-dropdown-content .logout-form button:hover {
-                background-color: #f1f1f1;
-            }
 
     .user-dropdown:hover .user-dropdown-content {
         display: block;
     }
-
 </style>
-    <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css" >
 
-    <header id="lc-header">
-        <div class="lc-header-top container">
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="lc-logo">
-                <a href="@Url.Action("LongChauClone", "TrangChu")">
-                    <img src="~/hinh/logo_default_web_78584a5cc6.png" alt="Long Châu" />
-                </a>
-            </div>
-            <div class="lc-search">
-                <form method="get" action="@Url.Action("AllProducts", "TrangChu")" style="display:flex; width:100%;">
+<header id="lc-header">
+    <div class="lc-header-top container">
+        <button class="mobile-menu-toggle" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
 
-                    <input type="text" name="searchString"
-                           value="@Request.QueryString["searchString"]"
-                           placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
+        <div class="lc-logo">
+            <a href="@Url.Action("LongChauClone", "TrangChu")">
+                <img src="~/hinh/logo_default_web_78584a5cc6.png" alt="Long Châu" />
+            </a>
+        </div>
 
-                    <button type="submit"><span>🔍</span></button>
-                </form>
-            </div>
-            <div class="lc-user">
-                @if (User.IsInRole("Admin"))
-                {
-                    <div class="admin-nav" style="padding: 5px; margin-top: 5px;">
-                        <strong>Admin:</strong>
-                        @Html.ActionLink("Manage Products", "Index", "Products") |
-                        @Html.ActionLink("Manage Categories", "Index", "Categories") |
-                        @Html.ActionLink("Manage Customers", "Index", "AdminCustomers") |
-                        @Html.ActionLink("Manage Orders", "Index", "AdminOrders") |
-                        @Html.ActionLink("Manage Stock", "Index", "AdminStock") |
-                        @Html.ActionLink("Manage Other Admins", "Index", "AdminUsers") |
+        <div class="lc-search">
+            <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
+                <input type="text" name="q" placeholder="Tìm thuốc, bệnh lý..." />
+                <button type="submit"><span>🔍</span></button>
+            </form>
+        </div>
+
+        <div class="lc-user">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="admin-nav"><strong>Admin:</strong> @Html.ActionLink("Products", "Index", "Products")</div>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                var avatarUrl = Session["UserAvatar"] as string ?? "~/hinh/999.jpg";
+                <div class="user-dropdown">
+                    <img src="@Url.Content(avatarUrl)" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
+                    <div class="user-dropdown-content">
+                        <div style="padding:10px;background:#eee;font-weight:bold;">@User.Identity.Name</div>
+                        @Html.ActionLink("Hồ sơ", "Index", "Customer", null, new { style = "display:block;padding:10px;color:black;" })
+                        @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer", null, new { style = "display:block;padding:10px;color:black;" })
+                        @using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" style="width:100%;text-align:left;padding:10px;border:none;background:none;cursor:pointer;">Đăng xuất</button>
+                        }
                     </div>
-                }
+                </div>
+            }
+            else
+            {
+                @Html.ActionLink("Đăng nhập", "Login", "TrangChu")
+                @Html.ActionLink("Đăng ký", "Register", "TrangChu")
+            }
+        </div>
+        <div class="lc-cart">🛒 @Html.Action("CartSummary", "GioHang")</div>
+    </div>
+
+    <div class="desktop-nav-wrap">
+        @{ Html.RenderAction("CategoryNavigation", "TrangChu"); }
+    </div>
+
+    <div class="mobile-menu-overlay" id="myOverlay" onclick="toggleMenu()"></div>
+
+    <div class="mobile-menu-drawer" id="myDrawer">
+        <div class="drawer-header">
+            <span>DANH MỤC</span>
+            <button class="drawer-close" onclick="toggleMenu()" style="background:none;border:none;color:#fff;font-size:24px;">&times;</button>
+        </div>
+
+        <div class="drawer-content">
+            <div class="drawer-auth">
                 @if (User.Identity.IsAuthenticated)
                 {
                     var avatarUrl = Session["UserAvatar"] as string ?? "~/hinh/999.jpg";
-
-                    <div class="user-dropdown">
-                        <img src="@Url.Content(avatarUrl)" alt="Avatar" class="user-avatar" />
-                        <div class="user-dropdown-content">
-                            <div style="padding: 10px; border-bottom: 1px solid #ddd; background-color: #eee;">
-                                <strong>@User.Identity.Name</strong>
-                            </div>
-                            @Html.ActionLink("Hồ sơ khách hàng", "Index", "Customer")
-                            @Html.ActionLink("Lịch sử giao dịch", "OrderHistory", "Customer")
-                            @using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm", @class = "logout-form", style = "color:#000000" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button type="submit">Đăng xuất</button>
-                            }
+                    <div class="drawer-user">
+                        <img src="@Url.Content(avatarUrl)" class="d-avatar" />
+                        <div>
+                            <div style="font-size:12px;color:#666;">Xin chào,</div>
+                            <div style="font-weight:bold;">@User.Identity.Name</div>
                         </div>
                     </div>
+                    <div>
+                        <a href="@Url.Action("Index", "Customer")" style="display:block;padding:8px 0;color:#333;text-decoration:none;">Hồ sơ cá nhân</a>
+                        <a href="@Url.Action("OrderHistory", "Customer")" style="display:block;padding:8px 0;color:#333;text-decoration:none;">Lịch sử giao dịch</a>
+                        @using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" style="color:red;background:none;border:none;padding:5px 0;cursor:pointer;font-weight:bold;">Đăng xuất</button>
+                        }
+                    </div>
                 }
-
                 else
                 {
-                    @Html.ActionLink("Đăng nhập", "Login", "TrangChu")
-                    @Html.ActionLink("Đăng ký", "Register", "TrangChu")
+                    <div class="d-btns">
+                        <a href="@Url.Action("Login", "TrangChu")" class="d-btn btn-log">Đăng nhập</a>
+                        <a href="@Url.Action("Register", "TrangChu")" class="d-btn btn-reg">Đăng ký</a>
+                    </div>
                 }
             </div>
-            <div class="lc-cart">
-                🛒 @Html.Action("CartSummary", "GioHang")
+
+            <div id="mobile-cat-container">
+                @{ Html.RenderAction("CategoryNavigationMobile", "TrangChu"); }
             </div>
         </div>
-        @{ Html.RenderAction("CategoryNavigation", "TrangChu"); }
-    </header>
+    </div>
+
+    <script>
+        // Bật tắt Drawer
+        function toggleMenu() {
+            var d = document.getElementById("myDrawer");
+            var o = document.getElementById("myOverlay");
+            if (d.classList.contains("active")) {
+                d.classList.remove("active"); o.classList.remove("active");
+            } else {
+                d.classList.add("active"); o.classList.add("active");
+            }
+        }
+
+        // Bật tắt Submenu (Accordion)
+        function toggleSubmenu(element) {
+            // Tìm thẻ cha <li> của element được click
+            var parentLi = element.parentElement;
+
+            // Toggle class 'open' để CSS xử lý việc hiện/ẩn
+            parentLi.classList.toggle('open');
+        }
+    </script>
+</header>
