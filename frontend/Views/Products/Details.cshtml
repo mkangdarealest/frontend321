@@ -6,6 +6,7 @@
     // --- Image Logic ---
     var image = Model.ProductImages.FirstOrDefault(img => img.IsPrimary) ?? Model.ProductImages.FirstOrDefault();
     string imageUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg"; // Placeholder
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @* 1. ADD THIS CSS STYLE BLOCK AT THE TOP *@

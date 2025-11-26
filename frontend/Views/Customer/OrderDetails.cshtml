@@ -4,13 +4,13 @@
     ViewBag.Title = "Chi tiết đơn hàng #" + Model.Id;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div class="container" style="padding-top: 30px; padding-bottom: 50px;">
+        <div style="margin-bottom: 20px;">
+            <a href="@Url.Action("OrderHistory", "Customer")" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại lịch sử
+            </a>
+        </div>
 
-<div class="container" style="padding-top: 30px; padding-bottom: 50px;">
-    <div style="margin-bottom: 20px;">
-        <a href="@Url.Action("OrderHistory", "Customer")" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left"></i> Quay lại lịch sử
-        </a>
+        @Html.Partial("_OrderInvoice", Model)
     </div>
 
-    @Html.Partial("_OrderInvoice", Model)
-</div>

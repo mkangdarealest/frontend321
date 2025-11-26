@@ -12,15 +12,26 @@ public class AdminOrdersController : Controller
 
     // 2. (Checklist) Trang Index: lưu giữ danh sách đơn hàng
     // GET: /AdminOrders/Index
-    public ActionResult Index()
+    public ActionResult Index(int? statusId)
     {
-        // Get all orders, include the Customer and Status
-        var orders = db.Orders
+        // 1. Start the query
+        var ordersQuery = db.Orders
             .Include(o => o.Customer)
             .Include(o => o.OrderStatu)
-            .OrderByDescending(o => o.OrderDate)
-            .ToList();
+            .AsQueryable();
 
+        // 2. Apply Filter if selected
+        if (statusId.HasValue)
+        {
+            ordersQuery = ordersQuery.Where(o => o.StatusId == statusId.Value);
+        }
+
+        // 3. Get data for the Dropdown (ViewBag)
+        ViewBag.StatusList = db.OrderStatus.ToList();
+        ViewBag.CurrentStatus = statusId;
+
+        // 4. Execute and Return
+        var orders = ordersQuery.OrderByDescending(o => o.OrderDate).ToList();
         return View(orders);
     }
 
@@ -45,29 +56,19 @@ public class AdminOrdersController : Controller
         }
 
         // We re-use the *exact same view* as the customer's order details
-        // This fulfills the "Tạo chung 1 Partial View" checklist item.
-        return View("~/Views/Customer/OrderDetails.cshtml", order);
+        return View(order);
     }
     public ActionResult Edit(int? id)
     {
-        if (id == null)
-        {
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        }
+        if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-        // Get the order and its related info
-        Order order = db.Orders
-            .Include(o => o.Customer)
-            .FirstOrDefault(o => o.Id == id);
+        var order = db.Orders.Include(o => o.Customer).FirstOrDefault(o => o.Id == id);
+        if (order == null) return HttpNotFound();
 
-        if (order == null)
-        {
-            return HttpNotFound();
-        }
-
-        // Get all possible statuses (e.g., "Pending", "Delivered")
-        // and create a SelectList for the dropdown.
-        // We pass "Id", "Name", and the "order.StatusId" as the currently selected value.
+        // --- LOCK CHECK ---
+        // If order is already Completed (3) or Cancelled (4), we might want to warn the user
+        // or disable the dropdown in the View.
+        // We pass this status list as usual.
         ViewBag.StatusList = new SelectList(db.OrderStatus.ToList(), "Id", "Name", order.StatusId);
 
         return View(order);
@@ -76,23 +77,26 @@ public class AdminOrdersController : Controller
     // POST: AdminOrders/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, int StatusId) 
+    public ActionResult Edit(int id, int StatusId)
     {
-        // 1. Find the original order in the database
         var orderToUpdate = db.Orders.Find(id);
-        if (orderToUpdate == null)
+        if (orderToUpdate == null) return HttpNotFound();
+
+        // --- LOGIC: PREVENT CHANGING "COMPLETED" ORDERS ---
+        if (orderToUpdate.StatusId == 3) // 3 = Completed
         {
-            return HttpNotFound();
+            // If it was ALREADY completed, you cannot change it back or cancel it.
+            // We return the view with an error message.
+            TempData["Error"] = "Đơn hàng này đã hoàn thành. Không thể thay đổi trạng thái được nữa.";
+            return RedirectToAction("Index");
         }
 
-        // 2. Update ONLY the StatusId
+        // Allow update
         orderToUpdate.StatusId = StatusId;
-
-        // 3. Mark it as modified and save
         db.Entry(orderToUpdate).State = EntityState.Modified;
         db.SaveChanges();
 
-        // 4. Send the admin back to the order list
+        TempData["SuccessMessage"] = "Cập nhật trạng thái thành công!";
         return RedirectToAction("Index");
     }
 

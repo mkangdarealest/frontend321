@@ -1,50 +1,59 @@
 ﻿@model frontend.Models.Order
+
 @{
-    ViewBag.Title = "Cập nhật trạng thái Đơn hàng";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    ViewBag.Title = "Cập nhật trạng thái đơn hàng #" + Model.Id;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    bool isLocked = (Model.StatusId == 3 || Model.StatusId == 4); // Lock if Completed or Cancelled
 }
 
-<h2>@ViewBag.Title</h2>
-<hr />
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    @Html.HiddenFor(model => model.Id)
-
-    <div class="form-horizontal">
-        <h4>Đơn hàng #@Model.Id</h4>
-
-        <dl class="dl-horizontal">
-            <dt>Khách hàng</dt>
-            <dd>@Model.Customer.FirstName @Model.Customer.LastName</dd>
-
-            <dt>Ngày đặt</dt>
-            <dd>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
-
-            <dt>Tổng tiền</dt>
-            <dd>@Model.Total.ToString("N0") đ</dd>
-        </dl>
-
-        <hr />
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="StatusId">Trạng thái Đơn hàng</label>
-            <div class="col-md-10">
-                @Html.DropDownList(
-                    "StatusId",            
-                    (SelectList)ViewBag.StatusList, 
-                    new { @class = "form-control" } 
-                )
-            </div>
+<div class="container" style="max-width: 600px;">
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Cập nhật đơn hàng #@Model.Id</h4>
         </div>
+        <div class="card-body">
+            <dl class="row mb-4">
+                <dt class="col-sm-4">Khách hàng:</dt>
+                <dd class="col-sm-8">@Model.Customer.LastName @Model.Customer.FirstName</dd>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu thay đổi" class="btn btn-success" />
-                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
-            </div>
+                <dt class="col-sm-4">Tổng tiền:</dt>
+                <dd class="col-sm-8 font-weight-bold text-danger">@Model.Total.ToString("N0") đ</dd>
+
+                <dt class="col-sm-4">Ngày đặt:</dt>
+                <dd class="col-sm-8">@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+
+            @if (isLocked)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-lock"></i> Đơn hàng này đã <strong>@(Model.StatusId == 3 ? "Hoàn thành" : "Hủy")</strong>. Không thể thay đổi trạng thái.
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái hiện tại:</label>
+                    <input type="text" class="form-control" value="@Model.OrderStatu.Name" disabled />
+                </div>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Quay lại</a>
+            }
+            else
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Chọn trạng thái mới:</label>
+                        @Html.DropDownList("StatusId", (SelectList)ViewBag.StatusList, new { @class = "form-control form-control-lg" })
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fas fa-save"></i> Lưu thay đổi
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-link btn-block text-muted">Hủy bỏ</a>
+                    </div>
+                }
+            }
         </div>
     </div>
-}
+</div>

@@ -279,7 +279,12 @@
                             </a>
                             <h3>@product.Name</h3>
                             <p class="price">@(product.Price.HasValue ? product.Price.Value.ToString("N0") + "đ" : "")</p>
-                            @Html.ActionLink("Chọn mua", "AddToCart", "ShoppingCart", new { id = product.Id }, new { @class = "btn-buy", style = "text-decoration:none" })
+                            @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
+                            {
+                                @Html.Hidden("productId", product.Id)
+                                @Html.Hidden("quantity", 1)
+                                <button type="submit" class="btn-buy">Chọn mua</button>
+                            }
                         </div>
                     }
                 </div>

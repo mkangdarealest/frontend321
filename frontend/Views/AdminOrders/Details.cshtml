@@ -1,18 +1,16 @@
 ﻿@model frontend.Models.Order
 
 @{
-    ViewBag.Title = "Chi tiết đơn hàng";
-    // Assuming you have an Admin layout, otherwise use Shared/_Layout
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chi tiết đơn hàng #" + Model.Id;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div class="container" style="padding-top: 30px;">
-    <h2>Quản lý đơn hàng: #@Model.Id</h2>
-
-    <div class="admin-actions" style="margin-bottom: 20px;">
-        @Html.ActionLink("← Quay lại danh sách", "Index", null, new { @class = "btn btn-default" })
-        @Html.ActionLink("Cập nhật trạng thái", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+<div class="container" style="padding-top: 30px; padding-bottom: 50px;">
+    <div style="margin-bottom: 20px;">
+        <a href="@Url.Action("Index", "AdminOrders")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại lịch sử
+        </a>
     </div>
 
-    @Html.Partial("_OrderInvoice", Model)
+    @Html.Partial("_OrderInvoice_Admin", Model)
 </div>
+

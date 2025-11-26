@@ -3,9 +3,7 @@
 <link href="~/css/LongChauClone.css" rel="stylesheet" type="text/css">
 
 <style>
-    /* --- CSS CHO MENU MOBILE & ACCORDION --- */
 
-    /* 1. Cấu trúc Drawer */
     .mobile-menu-toggle {
         display: none;
         background: none;
@@ -246,8 +244,12 @@
         </div>
 
         <div class="lc-search">
-            <form method="get" action="@Url.Action("Index","Search")" style="display:flex; width:100%;">
-                <input type="text" name="q" placeholder="Tìm thuốc, bệnh lý..." />
+            <form method="get" action="@Url.Action("AllProducts", "TrangChu")" style="display:flex; width:100%;">
+
+                <input type="text" name="searchString"
+                       value="@Request.QueryString["searchString"]"
+                       placeholder="Tìm thuốc, thực phẩm chức năng, bệnh lý, bác sĩ..." />
+
                 <button type="submit"><span>🔍</span></button>
             </form>
         </div>
@@ -255,7 +257,12 @@
         <div class="lc-user">
             @if (User.IsInRole("Admin"))
             {
-                <div class="admin-nav"><strong>Admin:</strong> @Html.ActionLink("Products", "Index", "Products")</div>
+                @Html.ActionLink("Manage Products", "Index", "Products")
+                @Html.ActionLink("Manage Categories", "Index", "Categories") 
+                @Html.ActionLink("Manage Customers", "Index", "AdminCustomers")
+                @Html.ActionLink("Manage Orders", "Index", "AdminOrders")
+                @Html.ActionLink("Manage Stock", "Index", "AdminStock") 
+                @Html.ActionLink("Manage Other Admins", "Index", "AdminUsers") 
             }
             @if (User.Identity.IsAuthenticated)
             {

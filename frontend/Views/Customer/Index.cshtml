@@ -1,138 +1,177 @@
 ﻿@model frontend.Models.Customer
+
 @{
-    ViewBag.Title = "Hồ sơ khách hàng";
+    ViewBag.Title = "Hồ sơ của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="container" style="padding-top: 80px; padding-bottom: 60px;">
+    <h2 style="font-weight: 700; color: #00529b; margin-bottom: 30px;">
+        <i class="fas fa-user-circle"></i> Hồ sơ cá nhân
+    </h2>
 
-
-@using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.AvatarUrl)
-    @Html.HiddenFor(model => model.CreatedAt)
-
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Ảnh đại diện</label>
-        <div class="col-md-10">
-            <img src="@Url.Content(Model.AvatarUrl ?? "~/hinh/R.png")" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Thay ảnh mới</label>
-        <div class="col-md-10">
-            <input type="file" name="AvatarFile" id="AvatarFile" class="form-control" />
-        </div>
-    </div>
     @if (ViewBag.SuccessMessage != null)
     {
-        <div class="alert alert-success" style="margin-top: 20px;">@ViewBag.SuccessMessage</div>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+        </div>
     }
 
-    <hr />
-    <h4>Thông tin cá nhân</h4>
+    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { enctype = "multipart/form-data", @class = "profile-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserName)
+        @Html.HiddenFor(model => model.CreatedAt)
+        @Html.HiddenFor(model => model.AvatarUrl)
 
-    <div class="form-group">
-        <label class="control-label col-md-2">Username</label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+<div class="row">
+    <div class="col-md-3 mb-4">
+        @Html.Partial("_CustomerMenu")
+    </div>
+    <div class="col-md-4 text-center mb-4">
+        <div class="card shadow-sm" style="border-radius: 12px; overflow: hidden;">
+            <div class="card-body" style="padding: 30px;">
+                <div class="avatar-wrapper" style="position: relative; display: inline-block; margin-bottom: 20px;">
+                    <img src="@Url.Content(Model.AvatarUrl ?? "~/hinh/999.jpg")"
+                         alt="Avatar"
+                         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #f0f0f0;"
+                         id="avatarPreview" />
+
+                    <label for="AvatarFile" class="btn btn-sm btn-primary" style="position: absolute; bottom: 0; right: 0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" name="AvatarFile" id="AvatarFile" style="display: none;" onchange="previewImage(this);" />
+                </div>
+                <h4 class="font-weight-bold">@Model.LastName @Model.FirstName</h4>
+                <p class="text-muted">@Model.UserName</p>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.FirstName, "Tên", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm" style="border-radius: 12px;">
+            <div class="card-header bg-white" style="border-bottom: 1px solid #eee; padding: 20px;">
+                <h5 class="mb-0 text-primary font-weight-bold">Thông tin chi tiết</h5>
+            </div>
+            <div class="card-body" style="padding: 30px;">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.LastName, "Họ", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <h6 class="text-uppercase text-muted mb-3" style="font-size: 0.85rem; font-weight: 700;">Thông tin cơ bản</h6>
+                <div class="row">
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Họ đệm <span class="text-danger">*</span></label>
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "50", placeholder = "Nguyễn Văn" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Tên <span class="text-danger">*</span></label>
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "20", placeholder = "A" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <div class="row">
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Email <span class="text-danger">*</span></label>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", maxlength = "100", type = "email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Số điện thoại <span class="text-danger">*</span></label>
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", maxlength = "11", onkeypress = "return isNumberKey(event)" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Phone, "Số điện thoại", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <hr class="my-4" style="border-top: 1px solid #f0f0f0;">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.AddressLine, "Địa chỉ", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AddressLine, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AddressLine, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <h6 class="text-uppercase text-muted mb-3" style="font-size: 0.85rem; font-weight: 700;">Địa chỉ nhận hàng</h6>
+                <div class="form-group mb-3">
+                    <label class="small font-weight-bold">Địa chỉ (Số nhà, đường)</label>
+                    @Html.EditorFor(model => model.AddressLine, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "200" } })
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="small font-weight-bold">Phường/Xã</label>
+                        @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "50" } })
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="small font-weight-bold">Tỉnh/Thành phố</label>
+                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "50" } })
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="small font-weight-bold">Mã bưu điện</label>
+                        @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", maxlength = "10", onkeypress = "return isNumberKey(event)" } })
+                    </div>
+                </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, "Thành phố", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <hr class="my-4" style="border-top: 1px solid #f0f0f0;">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.District, "Quận/Huyện", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <h6 class="text-uppercase text-muted mb-3" style="font-size: 0.85rem; font-weight: 700;">Đổi mật khẩu (Bỏ trống nếu không đổi)</h6>
+                <div class="row">
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Mật khẩu mới</label>
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", maxlength = "50", placeholder = "********" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger small" })
+                    </div>
+                    <div class="col-md-6 form-group mb-3">
+                        <label class="small font-weight-bold">Xác nhận mật khẩu</label>
+                        <input type="password" name="ConfirmPassword" class="form-control" maxlength="50" placeholder="********" />
+                        @Html.ValidationMessage("ConfirmPassword", new { @class = "text-danger small" })
+                    </div>
+                </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PostalCode, "Mã bưu điện", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                <div class="form-group mt-4 text-right">
+                    <button type="submit" class="btn btn-primary px-5" style="background-color: #00529b; border-radius: 25px; font-weight: 600;">
+                        <i class="fas fa-save"></i> Lưu thay đổi
+                    </button>
+                </div>
 
-    <hr />
-    <h4>Đổi mật khẩu (Bỏ trống nếu không đổi)</h4>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập mật khẩu mới" } })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập lại mật khẩu mới" } })
-            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // 1. Image Preview Logic
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#avatarPreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 2. Block weird characters (* - / . , etc.) for inputs with class 'clean-input'
+        // This prevents injection at the UI level as requested.
+        $(document).on('keypress', '.clean-input', function(e) {
+            var k = e.which;
+            // Allow: a-z, A-Z, 0-9, space (32), vietnamese chars
+            // Block: * (42), + (43), - (45), . (46), / (47), , (44)
+            // Simple regex to allow letters, numbers, and spaces ONLY
+            var keyChar = String.fromCharCode(k);
+            var regex = /^[a-zA-Z0-9\s\u00C0-\u1EF9]+$/;
+
+            // Allow navigation keys (enter, backspace, etc. are handled differently in keypress vs keydown,
+            // but usually keypress doesn't trigger for arrows/backspace in modern browsers except Firefox)
+            // For strict blocking:
+            if (!regex.test(keyChar)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 3. Allow ONLY Numbers (for Phone, PostalCode)
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script>
 }

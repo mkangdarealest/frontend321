@@ -392,6 +392,7 @@
     <Content Include="hinh\hero_banner.jpg" />
     <Content Include="hinh\hhh.png" />
     <Content Include="hinh\iii.png" />
+    <Content Include="hinh\illustration-cart-empty.png" />
     <Content Include="hinh\JexMax.jpg" />
     <Content Include="hinh\jjj.png" />
     <Content Include="hinh\logo_default_web_78584a5cc6.png" />
@@ -552,6 +553,9 @@
     <Content Include="Views\AdminOrders\Details.cshtml" />
     <Content Include="Views\Shared\_NavLinks.cshtml" />
     <Content Include="Views\TrangChu\_CategoryNavigationMobile.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Shared\_OrderInvoice_Admin.cshtml" />
+    <Content Include="Views\Shared\_CustomerMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

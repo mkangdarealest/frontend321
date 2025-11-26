@@ -3,227 +3,251 @@
     ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
     decimal totalAmount = Model.Sum(item => item.LineTotal);
+    var recentProducts = ViewBag.RecentlyViewed as List<frontend.Models.Product>;
 }
 
 <link href="~/css/GioHang.css" rel="stylesheet" />
-<div class="container_1">
-    <h1>Giỏ hàng</h1>
 
-    <div id="cart-error-message" style="display:none; background-color: #ffebe6; border: 1px solid #e43f3f; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #b71c1c;">
-    </div>
+<div class="container_1" style="padding-top: 20px; min-height: 400px;">
 
-    <div class="cart-layout">
+    @if (Model.Count == 0)
+    {
+        /* 1. EMPTY CART STATE */
+        <div class="empty-cart-container" style="text-align: center; padding: 50px 20px; background: #fff; border-radius: 8px;">
+            <img src="~/hinh/illustration-cart-empty.png" alt="Empty Cart" style="width: 150px; margin-bottom: 20px;">
+            <h3 style="font-weight: bold; color: #333;">Chưa có sản phẩm nào trong giỏ hàng</h3>
+            <p style="color: #777; margin-bottom: 30px;">Cùng mua sắm hàng ngàn sản phẩm tại nhà thuốc Long Châu nhé!</p>
 
-        <div class="cart-items">
-            @if (Model.Count == 0)
-            {
-                <div class="empty-state">
-                    <h2>Giỏ hàng của bạn đang rỗng</h2>
-                    <p>Hãy thêm sản phẩm vào giỏ để tiếp tục mua sắm nhé!</p>
-                    @Html.ActionLink("Tiếp tục mua hàng", "LongChauClone", "TrangChu", null, new { @class = "cta-shopping" })
-                </div>
-            }
-            else
-            {
+            @Html.ActionLink("Mua hàng ngay", "LongChauClone", "TrangChu", null, new { @class = "btn btn-primary", style = "padding: 10px 40px; border-radius: 25px; font-weight: bold; background-color: #00529b;" })
+        </div>
+    }
+    else
+    {
+        /* 2. ACTIVE CART LAYOUT */
+        <h1>Giỏ hàng <span style="font-size: 0.6em; color: #777;">(@Model.Sum(x => x.Quantity) sản phẩm)</span></h1>
+
+        <div id="cart-error-message" style="display:none; background-color: #ffebe6; border: 1px solid #e43f3f; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #b71c1c;"></div>
+
+        <div class="cart-layout">
+            <div class="cart-items">
                 <div id="cart-item-list">
                     @foreach (var item in Model)
                     {
                         <div class="cart-product" id="product-row-@item.ProductId">
-                            <img src="@Url.Content(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
-                            <div class="cart-product-name">
-                                @item.ProductName
-                            </div>
+                            <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
+                                <img src="@Url.Content(item.ProductImage ?? "/hinh/default-product.png")" alt="@item.ProductName" class="cart-product-img" />
 
-                            <div class="cart-product-price">
-                                <button class="decrease-btn cart-update-btn" data-product-id="@item.ProductId" data-operation="decrease" title="Giảm 1">-</button>
-                                <span class="quantity" id="quantity-@item.ProductId">@item.Quantity</span>
-                                <button class="increase-btn cart-update-btn" data-product-id="@item.ProductId" data-operation="increase" title="Thêm 1">+</button>
-                            </div>
+                                <div style="flex-grow: 1;">
+                                    <div class="cart-product-name" style="font-weight: 500; margin-bottom: 5px;">
+                                        <a href="@Url.Action("Details", "Products", new { id = item.ProductId })" style="color: #333; text-decoration: none;">@item.ProductName</a>
+                                    </div>
+                                    <div class="cart-product-price" style="color: #00529b; font-weight: bold;">
+                                        @item.UnitPrice.ToString("N0") đ
+                                    </div>
+                                </div>
 
-                            @using (Html.BeginForm("RemoveFromCart", "GioHang", FormMethod.Post, new { @class = "cart-remove-form" }))
+                                <div class="quantity-controls" style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 4px;">
+                                    <button class="cart-update-btn" data-product-id="@item.ProductId" data-operation="decrease" style="border:none; background:transparent; padding: 5px 10px; cursor: pointer;">-</button>
+                                    <span id="quantity-@item.ProductId" style="padding: 0 5px; min-width: 20px; text-align: center;">@item.Quantity</span>
+                                    <button class="cart-update-btn" data-product-id="@item.ProductId" data-operation="increase" style="border:none; background:transparent; padding: 5px 10px; cursor: pointer;">+</button>
+                                </div>
+
+                                @using (Html.BeginForm("RemoveFromCart", "GioHang", FormMethod.Post, new { @class = "cart-remove-form", style = "margin-left: 10px;" }))
+                                {
+                                    @Html.Hidden("productId", item.ProductId)
+                                    <button type="submit" class="remove-btn" style="background: none; border: none; color: #999; cursor: pointer;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <aside class="cart-summary">
+                <div class="summary-box" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee;">
+                    <h3 style="margin-top: 0; font-size: 1.2em; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">Tổng tiền</h3>
+                    <div class="summary-line" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Tạm tính:</span>
+                        <span id="summary-subtotal" style="font-weight: bold;">@totalAmount.ToString("N0") đ</span>
+                    </div>
+                    <hr style="border-top: 1px solid #eee; margin: 15px 0;">
+                    <div class="summary-line total" style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.3em; color: #d0021b; font-weight: bold;">
+                        <span>Thành tiền:</span>
+                        <span id="summary-total">@totalAmount.ToString("N0") đ</span>
+                    </div>
+
+                    @if (User.IsInRole("Customer"))
+                    {
+                        @Html.ActionLink("Thanh toán", "Index", "Checkout", null, new { @class = "btn btn-primary w-100", style = "display:block; padding: 12px; border-radius: 8px; background-color: #d0021b; border: none;" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Đăng nhập để thanh toán", "Login", "TrangChu", null, new { @class = "btn btn-warning w-100", style = "display:block; padding: 12px; border-radius: 8px;" })
+                    }
+                </div>
+            </aside>
+        </div>
+    }
+</div>
+
+@if (recentProducts != null && recentProducts.Any())
+{
+    <div class="container_1" style="margin-top: 40px; margin-bottom: 60px;">
+        <h3 style="font-weight: 700; margin-bottom: 20px; color: #333; border-left: 4px solid #00529b; padding-left: 10px;">
+            Sản phẩm vừa xem
+        </h3>
+
+        <div class="recent-slider-wrapper" style="position: relative;">
+
+            <button class="slider-arrow slider-prev" onclick="scrollRecent(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="recent-slider-list" id="recentSlider">
+                @foreach (var p in recentProducts)
+                {
+                    var image = p.ProductImages.FirstOrDefault(i => i.IsPrimary) ?? p.ProductImages.FirstOrDefault();
+                    var imgUrl = (image != null) ? image.Url : "~/hinh/VitaminC.jpg";
+
+                    <div class="recent-slider-item">
+                        <div class="lc-product-card" style="width: 100%; margin: 0; height: 100%;">
+                            <a href="@Url.Action("ViewProduct", "TrangChu", new { slug = p.Slug })" style="text-decoration:none; color: inherit;">
+                                <div class="lc-product-image-container">
+                                    <img src="@Url.Content(imgUrl)" alt="@p.Name" />
+                                </div>
+                                <h3>@p.Name</h3>
+                                <p class="price">@(p.Price.HasValue ? p.Price.Value.ToString("N0") + "đ" : "Liên hệ")</p>
+                            </a>
+                            @using (Html.BeginForm("AddToCart", "GioHang", FormMethod.Post))
                             {
-                                @Html.Hidden("productId", item.ProductId)
-                                <button type="submit" class="remove-btn" title="Xóa khỏi giỏ">Xóa</button>
+                                @Html.Hidden("productId", p.Id)
+                                @Html.Hidden("quantity", 1)
+                                <button type="submit" class="btn-buy">Chọn mua</button>
                             }
                         </div>
-                    }
-                </div>
-            }
+                    </div>
+                }
+            </div>
+
+            <button class="slider-arrow slider-next" onclick="scrollRecent(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
-
-        <aside class="cart-summary">
-            <h2>Tổng cộng</h2>
-            @if (Model.Count > 0)
-            {
-                if (User.IsInRole("Customer"))
-                {   
-                    <div class="summary-line">
-                        <span>Tạm tính</span>
-                        <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
-                    </div>
-                    <div class="summary-line" id="discount-line" style="display:none; color: #00b33c;">
-                        <span>Giảm giá</span>
-                        <span id="summary-discount">0 đ</span>
-                    </div>
-                    using (Html.BeginForm("ApplyDiscount", "GioHang", FormMethod.Post, new { id = "discount-form" }))
-                    {
-                        <div class="summary-line">
-                            @Html.TextBox("couponCode", null, new { placeholder = "Nhập mã giảm giá" })
-                            <button type="submit" class="apply-btn">Áp dụng</button>
-                        </div>
-                    }
-                    <div class="summary-line total">
-                        <span>Thành tiền</span>
-                        <span id="summary-total">@totalAmount.ToString("N0") đ</span>
-                    </div>
-                    @Html.ActionLink("Thanh toán", "Index", "Checkout", null, new { @class = "checkout-btn", style = "text-decoration:none;padding:10px;" })
-                }
-                else
-                {
-                    <div class="summary-line">
-                        <span>Tạm tính</span>
-                        <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
-                    </div>
-                    <div class="summary-line total">
-                        <span>Thành tiền</span>
-                        <span id="summary-total">@totalAmount.ToString("N0") đ</span>
-                    </div>
-                    @Html.ActionLink("Đăng nhập/Đăng kí để thanh toán", "Login", "TrangChu", null, new { @class = "checkout-btn", style = "text-decoration:none;" })
-                }
-            }
-            else
-            {
-                <div class="summary-line">
-                    <span>Tạm tính</span>
-                    <span id="summary-subtotal">@totalAmount.ToString("N0") đ</span>
-                </div>
-                <div class="summary-line total">
-                    <span>Thành tiền</span>
-                    <span id="summary-total">@totalAmount.ToString("N0") đ</span>
-                </div>
-                <button class="checkout-btn" disabled style="background-color: #ccc; cursor: not-allowed;">Thanh toán</button>
-            }
-
-        </aside>
     </div>
-</div>
+}
+
+<style>
+    .recent-slider-list {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto; /* Enable scrolling */
+        scroll-behavior: smooth;
+        padding: 10px 5px; /* Space for shadow */
+        scrollbar-width: none; /* Hide scrollbar Firefox */
+    }
+    .recent-slider-list::-webkit-scrollbar {
+        display: none; /* Hide scrollbar Chrome/Safari */
+    }
+
+    .recent-slider-item {
+        flex: 0 0 220px; /* Fixed width columns */
+        max-width: 220px;
+    }
+
+    /* Slider Buttons */
+    .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        color: #333;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    .slider-arrow:hover {
+        background: #00529b;
+        color: #fff;
+        border-color: #00529b;
+    }
+    .slider-prev { left: -20px; }
+    .slider-next { right: -20px; }
+
+    @*@media (max-width: 768px) {
+        .recent-slider-item { flex: 0 0 160px; max-width: 160px; }
+        .slider-arrow { display: none; } /* Hide arrows on mobile, use touch swipe */*@
+</style>
+
 @section scripts {
     <script>
-    $(document).ready(function () {
+        // Function to handle Slider Scrolling
+        function scrollRecent(direction) {
+            const container = document.getElementById('recentSlider');
+            const scrollAmount = 240; // Width of card + gap
+            container.scrollLeft += (direction * scrollAmount);
+        }
 
-        // --- Handle UPDATE (Increase/Decrease) ---
-        $('#cart-item-list').on('click', '.cart-update-btn', function (e) {
-            e.preventDefault();
+        $(document).ready(function () {
+            // --- Existing Cart Logic (Update/Remove) ---
+            $('#cart-item-list').on('click', '.cart-update-btn', function (e) {
+                e.preventDefault();
+                var $button = $(this);
+                var productId = $button.data('product-id');
+                var operation = $button.data('operation');
+                var $quantitySpan = $('#quantity-' + productId);
+                var currentQuantity = parseInt($quantitySpan.text());
+                var newQuantity = (operation === 'increase') ? currentQuantity + 1 : currentQuantity - 1;
 
-            var $button = $(this);
-            var productId = $button.data('product-id');
-            var operation = $button.data('operation');
+                $button.closest('.cart-product').css('opacity', 0.5);
 
-            var $quantitySpan = $('#quantity-' + productId);
-            var currentQuantity = parseInt($quantitySpan.text());
-
-            var newQuantity = (operation === 'increase') ? currentQuantity + 1 : currentQuantity - 1;
-
-            $button.closest('.cart-product').css('opacity', 0.5);
-
-            $.post('@Url.Action("UpdateCart", "GioHang")',
-                   { productId: productId, newQuantity: newQuantity },
-                   function (response) {
-
-                $('#product-row-' + productId).css('opacity', 1);
-
-                if (response.success) { // <-- Handle success
-
-                    if (response.itemQuantity <= 0) {
-                        $('#product-row-' + productId).fadeOut(300, function() {
-                            $(this).remove();
-                            if ($('#cart-item-list .cart-product').length === 0) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        $quantitySpan.text(response.itemQuantity);
-                    }
-
-                    $('#summary-subtotal').text(response.totalAmount);
-                    $('#summary-total').text(response.totalAmount);
-                    $('.header-cart-link').text('Giỏ hàng (' + response.cartItemCount + ')');
-
-                    if (response.message) {
-                        $('#cart-error-message').text(response.message).show();
-                    } else {
-                        $('#cart-error-message').hide();
-                    }
-                }
-                else { // <-- [NEW] Handle failure
-                    $('#cart-error-message').text(response.message).show();
-                }
-            });
-        });
-
-        // --- Handle REMOVE ---
-        $('#cart-item-list').on('submit', '.cart-remove-form', function (e) {
-            e.preventDefault();
-
-            var $form = $(this);
-            var url = $form.attr('action');
-            var data = $form.serialize();
-
-            if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
-                $.post(url, data, function (response) {
+                $.post('@Url.Action("UpdateCart", "GioHang")', { productId: productId, newQuantity: newQuantity }, function (response) {
+                    $('#product-row-' + productId).css('opacity', 1);
                     if (response.success) {
-                        $form.closest('.cart-product').fadeOut(300, function () {
-                            $(this).remove();
-                            if ($('#cart-item-list .cart-product').length === 0) {
-                                location.reload();
-                            }
-                        });
-
+                        if (response.itemQuantity <= 0) {
+                            $('#product-row-' + productId).fadeOut(300, function() {
+                                $(this).remove();
+                                if ($('#cart-item-list .cart-product').length === 0) { location.reload(); }
+                            });
+                        } else {
+                            $quantitySpan.text(response.itemQuantity);
+                        }
                         $('#summary-subtotal').text(response.totalAmount);
                         $('#summary-total').text(response.totalAmount);
                         $('.header-cart-link').text('Giỏ hàng (' + response.cartItemCount + ')');
+                    } else {
+                        $('#cart-error-message').text(response.message).show();
                     }
                 });
-            }
-        });
+            });
 
-        // --- Handle DISCOUNT ---
-        $('#discount-form').on('submit', function (e) {
-            e.preventDefault();
-            var $form = $(this);
-            var $messageDiv = $('#discount-message');
-            // We also need the main error div
-            var $errorDiv = $('#cart-error-message');
-            var data = $form.serialize();
-            var url = $form.attr('action');
-
-            $.post(url, data, function (response) {
-                if (response.success) {
-                    // It worked! Show success.
-                    $('#summary-discount').text(response.discountAmountFormatted);
-                    $('#summary-total').text(response.finalTotalFormatted);
-                    $('#discount-line').show();
-
-                    // Use the discount-message div for success
-                    $messageDiv.text(response.message)
-                        .css({ 'background-color': '#e6f7ec', 'border': '1px solid #00b33c', 'color': '#00521b' })
-                        .show();
-                    $errorDiv.hide(); // Hide the main error div
-                }
-                else {
-                    // Hide discount line
-                    $('#discount-line').hide();
-
-                    // Reset totals
-                    $('#summary-discount').text("0 đ");
-                    $('#summary-total').text($('#summary-subtotal').text()); // Resets total
-
-                    // Show error message in the RED error div
-                    $errorDiv.text(response.message).show();
-                    $messageDiv.hide(); // Hide the green success div
+            $('#cart-item-list').on('submit', '.cart-remove-form', function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                var url = $form.attr('action');
+                var data = $form.serialize();
+                if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                    $.post(url, data, function (response) {
+                        if (response.success) {
+                            $form.closest('.cart-product').fadeOut(300, function () {
+                                $(this).remove();
+                                if ($('#cart-item-list .cart-product').length === 0) { location.reload(); }
+                            });
+                            $('#summary-subtotal').text(response.totalAmount);
+                            $('#summary-total').text(response.totalAmount);
+                        }
+                    });
                 }
             });
         });
-    });
     </script>
 }

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit Product";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
     // --- NEW MECHANIC: PART 1 ---
     // We get the list of images here, ensuring it's never null.
@@ -91,10 +91,22 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                <select id="brandSelect" class="form-control mb-2" onchange="handleSelectChange('brandSelect', 'Brand')">
+                    <option value="">-- Chọn Thương hiệu --</option>
+                    @if (ViewBag.Brands != null)
+                    {
+                        foreach (var b in ViewBag.Brands)
+                        {
+                            <option value="@b">@b</option>
+                        }
+                    }
+                    <option value="NEW" style="font-weight:bold; color:#007bff;">+ Thêm mới...</option>
+                </select>
+
+                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên thương hiệu mới...", @style = "display:none;" } })
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -155,10 +167,22 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.Origin, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
+                <select id="originSelect" class="form-control mb-2" onchange="handleSelectChange('originSelect', 'Origin')">
+                    <option value="">-- Chọn Xuất xứ --</option>
+                    @if (ViewBag.Origins != null)
+                    {
+                        foreach (var o in ViewBag.Origins)
+                        {
+                            <option value="@o">@o</option>
+                        }
+                    }
+                    <option value="NEW" style="font-weight:bold; color:#007bff;">+ Thêm mới...</option>
+                </select>
+
+                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập xuất xứ mới...", @style = "display:none;" } })
                 @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -271,90 +295,140 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    @* === NEW MECHANIC: PART 3 (THE JAVASCRIPT) === *@
     <script>
+        function handleSelectChange(selectId, inputId) {
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId);
+
+            if (select.value === "NEW") {
+                // Show textbox for manual entry
+                input.style.display = "block";
+                input.value = "";
+                input.focus();
+            } else {
+                // Hide textbox and sync value
+                input.style.display = "none";
+                input.value = select.value;
+            }
+        }
+
+        /* ==========================================
+           2. DOCUMENT READY EVENTS
+           ========================================== */
         $(document).ready(function () {
 
+            // --- A. INPUT VALIDATION (Regex) ---
+            // Blocks special chars (* - / . ,) to prevent injection
+            $(document).on('keypress', '.clean-input', function (e) {
+                var k = e.which;
+                var keyChar = String.fromCharCode(k);
+                var regex = /^[a-zA-Z0-9\s\u00C0-\u1EF9]+$/; // Letters, Numbers, Space, VN Accents
+
+                if (!regex.test(keyChar)) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // --- B. IMAGE MANAGER VARIABLES ---
             var imageListContainer = $('#image-list');
             var primaryWarning = $('#primary-image-warning');
 
-            // --- 1. FUNCTION to re-index all rows ---
-            // This is now the *most important* function.
-            // It runs after adding or removing to fix the array index (e.g., [0], [1], [2])
+            // Helper: Re-index rows
             function reindexImageManager() {
                 imageListContainer.children('.image-row').each(function (index) {
-                    // Find all inputs in this row and update their 'name' attribute
                     $(this).find('.image-url-input').attr('name', `productImages[${index}].Url`);
                     $(this).find('.image-primary-input').attr('name', `productImages[${index}].IsPrimary`);
                 });
             }
 
-            // --- 2. CLICK HANDLER: Add new URL ---
+            // --- C. IMAGE MANAGER EVENTS ---
+
+            // 1. Add URL Button
             $('#add-url-btn').on('click', function () {
                 var newUrl = $('#new-image-url').val();
                 if (newUrl && (newUrl.startsWith('http://') || newUrl.startsWith('https://'))) {
-
-                    // Get the next index for the new row
                     var newIndex = imageListContainer.children('.image-row').length;
 
-                    // Create the new row's HTML
                     var rowHtml = `
-                        <div class="image-row">
-                            <img src="${newUrl}" class="image-thumb" />
-                            <div class="image-details">
-                                <input type="text" class="form-control image-url-input" name="productImages[${newIndex}].Url" value="${newUrl}" readonly />
-                            </div>
-                            <div class="image-actions">
-                                <label>
-                                    <input type="radio" class="primary-radio" name="PrimarySelector" value="${newUrl}" /> Primary
-                                </label>
-                                <button type="button" class="btn btn-danger btn-xs remove-image-btn">Remove</button>
-                            </div>
-                            <input type="hidden" class="image-primary-input" name="productImages[${newIndex}].IsPrimary" value="false" />
-                        </div>
-                    `;
+                            <div class="image-row">
+                                <img src="${newUrl}" class="image-thumb" />
+                                <div class="image-details">
+                                    <input type="text" class="form-control image-url-input" name="productImages[${newIndex}].Url" value="${newUrl}" readonly />
+                                </div>
+                                <div class="image-actions">
+                                    <label>
+                                        <input type="radio" class="primary-radio" name="PrimarySelector" value="${newUrl}" /> Primary
+                                    </label>
+                                    <button type="button" class="btn btn-danger btn-xs remove-image-btn">Remove</button>
+                                </div>
+                                <input type="hidden" class="image-primary-input" name="productImages[${newIndex}].IsPrimary" value="false" />
+                            </div>`;
 
-                    // Add the new row and clear the input
                     imageListContainer.append(rowHtml);
                     $('#new-image-url').val('');
-
-                    // We don't need to re-index here since we added to the end.
                 } else {
                     alert('Please enter a valid, full URL (starting with http:// or https://).');
                 }
             });
 
-            // --- 3. CLICK HANDLER: Remove image row ---
-            // We use .on() to attach the event to buttons that don't exist yet
+            // 2. Remove Button
             imageListContainer.on('click', '.remove-image-btn', function () {
-                $(this).closest('.image-row').remove(); // Remove the row
-                reindexImageManager(); // <-- This is CRITICAL. We must re-index the list.
+                $(this).closest('.image-row').remove();
+                reindexImageManager(); // Critical
             });
 
-            // --- 4. FORM SUBMIT: This fixes the primary button logic ---
+            // 3. Form Submit Logic
             $('form').submit(function (e) {
-
-                // 1. Reset all 'IsPrimary' inputs to 'false'
                 imageListContainer.find('.image-primary-input').val('false');
-
-                // 2. Find the *one* checked primary radio
                 var checkedRadio = imageListContainer.find('.primary-radio:checked');
 
-                // 3. VALIDATION
+                // Validation: Must have one primary if images exist
                 if (checkedRadio.length === 0 && imageListContainer.children('.image-row').length > 0) {
-                    primaryWarning.show(); // Show warning
-                    e.preventDefault(); // Stop form submission
+                    primaryWarning.show();
+                    e.preventDefault();
                     return;
                 }
 
-                // 4. Set the *one* correct hidden input to 'true'
                 if (checkedRadio.length > 0) {
                     checkedRadio.closest('.image-row').find('.image-primary-input').val('true');
                 }
-
                 primaryWarning.hide();
-                // Form is valid and will now submit.
             });
+
+            // --- D. PRE-SELECT BRAND & ORIGIN (Initialization) ---
+            // We run this immediately since we are already inside $(document).ready
+
+            // 1. Setup Brand
+            var brandInput = document.getElementById("Brand");
+            var brandSelect = document.getElementById("brandSelect");
+
+            if (brandInput && brandSelect) {
+                // Try to find current value in dropdown
+                var brandOption = Array.from(brandSelect.options).find(o => o.value === brandInput.value);
+                if (brandOption) {
+                    brandSelect.value = brandInput.value; // Select existing
+                    brandInput.style.display = "none";    // Hide manual input
+                } else {
+                    brandSelect.value = "NEW";            // Select "New"
+                    brandInput.style.display = "block";   // Show manual input
+                }
+            }
+
+            // 2. Setup Origin
+            var originInput = document.getElementById("Origin");
+            var originSelect = document.getElementById("originSelect");
+
+            if (originInput && originSelect) {
+                var originOption = Array.from(originSelect.options).find(o => o.value === originInput.value);
+                if (originOption) {
+                    originSelect.value = originInput.value;
+                    originInput.style.display = "none";
+                } else {
+                    originSelect.value = "NEW";
+                    originInput.style.display = "block";
+                }
+            }
 
         });
     </script>

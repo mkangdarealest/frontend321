@@ -1,64 +1,78 @@
 ﻿@model frontend.Models.Category
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<style>
-    h2 {
-        padding-top: 120px;
-        padding-bottom: 20px;
-    }
-</style>
-<h2>Create</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Category</h4>
+<div class="container" style="padding-top: 30px;">
+    <h2 style="color: #00529b; font-weight: bold;">Tạo danh mục mới</h2>
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ImgUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ImgUrl, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ImgUrl, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group mb-3">
+                <label class="control-label col-md-2 font-weight-bold">Tên danh mục <span class="text-danger">*</span></label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "100", placeholder = "Nhập tên danh mục (Chữ và số)..." } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label col-md-2 font-weight-bold">Slug (URL)</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control", maxlength = "100", placeholder = "tu-dong-tao-hoac-nhap" } })
+                    @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                    <small class="text-muted">Thường được tự động tạo từ Tên danh mục.</small>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label col-md-2 font-weight-bold">Mô tả</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control clean-input", maxlength = "200", placeholder = "Mô tả ngắn gọn..." } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label col-md-2 font-weight-bold">Ảnh đại diện (URL)</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ImgUrl, new { htmlAttributes = new { @class = "form-control", maxlength = "250", placeholder = "~/hinh/category.jpg" } })
+                    @Html.ValidationMessageFor(model => model.ImgUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
         </div>
-    </div>
+    }
 </div>
+
+@section Scripts {
+    <script>
+        // Block weird characters (* - / . , etc.) to prevent injection
+        // Only allow Letters, Numbers, and Spaces
+        $(document).on('keypress', '.clean-input', function(e) {
+            var k = e.which;
+            var keyChar = String.fromCharCode(k);
+            // Regex: Allow A-Z, a-z, 0-9, space, and Vietnamese accents
+            var regex = /^[a-zA-Z0-9\s\u00C0-\u1EF9]+$/;
+
+            if (!regex.test(keyChar)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

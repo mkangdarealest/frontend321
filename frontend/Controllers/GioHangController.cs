@@ -3,6 +3,7 @@
 using frontend.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,9 +18,39 @@ namespace frontend.Controllers
         // This is the main shopping cart page
         public ActionResult Index()
         {
-            var cart = GetCart();
+            var cart = Session[CartSession] as List<CartItem>;
+            if (cart == null)
+            {
+                cart = new List<CartItem>();
+                Session[CartSession] = cart;
+            }
 
-            // This passes the cart (a List<CartItem>) to the View
+            // --- NEW: Get Recently Viewed Products ---
+            var recentCookie = Request.Cookies["RecentlyViewed"];
+            var recentProducts = new List<Product>();
+
+            if (recentCookie != null && !string.IsNullOrEmpty(recentCookie.Value))
+            {
+                // Get IDs from cookie
+                var ids = recentCookie.Value.Split(',')
+                            .Select(id => int.TryParse(id, out int n) ? n : 0)
+                            .Where(n => n > 0)
+                            .ToList();
+
+                // Fetch from DB (In stock only)
+                recentProducts = db.Products
+                    .Where(p => ids.Contains(p.Id) && p.Quantity > 0)
+                    .Include(p => p.ProductImages)
+                    .ToList();
+
+                // Sort them in the order of the cookie (Most recent first)
+                recentProducts = recentProducts
+                    .OrderBy(p => ids.IndexOf(p.Id))
+                    .ToList();
+            }
+
+            ViewBag.RecentlyViewed = recentProducts;
+
             return View(cart);
         }
 

@@ -1,56 +1,101 @@
 ﻿@model IEnumerable<frontend.Models.Order>
+
 @{
-    ViewBag.Title = "Lịch sử giao dịch";
+    ViewBag.Title = "Lịch sử đơn hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/css/GioHang.css" rel="stylesheet" />
+<div class="container" style="padding-top: 80px; padding-bottom: 60px;">
+    <div class="row">
 
-<div class="container_1">
-    <h1>@ViewBag.Title</h1>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div style="background-color: #e6f7ec; border: 1px solid #00b33c; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #00521b;">
-            @TempData["SuccessMessage"]
+        <div class="col-md-3 mb-4">
+            @Html.Partial("_CustomerMenu")
         </div>
-    }
 
-    <div class="cart-items">
-        @if (!Model.Any())
-        {
-            <div class="empty-state">
-                <h2>Bạn chưa có đơn hàng nào.</h2>
-                @Html.ActionLink("Bắt đầu mua sắm", "LongChauClone", "TrangChu", null, new { @class = "cta-shopping" })
+        <div class="col-md-9">
+            <div class="content-header d-flex justify-content-between align-items-center mb-4">
+                <h2 style="font-weight: 700; color: #333; margin: 0;">Lịch sử đơn hàng</h2>
+                <span class="badge badge-secondary p-2">@Model.Count() đơn hàng</span>
             </div>
-        }
-        else
-        {
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Ngày đặt</th>
-                        <th>Trạng thái</th>
-                        <th>Tổng tiền</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success shadow-sm border-0" style="border-left: 5px solid #28a745;">
+                    <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                </div>
+            }
+
+            @if (!Model.Any())
+            {
+                <div class="empty-state text-center py-5 bg-white shadow-sm rounded">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="No Orders" style="width: 100px; opacity: 0.5; margin-bottom: 20px;">
+                    <h4 style="color: #555;">Bạn chưa có đơn hàng nào</h4>
+                    <p class="text-muted mb-4">Hãy khám phá hàng ngàn sản phẩm chất lượng tại Long Châu.</p>
+                    <a href="@Url.Action("LongChauClone", "TrangChu")" class="btn btn-primary btn-lg" style="background-color: #00529b; border-radius: 30px; padding: 10px 30px;">
+                        Bắt đầu mua sắm
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="order-list">
                     @foreach (var order in Model)
                     {
-                        <tr>
-                            <td>#@order.Id</td>
-                            <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@order.OrderStatu.Name</td>
-                            <td>@order.Total.ToString("N0") đ</td>
-                            <td>
-                                @Html.ActionLink("Xem chi tiết", "OrderDetails", new { id = order.Id }, new { @class = "btn btn-info" })
-                            </td>
-                        </tr>
+                        <div class="card shadow-sm mb-3 border-0" style="border-radius: 8px; overflow: hidden;">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center" style="padding: 15px 20px; border-bottom: 1px solid #f0f0f0;">
+                                <div>
+                                    <span style="font-weight: bold; color: #555;">Mã đơn: #@order.Id</span>
+                                    <span class="text-muted mx-2">|</span>
+                                    <span style="color: #777; font-size: 0.9rem;">@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+
+                                @{
+                                    string statusColor = "secondary";
+                                    string statusIcon = "clock";
+                                    if (order.StatusId == 1) { statusColor = "warning"; statusIcon = "hourglass-half"; } // Pending
+                                    else if (order.StatusId == 2) { statusColor = "info"; statusIcon = "truck"; } // Processing
+                                    else if (order.StatusId == 3) { statusColor = "success"; statusIcon = "check-circle"; } // Completed
+                                    else if (order.StatusId == 4) { statusColor = "danger"; statusIcon = "times-circle"; } // Cancelled
+                                }
+
+                                <span class="badge badge-@statusColor px-3 py-2" style="font-size: 0.85rem;">
+                                    <i class="fas fa-@statusIcon"></i> @order.OrderStatu.Name
+                                </span>
+                            </div>
+
+                            <div class="card-body" style="padding: 20px;">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        @foreach (var item in order.OrderItems.Take(2))
+                                        {
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div style="width: 50px; height: 50px; background: #f9f9f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                                    <i class="fas fa-box text-muted"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 font-weight-bold" style="font-size: 0.95rem;">@item.ProductName</p>
+                                                    <small class="text-muted">x @item.Quantity</small>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (order.OrderItems.Count > 2)
+                                        {
+                                            <small class="text-muted ml-5">+ @(order.OrderItems.Count - 2) sản phẩm khác</small>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-4 text-right border-left">
+                                        <p class="text-muted mb-1" style="font-size: 0.9rem;">Tổng tiền</p>
+                                        <h4 class="mb-3" style="color: #d0021b; font-weight: 700;">@order.Total.ToString("N0") đ</h4>
+
+                                        @Html.ActionLink("Xem chi tiết", "OrderDetails", new { id = order.Id }, new { @class = "btn btn-outline-primary btn-sm btn-block", style = "border-radius: 20px;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
-        }
+                </div>
+            }
+        </div>
     </div>
 </div>

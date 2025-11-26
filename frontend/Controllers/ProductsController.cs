@@ -21,26 +21,45 @@ namespace frontend.Controllers
         private LongChauDbEntities db = new LongChauDbEntities();
 
         // GET: Products
-        public ActionResult Index(string searchString,int? page)
+        // GET: Products
+        public ActionResult Index(string searchString, int? page, string stockStatus)
         {
+            // 1. Start with ALL products
             var products = db.Products
                 .Include(p => p.ProductImages)
-                .Include(p => p.Categories) 
+                .Include(p => p.Categories)
                 .AsQueryable();
+
+            // 2. Apply Search Filter
             if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(p => p.Name.Contains(searchString)
                                             || p.Brand.Contains(searchString));
             }
 
-            // 4. Save the search query to show in the textbox
+            // 3. Apply Stock Filter (COMBINING logic from AdminStock)
+            switch (stockStatus)
+            {
+                case "instock":
+                    products = products.Where(p => p.Quantity > 0);
+                    break;
+                case "outstock":
+                    products = products.Where(p => p.Quantity <= 0);
+                    break;
+                default:
+                    // "all" - do nothing, show everything
+                    break;
+            }
+
+            // 4. Save state for View
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentStock = stockStatus;
+
             int pageSize = 8;
             int pageNumber = (page ?? 1);
             var orderedProducts = products.OrderBy(p => p.Name);
 
             return View(orderedProducts.ToPagedList(pageNumber, pageSize));
-            //return View(products.OrderBy(p => p.Name).ToList());
         }
         //fetch slug and put in address bar
         public static string GenerateSlug(string phrase)
@@ -76,6 +95,15 @@ namespace frontend.Controllers
         public ActionResult Create()
         {
             ViewBag.AllCategories = db.Categories.ToList();
+
+            //Fetch Distinct Brands & Origins for Dropdowns
+            ViewBag.Brands = db.Products
+                .Where(p => p.Brand != null && p.Brand != "")
+                .Select(p => p.Brand).Distinct().OrderBy(x => x).ToList();
+
+            ViewBag.Origins = db.Products
+                .Where(p => p.Origin != null && p.Origin != "")
+                .Select(p => p.Origin).Distinct().OrderBy(x => x).ToList();
             return View();
         }
 
@@ -185,17 +213,24 @@ namespace frontend.Controllers
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
             Product product = db.Products.Include(p => p.Categories)
                                  .SingleOrDefault(p => p.Id == id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
+            if (product == null) return HttpNotFound();
+
             ViewBag.AllCategories = db.Categories.ToList();
+
+            // --- NEW: Fetch Distinct Brands & Origins for Dropdowns ---
+            ViewBag.Brands = db.Products
+                .Where(p => p.Brand != null && p.Brand != "")
+                .Select(p => p.Brand).Distinct().OrderBy(x => x).ToList();
+
+            ViewBag.Origins = db.Products
+                .Where(p => p.Origin != null && p.Origin != "")
+                .Select(p => p.Origin).Distinct().OrderBy(x => x).ToList();
+            // -----------------------------------------------------------
+
             return View(product);
         }
 

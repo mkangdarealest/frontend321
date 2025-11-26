@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -87,7 +88,32 @@ namespace frontend.Controllers
             {
                 return HttpNotFound();
             }
+            var recentCookie = Request.Cookies["RecentlyViewed"];
+            string productId = product.Id.ToString();
+            string newValue = productId;
 
+            if (recentCookie != null)
+            {
+                // 2. Parse existing IDs (comma separated)
+                var ids = new List<string>(recentCookie.Value.Split(','));
+
+                // 3. Remove if already exists (to move it to the top/front)
+                ids.Remove(productId);
+
+                // 4. Add to the beginning
+                ids.Insert(0, productId);
+
+                // 5. Keep only top 8
+                if (ids.Count > 8) ids = ids.Take(8).ToList();
+
+                newValue = string.Join(",", ids);
+            }
+
+            // 6. Save back to cookie (Expires in 7 days)
+            var newCookie = new HttpCookie("RecentlyViewed", newValue);
+            newCookie.Expires = DateTime.Now.AddDays(7);
+            Response.Cookies.Add(newCookie);
+            //
             var productCategory = product.Categories.FirstOrDefault();
             if (productCategory != null)
             {
@@ -106,7 +132,6 @@ namespace frontend.Controllers
             {
                 ViewBag.SimilarProducts = new List<Product>(); // Pass an empty list
             }
-            // === END NEW LOGIC ===
 
 
             // Go directly to the "Details" view and pass it the product

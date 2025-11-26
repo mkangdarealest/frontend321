@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Create New Product";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @* === CSS FOR THE IMAGE MANAGER === *@
@@ -79,10 +79,22 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control" } })
+                <select id="brandSelect" class="form-control mb-2" onchange="handleSelectChange('brandSelect', 'Brand')">
+                    <option value="">-- Chọn Thương hiệu --</option>
+                    @if (ViewBag.Brands != null)
+                    {
+                        foreach (var b in ViewBag.Brands)
+                        {
+                            <option value="@b">@b</option>
+                        }
+                    }
+                    <option value="NEW" style="font-weight:bold; color:#007bff;">+ Thêm mới...</option>
+                </select>
+
+                @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên thương hiệu mới...", @style = "display:none;" } })
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -143,10 +155,22 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Origin, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.Origin, htmlAttributes: new { @class = "control-label col-md-2 font-weight-bold" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control" } })
+                <select id="originSelect" class="form-control mb-2" onchange="handleSelectChange('originSelect', 'Origin')">
+                    <option value="">-- Chọn Xuất xứ --</option>
+                    @if (ViewBag.Origins != null)
+                    {
+                        foreach (var o in ViewBag.Origins)
+                        {
+                            <option value="@o">@o</option>
+                        }
+                    }
+                    <option value="NEW" style="font-weight:bold; color:#007bff;">+ Thêm mới...</option>
+                </select>
+
+                @Html.EditorFor(model => model.Origin, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập xuất xứ mới...", @style = "display:none;" } })
                 @Html.ValidationMessageFor(model => model.Origin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -160,9 +184,6 @@
         </div>
 
         <hr />
-
-        @* === NEW UNIFIED IMAGE MANAGER === *@
-
         <div class="form-group">
             <label class="control-label col-md-2">Product Images</label>
             <div class="col-md-10">
@@ -197,9 +218,6 @@
                 <span class="help-block">Uploading new files will *add* them to the product.</span>
             </div>
         </div>
-
-        @* === END NEW IMAGE MANAGER === *@
-
         <hr />
 
         @* === CATEGORIES SECTION === *@
@@ -233,14 +251,44 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    @* === NEW MECHANIC JAVASCRIPT (Identical to Edit.cshtml) === *@
     <script>
+        function handleSelectChange(selectId, inputId) {
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId);
+
+            if (select.value === "NEW") {
+                // Show textbox for manual entry
+                input.style.display = "block";
+                input.value = "";
+                input.focus();
+            } else {
+                // Hide textbox and sync value
+                input.style.display = "none";
+                input.value = select.value;
+            }
+        }
+
         $(document).ready(function () {
 
+            // --- A. INPUT VALIDATION (Block Special Chars) ---
+            // Blocks * - / . , to prevent injection on fields with 'clean-input' class
+            $(document).on('keypress', '.clean-input', function (e) {
+                var k = e.which;
+                var keyChar = String.fromCharCode(k);
+                // Allow: a-z, A-Z, 0-9, space, and Vietnamese chars
+                var regex = /^[a-zA-Z0-9\s\u00C0-\u1EF9]+$/;
+
+                if (!regex.test(keyChar)) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // --- B. IMAGE MANAGER LOGIC ---
             var imageListContainer = $('#image-list');
             var primaryWarning = $('#primary-image-warning');
 
-            // --- 1. FUNCTION to re-index all rows ---
+            // Helper: Re-index rows for MVC binding
             function reindexImageManager() {
                 imageListContainer.children('.image-row').each(function (index) {
                     $(this).find('.image-url-input').attr('name', `productImages[${index}].Url`);
@@ -248,50 +296,46 @@
                 });
             }
 
-            // --- 2. CLICK HANDLER: Add new URL ---
+            // Add URL Button Click
             $('#add-url-btn').on('click', function () {
                 var newUrl = $('#new-image-url').val();
                 if (newUrl && (newUrl.startsWith('http://') || newUrl.startsWith('https://'))) {
-
                     var newIndex = imageListContainer.children('.image-row').length;
 
                     var rowHtml = `
-                        <div class="image-row">
-                            <img src="${newUrl}" class="image-thumb" />
-                            <div class="image-details">
-                                <input type="text" class="form-control image-url-input" name="productImages[${newIndex}].Url" value="${newUrl}" readonly />
-                            </div>
-                            <div class="image-actions">
-                                <label>
-                                    <input type="radio" class="primary-radio" name="PrimarySelector" value="${newUrl}" /> Primary
-                                </label>
-                                <button type="button" class="btn btn-danger btn-xs remove-image-btn">Remove</button>
-                            </div>
-                            <input type="hidden" class="image-primary-input" name="productImages[${newIndex}].IsPrimary" value="false" />
-                        </div>
-                    `;
+                            <div class="image-row">
+                                <img src="${newUrl}" class="image-thumb" />
+                                <div class="image-details">
+                                    <input type="text" class="form-control image-url-input" name="productImages[${newIndex}].Url" value="${newUrl}" readonly />
+                                </div>
+                                <div class="image-actions">
+                                    <label>
+                                        <input type="radio" class="primary-radio" name="PrimarySelector" value="${newUrl}" /> Primary
+                                    </label>
+                                    <button type="button" class="btn btn-danger btn-xs remove-image-btn">Remove</button>
+                                </div>
+                                <input type="hidden" class="image-primary-input" name="productImages[${newIndex}].IsPrimary" value="false" />
+                            </div>`;
 
                     imageListContainer.append(rowHtml);
-                    $('#new-image-url').val('');
-
+                    $('#new-image-url').val(''); // Clear input
                 } else {
                     alert('Please enter a valid, full URL (starting with http:// or https://).');
                 }
             });
 
-            // --- 3. CLICK HANDLER: Remove image row ---
+            // Remove Image Button Click
             imageListContainer.on('click', '.remove-image-btn', function () {
                 $(this).closest('.image-row').remove();
-                reindexImageManager(); // <-- This is CRITICAL
+                reindexImageManager();
             });
 
-            // --- 4. FORM SUBMIT: This fixes the primary button logic ---
+            // Form Submit Logic (Primary Image Validation)
             $('form').submit(function (e) {
-
                 imageListContainer.find('.image-primary-input').val('false');
                 var checkedRadio = imageListContainer.find('.primary-radio:checked');
 
-                // Validation: Stop submit if there are images but none is primary
+                // Validation: Stop if images exist but no primary selected
                 if (checkedRadio.length === 0 && imageListContainer.children('.image-row').length > 0) {
                     primaryWarning.show();
                     e.preventDefault();
@@ -301,7 +345,6 @@
                 if (checkedRadio.length > 0) {
                     checkedRadio.closest('.image-row').find('.image-primary-input').val('true');
                 }
-
                 primaryWarning.hide();
             });
 

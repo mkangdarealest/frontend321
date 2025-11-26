@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin Dashboard</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: #f4f6f9;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #sidebar-wrapper {
+            min-width: 260px;
+            max-width: 260px;
+            background-color: #343a40;
+            color: #fff;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-heading {
+            padding: 1.5rem 1rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-align: center;
+            background-color: #00529b;
+            color: white;
+            border-bottom: 1px solid #4b545c;
+        }
+
+        .list-group {
+            width: 100%;
+            padding: 0;
+        }
+
+        .list-group-item {
+            background-color: transparent;
+            color: #c2c7d0;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+            .list-group-item:hover {
+                background-color: rgba(255,255,255,0.1);
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .list-group-item i {
+                width: 25px; /* Align icons */
+                text-align: center;
+                margin-right: 10px;
+            }
+
+        /* 2. MAIN CONTENT AREA */
+        #page-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Top Navbar */
+        .admin-navbar {
+            padding: 15px 30px;
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Content Container */
+        .admin-container {
+            padding: 30px;
+            flex: 1;
+        }
+
+        /* Footer */
+        .admin-footer {
+            background: #fff;
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Helper Utility */
+        .text-light-muted {
+            color: #aeb0b5;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-wrapper">
+        <div class="sidebar-heading">
+            <i class="fas fa-clinic-medical"></i> LC Admin
+        </div>
+
+        <div class="list-group list-group-flush">
+            <a href="@Url.Action("Index", "AdminDashboard")" class="list-group-item">
+                <i class="fas fa-tachometer-alt"></i> Tổng quan
+            </a>
+
+            <div style="padding: 10px 20px; font-size: 0.75em; text-transform: uppercase; color: #6c757d; font-weight: bold; margin-top: 10px;">
+                Quản lý cửa hàng
+            </div>
+
+            <a href="@Url.Action("Index", "Products")" class="list-group-item">
+                <i class="fas fa-box-open"></i> Sản phẩm
+            </a>
+            <a href="@Url.Action("Index", "Categories")" class="list-group-item">
+                <i class="fas fa-tags"></i> Danh mục
+            </a>
+            <a href="@Url.Action("Index", "AdminStock")" class="list-group-item">
+                <i class="fas fa-warehouse"></i> Kho hàng
+            </a>
+
+            <div style="padding: 10px 20px; font-size: 0.75em; text-transform: uppercase; color: #6c757d; font-weight: bold; margin-top: 10px;">
+                Bán hàng
+            </div>
+
+            <a href="@Url.Action("Index", "AdminOrders")" class="list-group-item">
+                <i class="fas fa-shopping-cart"></i> Đơn hàng
+            </a>
+            <a href="@Url.Action("Index", "AdminCustomers")" class="list-group-item">
+                <i class="fas fa-users"></i> Khách hàng
+            </a>
+
+            <div style="padding: 10px 20px; font-size: 0.75em; text-transform: uppercase; color: #6c757d; font-weight: bold; margin-top: 10px;">
+                Hệ thống
+            </div>
+
+            <a href="@Url.Action("Index", "AdminUsers")" class="list-group-item">
+                <i class="fas fa-user-shield"></i> Tài khoản Admin
+            </a>
+
+            <a href="@Url.Action("LongChauClone", "TrangChu")" class="list-group-item" style="background: #004a8c; color: white; margin-top: 20px;">
+                <i class="fas fa-globe"></i> Xem trang web
+            </a>
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+
+        <nav class="admin-navbar">
+            <h4 style="margin:0; color: #333;">@ViewBag.Title</h4>
+
+            <div class="admin-user-menu" style="display: flex; align-items: center; gap: 15px;">
+                <div style="text-align: right;">
+                    <span style="display: block; font-weight: bold; color: #333;">@User.Identity.Name</span>
+                    <span style="display: block; font-size: 0.8rem; color: #28a745;">● Online</span>
+                </div>
+
+                @using (Html.BeginForm("Logout", "TrangChu", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                }
+            </div>
+        </nav>
+
+        <div class="admin-container">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Thành công!</strong> @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Lỗi!</strong> @TempData["Error"]
+                </div>
+            }
+
+            @RenderBody()
+        </div>
+
+        <footer class="admin-footer">
+            &copy; @DateTime.Now.Year - Hệ thống quản trị Long Châu Clone
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
