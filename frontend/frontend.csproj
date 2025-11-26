@@ -257,6 +257,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminCustomersController.cs" />
+    <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AdminOrdersController.cs" />
     <Compile Include="Controllers\AdminStockController.cs" />
     <Compile Include="Controllers\AdminUsersController.cs" />
@@ -556,6 +557,7 @@
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_OrderInvoice_Admin.cshtml" />
     <Content Include="Views\Shared\_CustomerMenu.cshtml" />
+    <Content Include="Views\AdminDashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -35,10 +35,10 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            <label class="control-label col-md-2 font-weight-bold">Vai trò (Role)</label>
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Role, new { @class = "form-control", @Value = "Admin" })
+                @Html.DropDownListFor(model => model.Role, (SelectList)ViewBag.RoleList, "-- Chọn Vai Trò --", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
         </div>
