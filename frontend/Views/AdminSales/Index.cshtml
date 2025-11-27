@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Quản lý Kinh Doanh";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var orders = ViewBag.Orders as List<frontend.Models.Order>;
+    var customers = ViewBag.Customers as List<frontend.Models.Customer>;
+    string activeTab = ViewBag.ActiveTab;
+}
+
+<h2 class="mb-4">@ViewBag.Title</h2>
+
+<ul class="nav nav-tabs mb-3" style="border-bottom: 2px solid #ddd;">
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "orders" ? "active" : "")"
+           href="@Url.Action("Index", new { activeTab = "orders" })"
+           style="@(activeTab == "orders" ? "background:#00529b; color:white;" : "color:#555;")">
+            <i class="fas fa-shopping-cart"></i> Đơn hàng
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "customers" ? "active" : "")"
+           href="@Url.Action("Index", new { activeTab = "customers" })"
+           style="@(activeTab == "customers" ? "background:#00529b; color:white;" : "color:#555;")">
+            <i class="fas fa-users"></i> Khách hàng
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="@(activeTab == "orders" ? "d-block" : "d-none")">
+
+        <div class="card mb-3 bg-light">
+            <div class="card-body py-2">
+                @using (Html.BeginForm("Index", "AdminSales", FormMethod.Get, new { @class = "form-inline" }))
+                {
+                    <input type="hidden" name="activeTab" value="orders" />
+                    <label class="mr-2">Trạng thái:</label>
+                    <select name="statusId" class="form-control mr-2" onchange="this.form.submit()">
+                        <option value="">-- Tất cả --</option>
+                        @foreach (var status in ViewBag.StatusList as List<frontend.Models.OrderStatu>)
+                        {
+                            <option value="@status.Id" @(ViewBag.CurrentStatus == status.Id ? "selected" : "")>
+                                @status.Name
+                            </option>
+                        }
+                    </select>
+                }
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover bg-white">
+            <thead class="thead-light">
+                <tr>
+                    <th>Mã</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in orders)
+                {
+                    <tr>
+                        <td>#@o.Id</td>
+                        <td>@o.Customer.LastName @o.Customer.FirstName<br /><small>@o.Customer.Phone</small></td>
+                        <td>@o.OrderDate.ToString("dd/MM/yyyy")</td>
+                        <td class="text-primary font-weight-bold">@o.Total.ToString("N0") đ</td>
+                        <td>
+                            @if (o.StatusId == 1)
+                            {<span class="badge badge-warning"style="color:orange">Chờ xử lý</span> }
+                            else if (o.StatusId == 2)
+                            { <span class="badge badge-processing"style="color:lightcoral">Đang xử lý</span> }
+                            else if (o.StatusId == 3)
+                            { <span class="badge badge-success"style="color:green">Hoàn thành</span> }
+                            else if (o.StatusId == 4)
+                            { <span class="badge badge-failed"style="color:red">ĐÃ HỦY</span> }
+                            else
+                            { <span class="badge badge-secondary">@o.OrderStatu.Name</span>}
+                        </td>
+                        <td>
+                            @Html.ActionLink("Chi tiết", "OrderDetails", new { id = o.Id }, new { @class = "btn btn-info btn-sm" })
+                            @Html.ActionLink("Sửa", "OrderEdit", new { id = o.Id }, new { @class = "btn btn-primary btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="@(activeTab == "customers" ? "d-block" : "d-none")">
+        <table class="table table-striped bg-white">
+            <thead>
+                <tr>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Ngày tham gia</th>
+                    <th>Đơn hàng</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in customers)
+                {
+                    <tr>
+                        <td>@c.LastName @c.FirstName</td>
+                        <td>@c.Email</td>
+                        <td>@c.Phone</td>
+                        <td>@c.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td><span class="badge badge-secondary"style="color:black">@c.Orders.Count</span></td>
+                        <td>
+                            @Html.ActionLink("Hồ sơ", "CustomerDetails", new { id = c.Id }, new { @class = "btn btn-info btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -256,10 +256,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminCustomersController.cs" />
     <Compile Include="Controllers\AdminDashboardController.cs" />
-    <Compile Include="Controllers\AdminOrdersController.cs" />
-    <Compile Include="Controllers\AdminStockController.cs" />
+    <Compile Include="Controllers\AdminSalesController.cs" />
     <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -540,24 +538,22 @@
     <Content Include="Views\Checkout\Index.cshtml" />
     <Content Include="Views\Customer\OrderHistory.cshtml" />
     <Content Include="Views\Customer\OrderDetails.cshtml" />
-    <Content Include="Views\AdminOrders\Index.cshtml" />
-    <Content Include="Views\AdminStock\Index.cshtml" />
     <Content Include="Views\AdminUsers\Delete.cshtml" />
     <Content Include="Views\AdminUsers\Index.cshtml" />
     <Content Include="Views\AdminUsers\Create.cshtml" />
     <Content Include="Views\AdminUsers\Edit.cshtml" />
-    <Content Include="Views\AdminCustomers\Index.cshtml" />
-    <Content Include="Views\AdminCustomers\Details.cshtml" />
-    <Content Include="Views\AdminOrders\Edit.cshtml" />
+    <Content Include="Views\AdminSales\CustomerDetails.cshtml" />
+    <Content Include="Views\AdminSales\OrderEdit.cshtml" />
     <Content Include="Views\TrangChu\AllProducts.cshtml" />
     <Content Include="Views\Shared\_OrderInvoice.cshtml" />
-    <Content Include="Views\AdminOrders\Details.cshtml" />
+    <Content Include="Views\AdminSales\OrderDetails.cshtml" />
     <Content Include="Views\Shared\_NavLinks.cshtml" />
     <Content Include="Views\TrangChu\_CategoryNavigationMobile.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_OrderInvoice_Admin.cshtml" />
     <Content Include="Views\Shared\_CustomerMenu.cshtml" />
     <Content Include="Views\AdminDashboard\Index.cshtml" />
+    <Content Include="Views\AdminSales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
